@@ -1,0 +1,10 @@
+html,body{height: 100%;}
+
+#slider-nav{width: 66px;height: 100%;background: #aaaaaa;margin: 0;position: fixed;padding: 0;list-style: none;float: left;}
+header{width: 100%;background: #999;padding: 10px 0;}
+header h1{margin: 0;float: left;}
+header span{display: block;float: right;}
+header img{float: right;}
+header:after{content: '';clear: both;display: block;}
+.content{width: 100%;height: 100%;overflow: auto;position: fixed;margin-left: 66px;padding: 20px;}
+.content table{width: 90%;}
