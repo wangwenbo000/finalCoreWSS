@@ -19,9 +19,8 @@
             <td>操作</td>
             <td>订单状态</td>
         </tr>
-        <%orderList.forEach(function(orderList){ %>
-        <tr>
-            <td><%=orderList.id%></td>
+        <tr id="orderlist" v-repeat="order:order" class="item-{{$index}}">
+            <td>{{order.id}}</td>
             <td><%=orderList.foodimg%></td>
             <td><%=orderList.productname%></td>
             <td><%=orderList.productnum%></td>
@@ -37,7 +36,15 @@
             <td>取消订单</td>
             <td><%=orderList.productstatic%></td>
         </tr>
-        <%}); %>
     </table>
+
     共<%=count%>笔数据 <%-pager%>
 </div>
+<script>
+    var orderList = new Vue({
+        el:'#orderlist',
+        data:{order:<%- JSON.stringify(orderList) %>}
+    });
+</script>
+</body>
+</html>
