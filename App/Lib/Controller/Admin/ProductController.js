@@ -9,7 +9,7 @@ module.exports = Controller("Admin/BaseController", function(){
     "use strict";
     return {
         indexAction: function(){
-
+            return this.display();
         }
     };
 });

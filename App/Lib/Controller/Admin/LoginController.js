@@ -26,7 +26,7 @@ module.exports = Controller("Admin/BaseController", function(){
                         return self.session("userInfo",data);
                     }
                 }).then(function(){
-                    return self.success();
+                    return self.redirect('/Admin/Order');
                 })
             }else{
                 return self.display();
