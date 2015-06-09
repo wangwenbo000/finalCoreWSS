@@ -11,10 +11,12 @@ module.exports = {
 
   'app_group_list': ['Home', 'Admin'],
 
-    'default_group': 'Home', //默认分组
-    'default_controller': 'Index', //默认控制器
-    'default_action': 'index',  //默认操作
+  'default_group': 'Home', //默认分组
+  'default_controller': 'Index', //默认控制器
+  'default_action': 'index',  //默认操作
 
     //操作默认后缀
-    'action_suffix': 'Action'
+  'action_suffix': 'Action',
+  'call_method': '__call',
+  call_controller: "Home:Index:_404"
 };
