@@ -1,4 +1,51 @@
+
 <%=include adminheader_index.html%>
-<div class="content">
-<h1>产品管理</h1>
+<h1 class="page-header"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>Subtext for header</small></h1>
+<div class="row">
+    <div class="col-sm-6 col-md-3" id="productlist" v-repeat="product:products">
+        <div class="thumbnail">
+            <img src="/resource/img/food/b0.jpg" alt="...">
+            <div class="caption">
+                <h3>{{product.productName}}</h3>
+                <span class="label label-default">￥{{product.price}}</span>
+                <span class="label label-warning">￥{{product.cost}}</span>
+                <span class="label label-success">星期{{product.days}}</span>
+                <p>{{product.describe}}</p>
+                <p><a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" role="button">编辑</a></p>
+            </div>
+        </div>
     </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">编辑当日早餐信息</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">Recipient:</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="control-label">Message:</label>
+                        <textarea class="form-control" id="message-text"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">确定编辑</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var productList = new Vue({
+        el:'#productlist',
+        data:{products:<%- JSON.stringify(productList) %>}
+    });
+</script>
+<%=include adminfooter_index.html%>

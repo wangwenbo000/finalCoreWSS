@@ -2,14 +2,32 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
     <title></title>
 </head>
+<style>
+    body,html{
+        background: #ececec;
+    }
+</style>
 <body>
-<h1>早安订单系统登陆</h1>
-<form method="POST" action="/Admin/login/login">
-    <input type="text" name="username" placeholder="管理员用户名">
-    <input type="password" name="password" placeholder="管理员密码">
-    <input type="submit" value="登陆">
-</form>
+<div class="panel panel-default" style="width: 300px;margin: 100px auto;">
+    <div class="panel-heading">
+        <h1 class="panel-title">WSS Login <small><span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> power by oyang.wang</small></h1>
+    </div>
+    <div class="panel-body">
+        <form method="POST" action="/Admin/login/login">
+            <div class="form-group">
+                <label for="exampleInputEmail1"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span> UserName</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="Username">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
+            </div>
+            <button type="submit" class="btn btn-success btn-block btn-lg">Submit</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>

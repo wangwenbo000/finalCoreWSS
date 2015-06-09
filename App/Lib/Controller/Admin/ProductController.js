@@ -9,7 +9,13 @@ module.exports = Controller("Admin/BaseController", function(){
     "use strict";
     return {
         indexAction: function(){
-            return this.display();
+            var self = this;
+            var getProductList = D('Product');
+            return getProductList.getProduct().then(function(data){
+                self.assign('productList',data);
+                return self.display();
+            });
+
         }
     };
 });
