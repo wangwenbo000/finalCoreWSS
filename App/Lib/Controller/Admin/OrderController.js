@@ -38,7 +38,6 @@ module.exports = Controller("Admin/BaseController", function(){
         fliterAction:function(){
             var self = this;
             var getJSON = self.post('fliterjson');
-            console.log(JSON.parse(getJSON));
             D('Orderproductcopy').where(JSON.parse(getJSON)).order('id DESC').select().then(function(data){
                 return self.end(data);
             });

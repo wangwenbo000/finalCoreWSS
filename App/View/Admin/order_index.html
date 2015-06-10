@@ -7,7 +7,7 @@
     </div>
     <div class="col-lg-9 page-header">
         <h4 class="text-right">
-            共3单 |
+            共<%=count%>单 |
             已完成3单 |
             取消3单 |
             待发货3单
@@ -19,9 +19,11 @@
 <div class="row">
     <div class="col-lg-1">
         <select class="form-control" v-model="searchC">
-            <option>*</option>
-            <option>id</option>
-            <option></option>
+            <option value="*">all</option>
+            <option value="id">id</option>
+            <option value="phonenum">手机号</option>
+            <option value="receiveuser">用户名</option>
+            <option value="ordernum">订单号</option>
         </select>
     </div>
     <div class="col-lg-11">
@@ -35,17 +37,17 @@
 </div><!-- /.row -->
 <div class="row orderfliter">
     <div class="col-lg-4">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-success static" data-staticNum="*" >all</button>
-            <button type="button" class="btn btn-default static" data-staticNum="20">取消</button>
-            <button type="button" class="btn btn-default static" data-staticNum="30">待发</button>
-            <button type="button" class="btn btn-default static" data-staticNum="40">待退</button>
-            <button type="button" class="btn btn-default static" data-staticNum="55">完成</button>
-        </div>
+        <select class="form-control" v-model="productstatic">
+            <option value="*">all</option>
+            <option value="30">已发送订单</option>
+            <option value="40">待收货订单</option>
+            <option value="55">已完成订单</option>
+            <option value="30">已取消订单</option>
+        </select>
     </div>
     <div class="col-lg-3">
         <select class="form-control" v-model="expresstime">
-            <option>全部</option>
+            <option value="*">all</option>
             <option>7:00-7:30</option>
             <option>7:30-8:00</option>
             <option>8:00-8:30</option>
@@ -56,20 +58,20 @@
 
     </div>
     <div class="col-lg-2">
-            <div class="input-group date form_date" v-model="time" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
                 <input class="form-control" size="16" type="text" value="" readonly>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
-            <input type="hidden" v-model="time" id="dtp_input2" value="" /><br/>
+            <input type="hidden" id="flitertime" value="" /><br/>
     </div>
     <div class="col-lg-2">
         <div class="input-group">
             <span class="input-group-addon">叫起</span>
                 <select class="form-control" v-model="iscallmeup">
-                    <option>全部</option>
-                    <option>是</option>
-                    <option>否</option>
+                    <option value="*">全部</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
                 </select>
             </div>
     </div>
@@ -77,7 +79,7 @@
         <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
-    <input type="hidden" id="fliterjson" value="{{$data | json 2}}" />
+    <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
 <nav>
     <ul class="pagination">
@@ -178,7 +180,12 @@
     });
     var formfliter = new Vue({
         el: '#formfliter',
-        data: {}
+        data: {
+            searchC:'*',
+            productstatic:'*',
+            expresstime:'*',
+            iscallmeup:'*'
+        }
     })
     $('.form_date').datetimepicker({
         language:  'zh-CN',
@@ -202,28 +209,23 @@
         forceParse: 0
     });
     $(document).ready(function(){
-        //选项卡组件
-        jQuery.tabSel = function(className){
-            var tab = $(className);
-            tab.on('click',function(){
-                tab.attr('class','btn btn-default static');
-                $(this).attr('class','btn btn-success static');
-                JSONCtr(fliterJSON,'productstatic',$(this).attr('data-staticNum'));
-                console.log(fliterJSON);
-            })
-        };
-
         var fliterJSON = {};
-        function JSONCtr(jsonname,proto,value){
-            if(value=='*'){
-                delete jsonname[proto];
-            }else{
-                jsonname[proto]=value;
-            }
-        }
-        $.tabSel("button[class~=static]");
 
         $('button[class~=fliterBtn]').on('click',function(){
+            var getFliterJson = JSON.parse($('#fliterjson').attr('value'));
+            if($('#flitertime').attr('value')!=''){
+                getFliterJson.time = $('#flitertime').attr('value');
+            }
+            if(getFliterJson[getFliterJson.searchC] != '' || getFliterJson[getFliterJson.searchC] != '*'){
+                getFliterJson[getFliterJson.searchC] = getFliterJson.searchV;
+                delete getFliterJson.searchC;
+                delete getFliterJson.searchV;
+                delete getFliterJson['*'];
+            }
+            $.each(getFliterJson,function(index,item){
+                if(item=='*') delete getFliterJson[index];
+            });
+            console.log(getFliterJson);
             Messenger().run({
                 successMessage: '数据请求成功.',
                 errorMessage: 'Error saving data',
@@ -231,7 +233,7 @@
             },{
                 url: '/Admin/Order/fliter',
                 type:'post',
-                data:{'fliterjson':JSON.stringify(fliterJSON)},
+                data:{'fliterjson':JSON.stringify(getFliterJson)},
                 success:function(data){
                     orderList.$data.order = JSON.parse(data);
                     console.log(JSON.parse(data));
