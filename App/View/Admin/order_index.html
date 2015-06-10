@@ -1,18 +1,30 @@
 <%=include adminheader_index.html%>
 <h1 class="page-header"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small></h1>
 
-<h3 class="sub-header">订单列表</h3>
+<div class="row staticcount">
+    <div class="col-lg-8 page-header">
+        <h3>订单列表</h3>
+    </div>
+    <div class="col-lg-4 page-header">
+        <h3 class="text-right">
+            共3单 |
+            已完成3单 |
+            取消3单 |
+            代发货3单
+        </h3>
+    </div>
+</div>
+
 <div class="row">
-    <div class="col-lg-12">
-        <div class="input-group input-group-lg">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">筛选条件 <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">手机号</a></li>
-                    <li><a href="#">用户名</a></li>
-                    <li><a href="#">订单号</a></li>
-                </ul>
-            </div><!-- /btn-group -->
+    <div class="col-lg-1">
+        <select class="form-control">
+            <option>*</option>
+            <option>是</option>
+            <option>否</option>
+        </select>
+    </div>
+    <div class="col-lg-11">
+        <div class="input-group">
             <input type="text" class="form-control" aria-label="...">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary" >订单筛选</button>
@@ -20,29 +32,48 @@
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
-<div class="row">
-    <div class="col-lg-6">
+<div class="row orderfliter">
+    <div class="col-lg-4">
         <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">已发送订单</button>
-            <button type="button" class="btn btn-default">取消订单</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
+            <button type="button" class="btn btn-success static">空指令</button>
+            <button type="button" class="btn btn-default static">取消</button>
+            <button type="button" class="btn btn-default static">待发</button>
+            <button type="button" class="btn btn-default static">待退</button>
+            <button type="button" class="btn btn-default static">完成</button>
         </div>
     </div>
-    <div class="col-lg-6">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">已发送订单</button>
-            <button type="button" class="btn btn-default">取消订单</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-        </div>
+    <div class="col-lg-2">
+            <div class="input-group date form_time" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
+                <input class="form-control" size="16" type="text" value="" readonly>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input3" value="" /><br/>
+    </div>
+    <div class="col-lg-2">
+            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                <input class="form-control" size="16" type="text" value="" readonly>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+            </div>
+            <input type="hidden" id="dtp_input2" value="" /><br/>
+    </div>
+    <div class="col-lg-2">
+        <div class="input-group">
+            <span class="input-group-addon">叫起</span>
+                <select class="form-control">
+                    <option>全部</option>
+                    <option>是</option>
+                    <option>否</option>
+                </select>
+            </div>
+    </div>
+    <div class="col-lg-2">
+        <button type="button" class="btn btn-primary btn-block">重置筛选条件</button>
     </div>
 </div>
-<nav><ul class="pagination pagination-lg">
+<nav>
+    <ul class="pagination">
     <%-pager%>
     <li><span>共<%=count%>笔数据</span></li>
 </ul>
@@ -52,14 +83,14 @@
         <thead>
         <tr>
             <th>id</th>
-            <th>产品图片</th>
+            <th>图片</th>
             <th>产品名称</th>
-            <th>购买数量</th>
+            <th>数量</th>
             <th>购买者</th>
             <th>配送地址</th>
             <th>单价</th>
             <th>配送费</th>
-            <th>是否叫起</th>
+            <th><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></th>
             <th>配送时间</th>
             <th>联系电话</th>
             <th>订单号</th>
@@ -70,14 +101,14 @@
         </thead>
         <tbody>
         <tr id="orderlist" v-repeat="order:order" class="item-{{$index}}">
-            <td>{{order.id}}</td>
-            <td><img src="/resource/img/food/{{order.foodimg}}" width="40"></td>
+            <td><h5>{{order.id}}</h5></td>
+            <td data-toggle="modal" data-target=".bs-example-modal-lg"><img src="/resource/img/food/{{order.foodimg}}" width="40" class="img-circle"></td>
             <td>{{order.productname}}</td>
             <td>×{{order.productnum}}</td>
             <td>{{order.receiveuser}}</td>
             <td>{{order.expressaddress}}</td>
-            <td><h4>￥{{order.singleprice}}</h4></td>
-            <td><h4>{{order.expressprice}}</h4></td>
+            <td><h5>￥{{order.singleprice}}</h5></td>
+            <td><h5>{{order.expressprice}}</h5></td>
             <td>{{order.iscallmeup}}</td>
             <td>{{order.expresstime}}</td>
             <td><h5>{{order.phonenum}}</h5></td>
@@ -98,18 +129,76 @@
         </tr>
         </tbody>
     </table>
-    <nav><ul class="pagination pagination-lg">
+    <nav><ul class="pagination">
         <%-pager%>
         <li><span>共<%=count%>笔数据</span></li>
     </ul>
     </nav>
 </div>
-
+<div class="modal fade bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>请谨慎编辑订单，对订单的修改会造成用户的数据不符</small></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                    <tr>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">编辑订单 <span class="label label-warning">慎</span></button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     var orderList = new Vue({
         el:'#orderlist',
         data:{order:<%- JSON.stringify(orderList) %>}
     });
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 1,
+        minView: 0,
+        maxView: 1,
+        forceParse: 0
+    });
+    $(document).ready(function(){
+        jQuery.tabSel = function(className){
+            var tab = $(className);
+            tab.on('click',function(){
+                tab.attr('class','btn btn-default static');
+                $(this).attr('class','btn btn-success static');
+            })
+        };
+        $.tabSel("button[class~=static]");
+        $.tabSel("button[class~=timeSel]");
+    })
 </script>
 <%=include adminfooter_index.html%>

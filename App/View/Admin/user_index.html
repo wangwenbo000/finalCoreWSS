@@ -3,24 +3,23 @@
 
 <h3 class="sub-header">用户列表</h3>
 <div class="row">
-    <div class="col-lg-12">
-        <div class="input-group input-group-lg">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">筛选条件 <span class="caret"></span></button>
-                <ul class="dropdown-menu" role="menu">
-                    <li><a href="#">手机号</a></li>
-                    <li><a href="#">用户名</a></li>
-                    <li><a href="#">订单号</a></li>
-                </ul>
-            </div><!-- /btn-group -->
+    <div class="col-lg-1">
+        <select class="form-control">
+            <option>*</option>
+            <option>openID</option>
+            <option>用户名</option>
+        </select>
+    </div>
+    <div class="col-lg-11">
+        <div class="input-group">
             <input type="text" class="form-control" aria-label="...">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-primary" >订单筛选</button>
+                <button type="button" class="btn btn-primary" >搜索用户</button>
             </div><!-- /btn-group -->
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
-<div class="row">
+<div class="row orderfliter">
     <div class="col-lg-6">
         <div class="btn-group" role="group" aria-label="...">
             <button type="button" class="btn btn-default">已发送订单</button>
@@ -32,17 +31,10 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">已发送订单</button>
-            <button type="button" class="btn btn-default">取消订单</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-        </div>
+
     </div>
 </div>
-<nav><ul class="pagination pagination-lg">
+<nav><ul class="pagination">
     <%-pager%>
     <li><span>共<%=userCount%>笔数据</span></li>
 </ul>
@@ -51,38 +43,51 @@
     <table class="table table-bordered table-hover">
         <thead>
         <tr>
-            <td>id</td>
-            <td>产品图片</td>
-            <td>产品名称</td>
-            <td>购买数量</td>
-            <td>购买者</td>
-            <td>配送地址</td>
-            <td>单价</td>
-            <td>配送费</td>
-            <td>是否叫起</td>
-            <td>配送时间</td>
-            <td>联系电话</td>
+            <th>id</th>
+            <th>头像</th>
+            <th>用户</th>
+            <th>性别</th>
+            <th>购买者</th>
+            <th>语言</th>
+            <th>电话</th>
+            <th>localhost</th>
+            <th>移动</th>
+            <th>openID</th>
+            <th>订阅</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tbody>
         <%userList.forEach(function(userList){ %>
         <tr>
             <td><%=userList.id%></td>
-            <td><%=userList.username%> <span class="label label-info">2</span></td>
-            <td><%if(userList.sex){%>man<%}else{%>woman<%}%></td>
+            <td><img src="<%=userList.face + '46'%>" width="46" class="img-circle"></td>
+            <td><%=userList.username%> <span class="badge">× 2</span></td>
+            <td><%if(userList.sex==1){%>boy<%}else{%>girl<%}%></td>
             <td><%=userList.group%></td>
-            <td><%=userList.language%></td>
+            <td><span class="label label-default"><%=userList.language%></span></td>
             <td><%=userList.phonenum%></td>
             <td><%=userList.location%></td>
             <td><%=userList.phoneService%></td>
-            <td><h5><%=userList.openid%></h5></td>
+            <td><span class="label label-warning"><%=userList.openid%></span></td>
             <td><%=userList.subscribe%></td>
-            <td><img src="<%=userList.face + '46'%>" width="46"></td>
+            <td>
+                <div class="btn-group">
+                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                        订单操作 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"> 取消订单</a></li>
+                        <li><a href="#"> 退款</a></li>
+                    </ul>
+                </div>
+            </td>
+
         </tr>
         <%}); %>
         </tbody>
     </table>
-    <nav><ul class="pagination pagination-lg">
+    <nav><ul class="pagination">
         <%-pager%>
         <li><span>共<%=userCount%>笔数据</span></li>
     </ul>
