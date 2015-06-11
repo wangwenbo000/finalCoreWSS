@@ -12,8 +12,11 @@ module.exports = Controller("Admin/BaseController", function(){
             var Pager = require('thinkjs-navigator');
             var baseUrl = "/Admin/order/index.html";
             var self = this;
-            D('Orderproductcopy').order('id DESC').page(self.get("page"), 20).countSelect().then(function(data){
+            var orderModel = D('Order');
+
+            orderModel.getorderlist(self.get('page')).then(function(data){
                 var pager = new Pager(data, baseUrl);
+
                 self.assign({pager:pager.render(
                     '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
                     '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>',
@@ -28,10 +31,11 @@ module.exports = Controller("Admin/BaseController", function(){
                 }),'orderList':data.data,'count':data.count});
 
             }).then(function(){
-                D('Orderproductcopy').where({'productstatic':['=',55]}).countSelect().then(function(data){
-                    console.log(data.count);
+                orderModel.getstaticcount('55').then(function(data){
+                    self.assign({'succ':data.count});
                     return self.display();
                 });
+
             });
 
         },

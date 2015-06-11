@@ -1,12 +1,24 @@
 <%=include adminheader_index.html%>
 <h1 class="page-header"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>用户管理 <small>User Manage</small></h1>
 
-<h3 class="sub-header">用户列表</h3>
+<div class="row staticcount page-header">
+    <div class="col-lg-3">
+        <h3>用户列表</h3>
+    </div>
+    <div class="col-lg-9">
+        <h4 class="text-right">
+            共<%=userCount%>用户 |
+            订阅3名
+        </h4>
+    </div>
+</div>
+<form id="formfliter">
 <div class="row">
     <div class="col-lg-1">
         <select class="form-control">
             <option>*</option>
             <option>openID</option>
+            <option>ID</option>
             <option>用户名</option>
         </select>
     </div>
@@ -20,20 +32,25 @@
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 <div class="row orderfliter">
-    <div class="col-lg-6">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default">已发送订单</button>
-            <button type="button" class="btn btn-default">取消订单</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-            <button type="button" class="btn btn-default">待发货</button>
-        </div>
+    <div class="col-lg-4">
+        <select class="form-control" v-model="productstatic" id="exampleInputEmail2">
+            <option value="*">性别</option>
+            <option value="30">boy</option>
+            <option value="40">girl</option>
+        </select>
     </div>
     <div class="col-lg-6">
-
+        <select class="form-control" v-model="productstatic">
+            <option value="*">订阅</option>
+            <option value="30">未订阅</option>
+            <option value="40">已订阅</option>
+        </select>
+    </div>
+    <div class="col-lg-2">
+        <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
+</form>
 <nav><ul class="pagination">
     <%-pager%>
     <li><span>共<%=userCount%>笔数据</span></li>
@@ -47,7 +64,7 @@
             <th>头像</th>
             <th>用户</th>
             <th>性别</th>
-            <th>购买者</th>
+            <th>分组</th>
             <th>语言</th>
             <th>电话</th>
             <th>localhost</th>
@@ -77,7 +94,7 @@
                         订单操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#"> 地址列表</a></li>
+                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"> 地址列表</a></li>
                         <li><a href="#"> 退款</a></li>
                     </ul>
                 </div>
@@ -92,5 +109,32 @@
         <li><span>共<%=userCount%>笔数据</span></li>
     </ul>
     </nav>
+</div>
+<div class="modal fade bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small></h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-hover">
+                    <tbody>
+                    <tr>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                        <td>hello</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">编辑订单 <span class="label label-warning">慎</span></button>
+            </div>
+        </div>
+    </div>
 </div>
 <%=include adminfooter_index.html%>
