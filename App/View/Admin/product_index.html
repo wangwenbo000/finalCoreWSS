@@ -1,42 +1,50 @@
 
 <%=include adminheader_index.html%>
-<h1 class="page-header"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>Subtext for header</small></h1>
+<h1 class="page-header"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small></h1>
 <div class="row">
-    <div class="col-sm-4" id="productlist" v-repeat="product:products">
+    <div class="col-sm-3" id="productlist" v-repeat="product:products">
         <div class="panel panel-default">
             <!-- Default panel contents -->
-            <div class="panel-heading morningFoodDays"><h3>星期{{product.days}}</h3></div>
+            <div class="panel-heading morningFoodDays"><h4>星期{{product.days}} <small>{{product.updatetime}}</small></h4></div>
 
             <!-- Table -->
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr>
                     <th>id</th>
-                    <th>图片</th>
-                    <th>价格</th>
+                    <th colspan="2">图片</th>
                     <th>成本</th>
                     <th>单价</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
-                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="50" class="img-circle"></td>
-                    <td>{{product.productName}}</td>
-                    <td><h4>￥{{product.price}}</h4></td>
+                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
+                    <td colspan="2">{{product.productName}}</td>
                     <td><h4>￥{{product.cost}}</h4></td>
-                    <td><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal" role="button">编辑</a></td>
+                    <td><h3 class="text-danger">￥{{product.price}}</h3></td>
                 </tr>
                 <tr>
-                    <th>id</th>
-                    <th>图片</th>
-                    <th>价格</th>
-                    <th>成本</th>
-                    <th>单价</th>
+                    <th colspan="2">创建时间</th>
+                    <th colspan="2">活动</th>
+                    <th rowspan="2">
+                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal" role="button">更新</a>
+                    </th>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td class="text-success" colspan="2">
+                        <h5>活动促销A</h5>
+                    </td>
                 </tr>
                 </tbody>
             </table>
             <div class="panel-body">
-                <p>{{product.describe}}</p>
+                <blockquote>
+                    <p>{{product.describe}}</p>
+                    <footer>{{product.updatetime}} <cite title="Source Title">Source Title</cite></footer>
+                </blockquote>
+
             </div>
         </div>
     </div>
@@ -51,19 +59,39 @@
             </div>
             <div class="modal-body">
                 <form>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 图片拖拽上传
+                        </div>
+                    </div>
                     <div class="form-group">
-                        <label for="recipient-name" class="control-label">Recipient:</label>
+                        <label for="recipient-name" class="control-label">早餐名:</label>
                         <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">成本</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">单价</label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail2" class="control-label">活动</label>
+                        <select class="form-control" v-model="sex" id="exampleInputEmail2">
+                            <option value="*">性别</option>
+                            <option value="1">boy</option>
+                            <option value="0">girl</option>
+                        </select>
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="control-label">Message:</label>
                         <textarea class="form-control" id="message-text"></textarea>
                     </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary btn-lg btn-block">更新数据</button>
+                    </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">确定编辑</button>
             </div>
         </div>
     </div>

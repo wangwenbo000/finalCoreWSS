@@ -32,21 +32,32 @@
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 <div class="row orderfliter">
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <select class="form-control" v-model="sex" id="exampleInputEmail2">
             <option value="*">性别</option>
             <option value="1">boy</option>
             <option value="0">girl</option>
         </select>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-2">
         <select class="form-control" v-model="issubcute">
             <option value="*">订阅</option>
             <option value="0">未订阅</option>
             <option value="1s">已订阅</option>
         </select>
     </div>
-    <div class="col-lg-2">
+    <div id="chinaSel">
+    <div class="col-lg-1">
+        <select class="form-control province" v-model="province" name="province"></select>
+    </div>
+    <div class="col-lg-1">
+        <select class="form-control city" v-model="city" name="city"></select>
+    </div>
+    <div class="col-lg-1">
+        <select class="form-control area" v-model="area" name="area"></select>
+    </div>
+    </div>
+    <div class="col-lg-3">
         <div class="switch">
             <input type="checkbox" name="searchBlur" data-label-text="模糊匹配开关" data-off-color="danger" v-model="isblur"/>
         </div>
@@ -152,6 +163,11 @@
         data: {
             searchC:'*',
         }
+    });
+    $.cxSelect.defaults.url = '/resource/js/cityData.min.json';
+
+    $('#chinaSel').cxSelect({
+        selects: ['province', 'city', 'area']
     });
 </script>
 <%=include adminfooter_index.html%>
