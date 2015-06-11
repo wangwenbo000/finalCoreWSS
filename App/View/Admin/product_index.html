@@ -8,10 +8,10 @@
             <div class="panel-heading morningFoodDays"><h4>星期{{product.days}} <small>{{product.updatetime}}</small></h4></div>
 
             <!-- Table -->
-            <table class="table table-bordered table-hover">
+            <table class="table table-bordered">
                 <thead>
                 <tr>
-                    <th>id</th>
+                    <th>id：{{product.id}}</th>
                     <th colspan="2">图片</th>
                     <th>成本</th>
                     <th>单价</th>
@@ -28,12 +28,12 @@
                     <th colspan="2">创建时间</th>
                     <th colspan="2">活动</th>
                     <th rowspan="2">
-                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal" role="button">更新</a>
+                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
                     </th>
                 </tr>
                 <tr>
                     <td colspan="2"></td>
-                    <td class="text-success" colspan="2">
+                    <td class="text-success warning" colspan="2">
                         <h5>活动促销A</h5>
                     </td>
                 </tr>
@@ -50,15 +50,15 @@
     </div>
 </div>
 
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade bs-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">编辑当日早餐信息</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form id="updateFoodInfo">
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 图片拖拽上传
@@ -66,15 +66,15 @@
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">早餐名:</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <input type="text" class="form-control" id="recipient-name" v-model="productName">
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">成本</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
                     </div>
                     <div class="form-group">
                         <label for="recipient-name" class="control-label">单价</label>
-                        <input type="text" class="form-control" id="recipient-name">
+                        <input type="text" class="form-control" id="recipient-name" v-model="price">
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail2" class="control-label">活动</label>
@@ -86,11 +86,12 @@
                     </div>
                     <div class="form-group">
                         <label for="message-text" class="control-label">Message:</label>
-                        <textarea class="form-control" id="message-text"></textarea>
+                        <textarea class="form-control" id="message-text" v-model="describe" rows="6"></textarea>
                     </div>
                     <div class="form-group">
                         <button type="button" class="btn btn-primary btn-lg btn-block">更新数据</button>
                     </div>
+                    {{$data | json 2}}
                 </form>
             </div>
         </div>
@@ -101,5 +102,31 @@
         el:'#productlist',
         data:{products:<%- JSON.stringify(productList) %>}
     });
+    var uploadProductInfo = new Vue({
+        el:'#updateFoodInfo',
+        data:{
+            name:'hi'
+        }
+    })
+    $('#exampleModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var productId = button.data('id');
+        var whichDay = button.data('day');
+        $(this).find('.modal-title').text('更新\"'+whichDay+'\"的早餐');
+
+        Messenger().run({
+            successMessage: '正在请求 ['+whichDay+'] 早餐数据',
+            errorMessage: 'Error saving data',
+            progressMessage: '正在处理数据',
+        },{
+            url: '/Admin/Product/getinfobyid',
+            type:'post',
+            data:{'id':productId},
+            success:function(data){
+                uploadProductInfo.$data = JSON.parse(data)[0];
+                Messenger().post('数据请求完成');
+            }
+        });
+    })
 </script>
 <%=include adminfooter_index.html%>

@@ -6,6 +6,11 @@ module.exports = Model(function(){
                 console.log(data);
                 return data;
             });
+        },
+        selectById:function(id){
+            return D('Products').where({'id':id}).select().then(function(data){
+                return data;
+            });
         }
     }
 })

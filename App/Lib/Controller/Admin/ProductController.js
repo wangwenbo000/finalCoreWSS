@@ -16,6 +16,14 @@ module.exports = Controller("Admin/BaseController", function(){
                 return self.display();
             });
 
+        },
+        getinfobyidAction:function(){
+            var self = this;
+            var selectId = self.post('id');
+            var productModel = D('product');
+            return productModel.selectById(selectId).then(function(data){
+                return self.end(data);
+            })
         }
     };
 });
