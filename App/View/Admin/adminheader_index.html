@@ -7,13 +7,25 @@
     <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
     <link href="/resource/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="/resource/css/messenger.css" rel="stylesheet" media="screen">
+    <link href="/resource/css/messenger-theme-flat.css" rel="stylesheet" media="screen">
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="/resource/js/vue.min.js"></script>
     <script src="/resource/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script src="/resource/js/pace.min.js"></script>
+    <script src="/resource/js/messenger.min.js"></script>
+    <script src="/resource/js/messenger-theme-future.js"></script>
 </head>
 <body>
+<script>
+    $._messengerDefaults = {
+        extraClasses: 'messenger-fixed messenger-theme-air messenger-on-bottom messenger-on-right',
+        theme: 'flat'
+    }
+    $.globalMessenger().post("您已经进入后台管理页面");
+</script>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -33,17 +45,16 @@
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%=userInfo.username%> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Action</a></li>
-                        <li><a href="#">Another action</a></li>
-                        <li><a href="#">Something else here</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 修改资料信息</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> 增加新管理员</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Separated link</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-bookmark" aria-hidden="true"></span> 关于WSS</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">One more separated link</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-off" aria-hidden="true"></span> 注销</a></li>
                     </ul>
                 </li>
                 <li><a href="#"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
-                <li><img src="/resource/img/adminImg/<%=userInfo.face%>" width="40"></li>
+                <li><img src="/resource/img/adminImg/<%=userInfo.face%>" width="40" class="img-circle"></li>
             </ul>
         </div>
     </div>
@@ -59,6 +70,9 @@
                 <li <%if(http.controller=='R'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span><br>R单</a></li>
                 <li <%if(http.controller=='User'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br>用户</a></li>
                 <li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li class="btn-success"><a href="/Admin/Login/loginout"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span><br>活动</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li class="btn-danger"><a href="/Admin/Login/loginout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span><br>注销</a></li>

@@ -2,76 +2,85 @@
 <h1 class="page-header"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small></h1>
 
 <div class="row staticcount">
-    <div class="col-lg-8 page-header">
+    <div class="col-lg-3 page-header">
         <h3>订单列表</h3>
     </div>
-    <div class="col-lg-4 page-header">
-        <h3 class="text-right">
-            共3单 |
+    <div class="col-lg-9 page-header">
+        <h4 class="text-right">
+            共<%=count%>单 |
             已完成3单 |
             取消3单 |
-            代发货3单
-        </h3>
+            待发货3单
+        </h4>
     </div>
 </div>
 
+<form id="formfliter">
 <div class="row">
     <div class="col-lg-1">
-        <select class="form-control">
-            <option>*</option>
-            <option>是</option>
-            <option>否</option>
+        <select class="form-control" v-model="searchC">
+            <option value="*">all</option>
+            <option value="id">id</option>
+            <option value="phonenum">手机号</option>
+            <option value="receiveuser">用户名</option>
+            <option value="ordernum">订单号</option>
         </select>
     </div>
     <div class="col-lg-11">
         <div class="input-group">
-            <input type="text" class="form-control" aria-label="...">
+            <input type="text" class="form-control" aria-label="..." v-model="searchV">
             <div class="input-group-btn">
-                <button type="button" class="btn btn-primary" >订单筛选</button>
+                <button type="button" class="btn btn-primary fliterBtn" >订单筛选</button>
             </div><!-- /btn-group -->
         </div><!-- /input-group -->
     </div><!-- /.col-lg-6 -->
 </div><!-- /.row -->
 <div class="row orderfliter">
     <div class="col-lg-4">
-        <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-success static">空指令</button>
-            <button type="button" class="btn btn-default static">取消</button>
-            <button type="button" class="btn btn-default static">待发</button>
-            <button type="button" class="btn btn-default static">待退</button>
-            <button type="button" class="btn btn-default static">完成</button>
-        </div>
+        <select class="form-control" v-model="productstatic">
+            <option value="*">all</option>
+            <option value="30">已发送订单</option>
+            <option value="40">待收货订单</option>
+            <option value="55">已完成订单</option>
+            <option value="30">已取消订单</option>
+        </select>
+    </div>
+    <div class="col-lg-3">
+        <select class="form-control" v-model="expresstime">
+            <option value="*">all</option>
+            <option>7:00-7:30</option>
+            <option>7:30-8:00</option>
+            <option>8:00-8:30</option>
+            <option>8:30-9:00</option>
+            <option>9:00-9:30</option>
+            <option>9:30-10:00</option>
+        </select>
+
     </div>
     <div class="col-lg-2">
-            <div class="input-group date form_time" data-date="" data-date-format="hh:ii" data-link-field="dtp_input3" data-link-format="hh:ii">
-                <input class="form-control" size="16" type="text" value="" readonly>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span>
-            </div>
-            <input type="hidden" id="dtp_input3" value="" /><br/>
-    </div>
-    <div class="col-lg-2">
-            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
                 <input class="form-control" size="16" type="text" value="" readonly>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                 <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
             </div>
-            <input type="hidden" id="dtp_input2" value="" /><br/>
+            <input type="hidden" id="flitertime" value="" /><br/>
     </div>
     <div class="col-lg-2">
         <div class="input-group">
             <span class="input-group-addon">叫起</span>
-                <select class="form-control">
-                    <option>全部</option>
-                    <option>是</option>
-                    <option>否</option>
+                <select class="form-control" v-model="iscallmeup">
+                    <option value="*">全部</option>
+                    <option value="1">是</option>
+                    <option value="0">否</option>
                 </select>
             </div>
     </div>
-    <div class="col-lg-2">
-        <button type="button" class="btn btn-primary btn-block">重置筛选条件</button>
+    <div class="col-lg-1">
+        <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
+    <input type="hidden" id="fliterjson" value="{{$data | json}}" />
+</form>
 <nav>
     <ul class="pagination">
     <%-pager%>
@@ -140,7 +149,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>请谨慎编辑订单，对订单的修改会造成用户的数据不符</small></h4>
+                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small></h4>
             </div>
             <div class="modal-body">
                 <table class="table table-bordered table-hover">
@@ -164,10 +173,20 @@
 </div>
 
 <script>
+    var showListJson = <%- JSON.stringify(orderList) %>;
     var orderList = new Vue({
         el:'#orderlist',
-        data:{order:<%- JSON.stringify(orderList) %>}
+        data:{order:showListJson}
     });
+    var formfliter = new Vue({
+        el: '#formfliter',
+        data: {
+            searchC:'*',
+            productstatic:'*',
+            expresstime:'*',
+            iscallmeup:'*'
+        }
+    })
     $('.form_date').datetimepicker({
         language:  'zh-CN',
         weekStart: 1,
@@ -190,15 +209,39 @@
         forceParse: 0
     });
     $(document).ready(function(){
-        jQuery.tabSel = function(className){
-            var tab = $(className);
-            tab.on('click',function(){
-                tab.attr('class','btn btn-default static');
-                $(this).attr('class','btn btn-success static');
-            })
-        };
-        $.tabSel("button[class~=static]");
-        $.tabSel("button[class~=timeSel]");
+        var fliterJSON = {};
+
+        $('button[class~=fliterBtn]').on('click',function(){
+            var getFliterJson = JSON.parse($('#fliterjson').attr('value'));
+            if($('#flitertime').attr('value')!=''){
+                getFliterJson.time = $('#flitertime').attr('value');
+            }
+            if(getFliterJson[getFliterJson.searchC] != '' || getFliterJson[getFliterJson.searchC] != '*'){
+                getFliterJson[getFliterJson.searchC] = getFliterJson.searchV;
+                delete getFliterJson.searchC;
+                delete getFliterJson.searchV;
+                delete getFliterJson['*'];
+            }
+            $.each(getFliterJson,function(index,item){
+                if(item=='*') delete getFliterJson[index];
+            });
+            console.log(getFliterJson);
+            Messenger().run({
+                successMessage: '数据请求成功.',
+                errorMessage: 'Error saving data',
+                progressMessage: '正在处理数据',
+            },{
+                url: '/Admin/Order/fliter',
+                type:'post',
+                data:{'fliterjson':JSON.stringify(getFliterJson)},
+                success:function(data){
+                    orderList.$data.order = JSON.parse(data);
+                    console.log(JSON.parse(data));
+                }
+            });
+
+        })
+
     })
 </script>
 <%=include adminfooter_index.html%>
