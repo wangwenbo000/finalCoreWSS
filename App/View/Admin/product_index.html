@@ -2,20 +2,46 @@
 <%=include adminheader_index.html%>
 <h1 class="page-header"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>Subtext for header</small></h1>
 <div class="row">
-    <div class="col-sm-6 col-md-3" id="productlist" v-repeat="product:products">
-        <div class="thumbnail">
-            <img src="/resource/img/food/b0.jpg" alt="...">
-            <div class="caption">
-                <h3>{{product.productName}}</h3>
-                <span class="label label-default">￥{{product.price}}</span>
-                <span class="label label-warning">￥{{product.cost}}</span>
-                <span class="label label-success">星期{{product.days}}</span>
+    <div class="col-sm-4" id="productlist" v-repeat="product:products">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading morningFoodDays"><h3>星期{{product.days}}</h3></div>
+
+            <!-- Table -->
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>图片</th>
+                    <th>价格</th>
+                    <th>成本</th>
+                    <th>单价</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="50" class="img-circle"></td>
+                    <td>{{product.productName}}</td>
+                    <td><h4>￥{{product.price}}</h4></td>
+                    <td><h4>￥{{product.cost}}</h4></td>
+                    <td><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#exampleModal" role="button">编辑</a></td>
+                </tr>
+                <tr>
+                    <th>id</th>
+                    <th>图片</th>
+                    <th>价格</th>
+                    <th>成本</th>
+                    <th>单价</th>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-body">
                 <p>{{product.describe}}</p>
-                <p><a href="#" class="btn btn-success" data-toggle="modal" data-target="#exampleModal" role="button">编辑</a></p>
             </div>
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

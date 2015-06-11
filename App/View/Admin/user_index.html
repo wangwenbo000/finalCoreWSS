@@ -15,7 +15,7 @@
 <form id="formfliter">
 <div class="row">
     <div class="col-lg-1">
-        <select class="form-control">
+        <select class="form-control" v-model="searchC">
             <option>*</option>
             <option>openID</option>
             <option>ID</option>
@@ -24,7 +24,7 @@
     </div>
     <div class="col-lg-11">
         <div class="input-group">
-            <input type="text" class="form-control" aria-label="...">
+            <input type="text" class="form-control" aria-label="..." v-model="searchV">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary" >搜索用户</button>
             </div><!-- /btn-group -->
@@ -33,23 +33,29 @@
 </div><!-- /.row -->
 <div class="row orderfliter">
     <div class="col-lg-4">
-        <select class="form-control" v-model="productstatic" id="exampleInputEmail2">
+        <select class="form-control" v-model="sex" id="exampleInputEmail2">
             <option value="*">性别</option>
-            <option value="30">boy</option>
-            <option value="40">girl</option>
+            <option value="1">boy</option>
+            <option value="0">girl</option>
         </select>
     </div>
-    <div class="col-lg-6">
-        <select class="form-control" v-model="productstatic">
+    <div class="col-lg-4">
+        <select class="form-control" v-model="issubcute">
             <option value="*">订阅</option>
-            <option value="30">未订阅</option>
-            <option value="40">已订阅</option>
+            <option value="0">未订阅</option>
+            <option value="1s">已订阅</option>
         </select>
+    </div>
+    <div class="col-lg-2">
+        <div class="switch">
+            <input type="checkbox" name="searchBlur" data-label-text="模糊匹配开关" data-off-color="danger" v-model="isblur"/>
+        </div>
     </div>
     <div class="col-lg-2">
         <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
+    <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
 <nav><ul class="pagination">
     <%-pager%>
@@ -137,4 +143,15 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("[name='searchBlur']").bootstrapSwitch();
+    })
+    var formfliter = new Vue({
+        el: '#formfliter',
+        data: {
+            searchC:'*',
+        }
+    });
+</script>
 <%=include adminfooter_index.html%>

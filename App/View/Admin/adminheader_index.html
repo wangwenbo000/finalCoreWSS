@@ -9,6 +9,7 @@
     <link href="/resource/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
     <link href="/resource/css/messenger.css" rel="stylesheet" media="screen">
     <link href="/resource/css/messenger-theme-flat.css" rel="stylesheet" media="screen">
+    <link href="/resource/css/bootstrap-switch.min.css" rel="stylesheet" media="screen">
     <script src="http://cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script>
     <script src="/resource/js/vue.min.js"></script>
     <script src="/resource/js/bootstrap.min.js"></script>
@@ -17,6 +18,7 @@
     <script src="/resource/js/pace.min.js"></script>
     <script src="/resource/js/messenger.min.js"></script>
     <script src="/resource/js/messenger-theme-future.js"></script>
+    <script src="/resource/js/bootstrap-switch.min.js"></script>
 </head>
 <body>
 <script>
@@ -72,7 +74,7 @@
                 <li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li class="btn-success"><a href="/Admin/Login/loginout"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span><br>活动</a></li>
+                <li class="btn-success"><a href="/Admin/activity"><span class="glyphicon glyphicon-fire" aria-hidden="true"></span><br>活动</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li class="btn-danger"><a href="/Admin/Login/loginout"><span class="glyphicon glyphicon-off" aria-hidden="true"></span><br>注销</a></li>

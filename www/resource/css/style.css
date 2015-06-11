@@ -204,7 +204,9 @@ body {
     0% { transform: rotate(0deg); transform: rotate(0deg); }
     100% { transform: rotate(360deg); transform: rotate(360deg); }
 }
-
+.morningFoodDays h3{
+    margin: 0;
+}
 .static33{background: #428bca;}
 .static55{background: #5cb85c;}
 .static10{background: #5bc0de;}
