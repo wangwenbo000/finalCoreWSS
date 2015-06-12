@@ -51,48 +51,73 @@
 </div>
 
 <div class="modal fade bs-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog ">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">编辑当日早餐信息</h4>
             </div>
             <div class="modal-body">
-                <form id="updateFoodInfo">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <span class="glyphicon glyphicon-cloud-upload" aria-hidden="true"></span> 图片拖拽上传
+                <div role="tabpanel">
+
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">更新当前数据</a></li>
+                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>  添加活动早餐</a></li>
+                    </ul>
+                    <br>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active row" id="home">
+                            <div class="col-lg-8">
+                                <form id="updateFoodInfo">
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="control-label">早餐名:</label>
+                                        <input type="text" class="form-control" id="recipient-name" v-model="productName">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="control-label">成本</label>
+                                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="control-label">单价</label>
+                                        <input type="text" class="form-control" id="recipient-name" v-model="price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail2" class="control-label">活动</label>
+                                        <select class="form-control" v-model="sex" id="exampleInputEmail2">
+                                            <option value="*">性别</option>
+                                            <option value="1">boy</option>
+                                            <option value="0">girl</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="message-text" class="control-label">Message:</label>
+                                        <textarea class="form-control" id="message-text" v-model="describe" rows="6"></textarea>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-4">
+                                <a href="#" class="thumbnail">
+                                    <img src="/resource/img/food/b0.jpg" alt="...">
+                                </a>
+                                <div class="alert alert-warning" role="alert"><b>拖拽</b>图片上传</div>
+                                <blockquote>
+                                    <p>Image Size : 300X300</p>
+                                    <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
+                                </blockquote>
+                                <div class="form-group">
+                                    <button type="button" class="btn btn-success btn-lg btn-block">更新数据</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="profile">
+                            <div class="alert alert-warning" role="alert">添加新的早餐类别请定期更新活动有效期</div>
+                            <div id="editor"></div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">早餐名:</label>
-                        <input type="text" class="form-control" id="recipient-name" v-model="productName">
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">成本</label>
-                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
-                    </div>
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">单价</label>
-                        <input type="text" class="form-control" id="recipient-name" v-model="price">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail2" class="control-label">活动</label>
-                        <select class="form-control" v-model="sex" id="exampleInputEmail2">
-                            <option value="*">性别</option>
-                            <option value="1">boy</option>
-                            <option value="0">girl</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="message-text" class="control-label">Message:</label>
-                        <textarea class="form-control" id="message-text" v-model="describe" rows="6"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <button type="button" class="btn btn-primary btn-lg btn-block">更新数据</button>
-                    </div>
-                    {{$data | json 2}}
-                </form>
+
+                </div>
             </div>
         </div>
     </div>
@@ -128,5 +153,6 @@
             }
         });
     })
+    $('＃editor').wysihtml5();
 </script>
 <%=include adminfooter_index.html%>
