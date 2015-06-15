@@ -139,7 +139,7 @@
             <td>{{order.expresstime}}</td>
             <td><h5>{{order.phonenum}}</h5></td>
             <td><h5>{{order.ordernum}}</h5></td>
-            <td>{{order.time}}</td>
+            <td>{{order.time}}{{order.test}}</td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
@@ -328,11 +328,6 @@
             expresstime:'*',
             iscallmeup:'*'
         }
-    });
-    Vue.filter('mapstatic', function (value) {
-        console.log(value);
-        console.log('a');
-        return value+'a';
     });
     $('.form_date').datetimepicker({
         language:  'zh-CN',
