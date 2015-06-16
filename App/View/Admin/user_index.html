@@ -1,7 +1,10 @@
 <%=include adminheader_index.html%>
 <h1 class="page-header"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>用户管理 <small>User Manage</small></h1>
-
-<div class="row staticcount page-header">
+<ol class="breadcrumb">
+    <li><a href="/Admin/">Admin</a></li>
+    <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
+</ol>
+<div class="staticcount page-header clearfix">
     <div class="col-lg-3">
         <h3>用户列表</h3>
     </div>
@@ -103,7 +106,7 @@
             <td><%=userList.phonenum%></td>
             <td><%=userList.location%></td>
             <td><%=userList.phoneService%></td>
-            <td><span class="label label-warning"><%=userList.openid%></span></td>
+            <td><span class="label label-success"><%=userList.openid%></span></td>
             <td><%=userList.subscribe%></td>
             <td>
                 <div class="btn-group">

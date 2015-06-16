@@ -4,29 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/resource/css/todc-bootstrap.min.css" type="text/css">
     <title></title>
 </head>
 <style>
-    body,html{
-        background: #ececec;
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #fff;
+    }
+
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+    .form-signin-heading {
+        margin: 0 0 15px;
+        font-size: 18px;
+        font-weight: 400;
+        color: #555;
+    }
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+        font-weight: normal;
+    }
+    .form-signin .form-control {
+        position: relative;
+        height: auto;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        padding: 10px;
+        font-size: 16px;
+    }
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+    .form-signin input[type="username"] {
+        margin-bottom: 10px;
+    }
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+    }
+    .card {
+        width: 304px;
+        padding: 20px 25px 30px;
+        margin: 0 auto 25px;
+        background-color: #f7f7f7;
+        background-image: url("/resource/img/adminimg/login_bg.png");
+        border-radius: 2px;
+        -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+        box-shadow: 0 2px 2px rgba(0, 0, 0, .3);
+    }
+    .card-signin {
+        width: 288px;
+        padding: 40px 20px 20px 20px;
+    }
+    .card-signin .profile-img {
+        display: block;
+        width: 160px;
+        /*height: 96px;*/
+        margin: 0 auto 10px;
     }
 </style>
 <body>
-<div class="panel panel-default" style="width: 300px;margin: 100px auto;">
-    <div class="panel-heading">
-        <h1 class="panel-title">WSS Login <small><span class="glyphicon glyphicon-copyright-mark" aria-hidden="true"></span> power by oyang.wang</small></h1>
-    </div>
-    <div class="panel-body">
-        <form method="POST" action="/Admin/login/login">
-            <div class="form-group">
-                <label for="exampleInputEmail1"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span> UserName</label>
-                <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="Username">
-            </div>
-            <div class="form-group">
-                <label for="exampleInputPassword1"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Password</label>
-                <input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password">
-            </div>
-            <button type="submit" class="btn btn-success btn-block btn-lg">Submit</button>
+<div class="container">
+    <div class="card card-signin">
+        <img class="profile-img" src="/resource/img/adminimg/login.png" alt="">
+        <form class="form-signin" method="POST" action="/Admin/login/login">
+            <label for="inputEmail" class="sr-only">Email address</label>
+            <input type="username" id="inputEmail" class="form-control" placeholder="Email" name="username" autocomplete="off" required autofocus>
+            <label for="inputPassword" class="sr-only">Password</label>
+            <input type="password" id="inputPassword" class="form-control" placeholder="Password" name="password" required>
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
         </form>
     </div>
 </div>
