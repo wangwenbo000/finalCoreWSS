@@ -2,10 +2,16 @@
 <script>
     var showListJson = <%- JSON.stringify(orderList) %>;
 </script>
-<h1 class="page-header"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small></h1>
+<h1 class="page-header">
+    <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small>
+</h1>
 <ol class="breadcrumb">
-    <li><a href="/Admin/">Admin</a></li>
-    <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
+    <li>
+        <a href="/Admin/">Admin</a>
+    </li>
+    <li class="active">
+        <a href="/Admin/<%=http.controller%>"><%=http.controller%></a>
+    </li>
 </ol>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
@@ -42,10 +48,10 @@
             <input type="text" class="form-control" aria-label="..." v-model="searchV">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary fliterBtn" data-loading-text="Loading..." autocomplete="off" >订单筛选</button>
-            </div><!-- /btn-group -->
-        </div><!-- /input-group -->
-    </div><!-- /.col-lg-6 -->
-</div><!-- /.row -->
+            </div>
+        </div>
+    </div>
+</div>
 <div class="row orderfliter">
     <div class="col-lg-1">
         <select class="form-control" v-model="productstatic">
@@ -145,7 +151,7 @@
             <td>{{order.expresstime}}</td>
             <td><h5>{{order.phonenum}}</h5></td>
             <td><h5>{{order.ordernum}}</h5></td>
-            <td>{{order.time}}{{order.test}}</td>
+            <td>{{order.time}}</td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">

@@ -38,6 +38,7 @@ module.exports = Model(function(){
                             data.data[k].productstaticnum = 'err';
                     }
                 }
+                console.log(data);
                 return data;
             });
         },
