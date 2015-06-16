@@ -1,16 +1,25 @@
 
 <%=include adminheader_index.html%>
-<h1 class="page-header"><span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small></h1>
+<!--头部标题-->
+<!--此处后期可做通用-->
+<script>
+    var dataJSON =<%- JSON.stringify(productList) %>;
+</script>
+<h1 class="page-header">
+    <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small>
+</h1>
+<!--二级标题 部分功能-->
 <div class="page-header">
     <a class="btn btn-primary" id="addActiveProduct">增加活动商品</a>
     <a class="btn btn-danger">活动管理器［开发者模式］</a>
 </div>
+<!--产品列表-->
 <div class="row">
+    <!--一个三列删格-->
     <div class="col-sm-3" id="productlist" v-repeat="product:products">
+        <!-- 产品模版-->
         <div class="panel panel-default">
-            <!-- Default panel contents -->
             <div class="panel-heading morningFoodDays"><h4>星期{{product.days}} <small>{{product.updatetime}}</small></h4></div>
-            <!-- Table -->
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -41,33 +50,40 @@
             <div class="panel-body">
                 <blockquote>
                     <p>{{product.describe}}</p>
-                    <footer>{{product.updatetime}} <cite title="Source Title">Source Title</cite></footer>
+                    <footer>{{product.updatetime}}</footer>
                 </blockquote>
 
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal fade bs-example-modal-sm" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!--模态-->
+<div class="modal fade bs-example-modal-sm" id="productModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+    <!-- 大模态-->
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
+            <!-- 头部关闭-->
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">编辑当日早餐信息</h4>
             </div>
             <div class="modal-body">
+                <!-- 选项卡-->
                 <div role="tabpanel">
-
-                    <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist" id="editTab">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">更新当前数据</a></li>
-                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>  添加活动早餐</a></li>
+                        <li role="presentation" class="active">
+                            <a href="#home" aria-controls="home" role="tab" data-toggle="tab">更新当前数据</a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>  添加活动早餐
+                            </a>
+                        </li>
                     </ul>
                     <br>
-                    <!-- Tab panes -->
+                    <!-- 选项卡面板 -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active row" id="home">
+                        <div role="tabpanel" class="tab-pane active clearfix" id="home">
                             <div class="col-sm-8 col-lg-8">
                                 <form id="updateFoodInfo">
                                     <div class="form-group">
@@ -100,7 +116,9 @@
                                 <a href="#" class="thumbnail">
                                     <img src="/resource/img/food/b0.jpg" alt="...">
                                 </a>
-                                <div class="alert alert-warning" role="alert"><b>拖拽</b>图片上传</div>
+                                <div class="alert alert-warning" role="alert">
+                                    <b>拖拽</b>图片上传
+                                </div>
                                 <blockquote>
                                     <p>Image Size : 300×300</p>
                                     <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
@@ -110,9 +128,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="profile">
+                        <div role="tabpanel" class="tab-pane clearfix" id="profile">
                             <div class="alert alert-warning" role="alert">添加新的早餐类别请定期更新活动有效期</div>
-                            <div class="row">
                             <div class="col-lg-8">
                                 <form>
                                     <div class="form-group">
@@ -152,16 +169,20 @@
                                 </blockquote>
 
                             </div>
-                            </div>
+                            <!-- 代码自定义片段-->
+                            <!--
                             <div role="tabpanel">
-                                <!-- Nav tabs -->
                                 <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active"><a href="#html" aria-controls="home" role="tab" data-toggle="tab">html</a></li>
-                                    <li role="presentation"><a href="#css" aria-controls="profile" role="tab" data-toggle="tab">css</a></li>
-                                    <li role="presentation"><a href="#js" aria-controls="messages" role="tab" data-toggle="tab">javascript</a></li>
+                                    <li role="presentation" class="active">
+                                        <a href="#html" aria-controls="home" role="tab" data-toggle="tab">html</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#css" aria-controls="profile" role="tab" data-toggle="tab">css</a>
+                                    </li>
+                                    <li role="presentation">
+                                        <a href="#js" aria-controls="messages" role="tab" data-toggle="tab">javascript</a>
+                                    </li>
                                 </ul>
-
-                                <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane active" id="html">
 <textarea class="form-control" name="zhtml" id="zhtml" rows="20" >
@@ -180,72 +201,39 @@
                                     </div>
                                 </div>
                                 <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> 特殊活动使用代码自定义页面样式，专题页面等。</div>
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-success btn-lg btn-block">更新数据</button>
-                                </div>
-                            </div>
-                </div>
-            </div>
 
+                            </div>
+                        -->
+                            <div class="form-group">
+                                <button type="button" class="btn btn-success btn-lg btn-block">更新数据</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script>
-    var productList = new Vue({
-        el:'#productlist',
-        data:{products:<%- JSON.stringify(productList) %>}
-    });
-    var uploadProductInfo = new Vue({
-        el:'#updateFoodInfo',
-        data:{
-            name:'hi'
-        }
-    });
-
-    $('#addActiveProduct').on('click',function(){
-        $('#exampleModal').modal('show');
-        $('#editTab a:last').tab('show');
-    });
-
-    $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var productId = button.data('id');
-        var whichDay = button.data('day');
-        $(this).find('.modal-title').text('更新\"'+whichDay+'\"的早餐');
-
-        Messenger().run({
-            successMessage: '正在请求 ['+whichDay+'] 早餐数据',
-            errorMessage: 'Error saving data',
-            progressMessage: '正在处理数据',
-        },{
-            url: '/Admin/Product/getinfobyid',
-            type:'post',
-            data:{'id':productId},
-            success:function(data){
-                uploadProductInfo.$data = JSON.parse(data)[0];
-                Messenger().post('数据请求完成');
-            }
-        });
-    });
-        var html = CodeMirror.fromTextArea($('textarea[name=zhtml]')[0], {
-            lineNumbers: true,
-            styleActiveLine: true,
-            matchBrackets: true
-        });
-        var css = CodeMirror.fromTextArea($('textarea[name=zcss]')[0], {
-            lineNumbers: true,
-            styleActiveLine: true,
-            matchBrackets: true
-        });
-        var js = CodeMirror.fromTextArea($('textarea[name=zjs]')[0], {
-            lineNumbers: true,
-            styleActiveLine: true,
-            matchBrackets: true
-        });
-        html.setOption("theme", 'solarized dark');
-        css.setOption("theme", 'solarized dark');
-        js.setOption("theme", 'solarized dark');
+//        var html = CodeMirror.fromTextArea($('textarea[name=zhtml]')[0], {
+//            lineNumbers: true,
+//            styleActiveLine: true,
+//            matchBrackets: true
+//        });
+//        var css = CodeMirror.fromTextArea($('textarea[name=zcss]')[0], {
+//            lineNumbers: true,
+//            styleActiveLine: true,
+//            matchBrackets: true
+//        });
+//        var js = CodeMirror.fromTextArea($('textarea[name=zjs]')[0], {
+//            lineNumbers: true,
+//            styleActiveLine: true,
+//            matchBrackets: true
+//        });
+//        html.setOption("theme", 'solarized dark');
+//        css.setOption("theme", 'solarized dark');
+//        js.setOption("theme", 'solarized dark');
 </script>
+<script src="/resource/js/viewjs/productView.js"></script>
 <%=include adminfooter_index.html%>

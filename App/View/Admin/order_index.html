@@ -1,7 +1,10 @@
 <%=include adminheader_index.html%>
+<script>
+    var showListJson = <%- JSON.stringify(orderList) %>;
+</script>
 <h1 class="page-header"><span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small></h1>
 
-<div class="row staticcount page-header">
+<div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
         <h3>订单列表</h3>
     </div>
@@ -315,7 +318,7 @@
 </div><!-- /.modal -->
 
 <script>
-    var showListJson = <%- JSON.stringify(orderList) %>;
+
     var orderList = new Vue({
         el:'#orderlist',
         data:{order:showListJson}
