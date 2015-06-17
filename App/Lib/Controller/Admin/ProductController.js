@@ -7,12 +7,14 @@
  */
 module.exports = Controller("Admin/BaseController", function(){
     "use strict";
+    var nowDateTime = new Date();
+    var dataAndTime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
     return {
         indexAction: function(){
             var self = this;
             var getProductList = D('Product');
             return getProductList.getProduct().then(function(data){
-                self.assign('productList',data);
+                self.assign({'productList':data.days,'activelist':data.active});
                 return self.display();
             });
 
@@ -29,8 +31,7 @@ module.exports = Controller("Admin/BaseController", function(){
             var self = this;
             var updateID = self.post('id');
             var updatejson = JSON.parse(self.post('json'));
-            var nowDateTime = new Date();
-            updatejson.updatetime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
+            updatejson.updatetime = dataAndTime;
             console.log(nowDateTime.updatetime);
             var productModel = D('product');
             return productModel.updateById(updateID,updatejson).then(function(data){
@@ -41,6 +42,7 @@ module.exports = Controller("Admin/BaseController", function(){
             var self = this;
             var getNewJSONStr = self.post('json');
             var getRealJson = JSON.parse(getNewJSONStr);
+            getRealJson.updatetime = dataAndTime;
             var productModel = D('product');
             return productModel.addData(getRealJson).then(function(data){
                 return self.end(data);

@@ -3,7 +3,8 @@
 <!--头部标题-->
 <!--此处后期可做通用-->
 <script>
-    var dataJSON =<%- JSON.stringify(productList) %>;
+    var dataJSONdays =<%- JSON.stringify(productList) %>;
+    var dataJSONactive =<%- JSON.stringify(activelist) %>;
 </script>
 <h2 class="page-header">
     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small>
@@ -19,7 +20,7 @@
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
-        <h3>默认一周早餐列表</h3>
+        <h3><i class="glyphicon glyphicon-calendar"></i> 默认一周早餐列表</h3>
     </div>
     <div class="col-lg-9">
         <h4 class="text-right">
@@ -228,12 +229,51 @@
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
-        <h3>活动早餐列表</h3>
+        <h3><i class="glyphicon glyphicon-yen"></i> 活动早餐列表</h3>
     </div>
     <div class="col-lg-9">
         <h4 class="text-right">
 
         </h4>
+    </div>
+</div>
+<div class="row">
+    <!--一个三列删格-->
+    <div class="col-sm-3" id="activelist" v-repeat="active:actives">
+        <!-- 产品模版-->
+        <div class="panel panel-default">
+            <div class="panel-heading morningFoodDays"><h4 class="text-success">{{active.productName}} <small>{{active.updatetime}}</small></h4></div>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>id：{{active.id}}</th>
+                    <th colspan="2">图片</th>
+                    <th>成本</th>
+                    <th>单价</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
+                    <td colspan="2">{{active.productName}}</td>
+                    <td><h4>￥{{active.cost}}</h4></td>
+                    <td><h3 class="text-danger">￥{{active.price}}</h3></td>
+                </tr>
+                <tr>
+                    <td colspan="2"></td>
+                    <td colspan="2">
+                        <h5>活动促销A</h5>
+                    </td>
+                    <td>
+                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="panel-body">
+                {{active.describe}}
+            </div>
+        </div>
     </div>
 </div>
 <script>

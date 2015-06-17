@@ -1,6 +1,10 @@
 var productList = new Vue({
     el:'#productlist',
-    data:{products:dataJSON}
+    data:{products:dataJSONdays}
+});
+var activeList = new Vue({
+    el:'#activelist',
+    data:{actives:dataJSONactive}
 });
 var uploadProductInfo = new Vue({
     el:'#updateFoodInfo',
