@@ -16,7 +16,7 @@ module.exports = Controller("Admin/BaseController", function(){
                 var passWord = self.post("password");
                 return D("Admin").where({
                     username:userName,
-                    password:passWord
+                    password:md5(passWord+'goodmorning1288zwc')
                 }).find().then(function(data){
                     if(isEmpty(data)){
                         console.log(data);
