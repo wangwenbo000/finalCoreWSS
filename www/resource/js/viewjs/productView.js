@@ -1,6 +1,9 @@
 var productList = new Vue({
     el:'#productlist',
-    data:{products:dataJSONdays}
+    data:{products:dataJSONdays},
+    filters: {
+        //自定义的filters
+    },
 });
 var activeList = new Vue({
     el:'#activelist',
@@ -14,6 +17,10 @@ var addProductInfo = new Vue({
     el:'#addFoodInfo',
     data:{isactive:'1'}
 });
+Vue.filter('reverse', function (value) {
+    alert(value);
+    return value+'a';
+})
 
 $('#addActiveProduct').on('click',function(){
     $('#productModal').modal('show');
@@ -76,3 +83,26 @@ $('button[name=addProductInfo]').on('click',function(){
         }
     });
 });
+
+//自写上传后期维护完善
+$.dragUpload = function(dom){
+    $(document).on({
+        dragleave:function(e){    //拖离
+            e.preventDefault();
+        },
+        drop:function(e){  //拖后放
+            e.preventDefault();
+            var fileList = e.originalEvent.dataTransfer.files;
+
+        },
+        dragenter:function(e){    //拖进
+            e.preventDefault();
+        },
+        dragover:function(e){    //拖来拖去
+            e.preventDefault();
+        }
+    });
+};
+$.dragUpload('.uploadDragDiv');
+
+
