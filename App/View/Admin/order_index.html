@@ -2,9 +2,9 @@
 <script>
     var showListJson = <%- JSON.stringify(orderList) %>;
 </script>
-<h1 class="page-header">
+<h2 class="page-header">
     <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>Order Manage</small>
-</h1>
+</h2>
 <ol class="breadcrumb">
     <li>
         <a href="/Admin/">Admin</a>
@@ -392,7 +392,6 @@
                 data:{'fliterjson':JSON.stringify(getFliterJson)},
                 success:function(data){
                     orderList.$data.order = JSON.parse(data);
-                    console.log(JSON.parse(data));
                     $btnstatic.button('reset');
                 }
             });

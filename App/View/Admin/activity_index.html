@@ -1,2 +1,71 @@
 <%=include adminheader_index.html%>
+<h2 class="page-header text-success">
+    <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 活动配置 <small>早餐活动优惠明细配置</small>
+</h2>
+<ol class="breadcrumb">
+    <li><a href="/Admin/">Admin</a></li>
+    <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
+</ol>
+<div class="staticcount page-header clearfix">
+    <div class="col-lg-2 ">
+        <a class="btn btn-success btn-block" id="addActiveProduct"><i class="glyphicon glyphicon-plus-sign"></i> 增加活动</a>
+    </div>
+    <div class="col-lg-2">
+        <select class="form-control" v-model="searchC">
+            <option value="*">all</option>
+            <option value="id">id</option>
+            <option value="phonenum">手机号</option>
+            <option value="receiveuser">用户名</option>
+            <option value="ordernum">订单号</option>
+        </select>
+    </div>
+    <div class="col-lg-8">
+        <div class="input-group">
+            <input type="text" class="form-control" aria-label="..." placeholder="请输入搜索值" v-model="searchV">
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-primary fliterBtn" data-loading-text="Loading..." autocomplete="off" >搜索</button>
+            </div>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>图片</th>
+        <th>产品名称</th>
+        <th>数量</th>
+        <th>购买者</th>
+        <th>配送地址</th>
+        <th>单价</th>
+        <th>配送费</th>
+        <th><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></th>
+        <th>配送时间</th>
+        <th>联系电话</th>
+        <th>订单号</th>
+        <th>下单时间</th>
+        <th>操作</th>
+        <th>订单状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="orderlist" v-repeat="order:order" class="item-{{$index}}">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    </tbody>
+</table>
 <%=include adminfooter_index.html%>

@@ -5,9 +5,9 @@
 <script>
     var dataJSON =<%- JSON.stringify(productList) %>;
 </script>
-<h1 class="page-header">
+<h2 class="page-header">
     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small>
-</h1>
+</h2>
 <ol class="breadcrumb">
     <li><a href="/Admin/">Admin</a></li>
     <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
@@ -15,7 +15,17 @@
 <!--二级标题 部分功能-->
 <div class="page-header">
     <a class="btn btn-primary" id="addActiveProduct">增加活动商品</a>
-    <a class="btn btn-danger">活动管理器［开发者模式］</a>
+    <a class="btn btn-danger disabled">活动管理器［开发者模式］</a>
+</div>
+<div class="staticcount page-header clearfix">
+    <div class="col-lg-3 ">
+        <h3>默认一周早餐列表</h3>
+    </div>
+    <div class="col-lg-9">
+        <h4 class="text-right">
+
+        </h4>
+    </div>
 </div>
 <!--产品列表-->
 <div class="row">
@@ -52,11 +62,7 @@
                 </tbody>
             </table>
             <div class="panel-body">
-                <blockquote>
-                    <p>{{product.describe}}</p>
-                    <footer>{{product.updatetime}}</footer>
-                </blockquote>
-
+                {{product.describe}}
             </div>
         </div>
     </div>
@@ -113,6 +119,7 @@
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Message:</label>
                                         <textarea class="form-control" id="message-text" v-model="describe" rows="10"></textarea>
+                                        <input type="hidden" name="updatejson" value="{{$data | json 4}}">
                                     </div>
                                 </form>
                             </div>
@@ -128,25 +135,25 @@
                                     <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
                                 </blockquote>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-success btn-lg btn-block">更新数据</button>
+                                    <button type="button" class="btn btn-success btn-lg btn-block" name="uploadProductInfo">更新数据</button>
                                 </div>
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane clearfix" id="profile">
                             <div class="alert alert-warning" role="alert">添加新的早餐类别请定期更新活动有效期</div>
                             <div class="col-lg-8">
-                                <form>
+                                <form id="addFoodInfo">
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">早餐名:</label>
-                                        <input type="text" class="form-control" id="recipient-name">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="productName">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">成本</label>
-                                        <input type="text" class="form-control" id="recipient-name">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">单价</label>
-                                        <input type="text" class="form-control" id="recipient-name">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="price">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail2" class="control-label">活动</label>
@@ -158,8 +165,9 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Message:</label>
-                                        <textarea class="form-control" id="message-text" v-model="describe" rows="6"></textarea>
+                                        <textarea class="form-control" id="message-text" rows="6" v-model="describe"></textarea>
                                     </div>
+                                    <input type="hidden" name="addjson" value="{{$data | json 2}}">
                                 </form>
                             </div>
                             <div class="col-lg-4">
@@ -209,7 +217,7 @@
                             </div>
                         -->
                             <div class="form-group">
-                                <button type="button" class="btn btn-success btn-lg btn-block">更新数据</button>
+                                <button type="button" class="btn btn-success btn-lg btn-block" name="addProductInfo">添加活动早餐</button>
                             </div>
                         </div>
                     </div>
@@ -218,7 +226,16 @@
         </div>
     </div>
 </div>
+<div class="staticcount page-header clearfix">
+    <div class="col-lg-3 ">
+        <h3>活动早餐列表</h3>
+    </div>
+    <div class="col-lg-9">
+        <h4 class="text-right">
 
+        </h4>
+    </div>
+</div>
 <script>
 //        var html = CodeMirror.fromTextArea($('textarea[name=zhtml]')[0], {
 //            lineNumbers: true,
