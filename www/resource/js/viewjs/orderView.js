@@ -6,6 +6,10 @@ var orderSingleInfo = new Vue({
     el:'#singleorderinfo',
     data:{}
 });
+var attachmentInfo = new Vue({
+    el:'#attachmentinfo',
+    data:{}
+});
 var formfliter = new Vue({
     el: '#formfliter',
     data: {
@@ -76,14 +80,20 @@ $(document).ready(function(){
     });
 });
 $('#orderModel').on('show.bs.modal', function (event) {
-    $('#orderTab a:first').tab('show');
+    var nowbotton = event.relatedTarget.className;
+    if(nowbotton=='orderAttachment'){
+        $('#orderTab li:eq(1) a').tab('show');
+    }else if(nowbotton=='orderInfo'){
+        $('#orderTab a:first').tab('show');
+    }
     var button = $(event.relatedTarget);
     var orderId = button.data('id');
     var ordernum = button.data('orderid');
+    var orderAttachmentId = button.data('select');
     $(this).find('.modal-title').text('查看早餐详情 ID：'+orderId);
-
+    //加载单比订单
     Messenger().run({
-        successMessage: '早餐数据请求成功'+ordernum,
+        successMessage: '早餐数据请求成功，订单号:'+ordernum,
         errorMessage: 'Error saving data',
         progressMessage: '正在请求早餐数据...',
     },{
@@ -91,8 +101,20 @@ $('#orderModel').on('show.bs.modal', function (event) {
         type:'post',
         data:{'id':orderId},
         success:function(data){
-            console.log( JSON.parse(data)[0]);
             orderSingleInfo.$data = JSON.parse(data)[0];
+        }
+    });
+    //加载依附关系订单
+    Messenger().run({
+        successMessage: '依附关系加载，订单号:'+ordernum,
+        errorMessage: 'Error saving data',
+        progressMessage: '正在请求早餐数据...'
+    },{
+        url: '/Admin/order/getattachmentinfo',
+        type:'post',
+        data:{'id':orderAttachmentId,'pointid':orderId},
+        success:function(data){
+            attachmentInfo.$data = JSON.parse(data);
         }
     });
 });

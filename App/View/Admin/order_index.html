@@ -167,8 +167,8 @@
                         订单操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="orderAttachment"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" class="orderInfo"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
+                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
+                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
                         <li><a href="#"> 退款</a></li>
@@ -198,7 +198,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist" id="orderTab">
                         <li role="presentation" class="active"><a href="#singleorderinfo" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
-                        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">依附关系</a></li>
+                        <li role="presentation"><a href="#attachmentinfo" aria-controls="profile" role="tab" data-toggle="tab">依附关系</a></li>
                         <li role="presentation"><a href="#editOrder" aria-controls="profile" role="tab" data-toggle="tab">编辑订单</a></li>
                     </ul>
 
@@ -268,24 +268,24 @@
                             </dl>
                                 <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="profile">
+                        <div role="tabpanel" class="tab-pane" id="attachmentinfo">
                             <br>
                             <table class="table table-bordered">
                                 <tbody>
-                                <tr class="success">
+                                <tr>
                                     <td><img src="/resource/img/food/1.jpg" width="60"></td>
-                                    <td colspan="2">早安一号早餐</td>
-                                    <td><h2>王文博</h2></td>
+                                    <td colspan="2">{{attachment.id}}早安一号早餐</td>
+                                    <td><h2>{{attachment.username}}</h2></td>
                                     <td><img src="/resource/img/adminimg/face1.jpg" width="60" class="img-circle"></td>
-                                    <td><h4>ZA050700279</h4></td>
+                                    <td><h4>{{attachment.orderid}}</h4></td>
                                 </tr>
-                                <tr class="bg-success">
-                                    <td colspan="2">配送时间</td>
+                                <tr>
+                                    <td colspan="2">配送时间:{{attachment.settime}}</td>
                                     <td colspan="2">配送地点</td>
-                                    <td colspan="2">是否叫起服务</td>
+                                    <td colspan="2">是否叫起服务:{{attachment.iscallmeup}}</td>
                                 </tr>
-                                <tr class="bg-success">
-                                    <td colspan="3">朝阳区启阳路中青大厦B座凤凰网</td>
+                                <tr>
+                                    <td colspan="3">{{attachment.address}}</td>
                                     <td>没有参与活动</td>
                                     <td>单价：20</td>
                                     <td><h2 class="text-danger">￥88</h2></td>
@@ -293,21 +293,13 @@
                                 <tr>
                                     <th colspan="6">配餐列表</th>
                                 </tr>
-                                <tr>
-                                    <td><img src="/resource/img/food/1.jpg" width="40" class="img-circle"></td>
-                                    <td><h4>ZA050700279</h4></td>
-                                    <td><h4>×3</h4></td>
-                                    <td>7:00-7:30 叫起</td>
-                                    <td><h4 class="text-danger">￥20</h4></td>
-                                    <td><span class="label label-success static{{order.productstaticnum}}">状态</span></td>
-                                </tr>
-                                <tr>
-                                    <td><img src="/resource/img/food/1.jpg" width="40" class="img-circle"></td>
-                                    <td><h4>ZA050700279</h4></td>
-                                    <td><h4>×3</h4></td>
-                                    <td>7:00-7:30 叫起</td>
-                                    <td><h4 class="text-danger">￥20</h4></td>
-                                    <td><span class="label label-success static{{order.productstaticnum}}">状态</span></td>
+                                <tr v-repeat="attach" class="{{thisPoint}}">
+                                    <td><img src="/resource/img/food/{{foodimg}}" width="40" class="img-circle"></td>
+                                    <td><h4>{{orderid}}</h4></td>
+                                    <td><h4>×{{productnum}}</h4></td>
+                                    <td>{{expresstime}} {{iscallmeup}}</td>
+                                    <td><h4 class="text-danger">￥{{singleprice}}</h4></td>
+                                    <td><span class="label label-success static{{productstaticnum}}">{{productstatic}}</span></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -325,7 +317,8 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <h3>确认取消订单？</h3>
+                <h3>确认取消订单？该操作不可逆</h3>
+                <footer>请确定与用户协商妥善</footer>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>

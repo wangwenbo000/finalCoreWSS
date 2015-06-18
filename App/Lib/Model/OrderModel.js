@@ -69,6 +69,30 @@ module.exports = Model(function(){
                 isCallMeUpFilter(data);
                 return data;
             })
+        },
+        getattachmentinfo:function(orderid,pointid){
+            var attachmentJSON = {};
+            return D('Order').where({'id':orderid}).select().then(function(data){
+                attachmentJSON.attachment=data[0];
+                return {'json':data,'now':pointid};
+            }).then(function(data){
+                var pointId = parseInt(data.now);
+                return D('Orderproductcopy').where({'orderid':data.json[0].id}).select().then(function(data){
+                    staticFilter(data);
+                    isCallMeUpFilter(data);
+                    for(var k in data){
+                        switch (data[k].id){
+                            case pointId:
+                                data[k].thisPoint = "warning";
+                                break;
+                            default :
+                                data[k].thisPoint = 'a';
+                        }
+                    }
+                    attachmentJSON.attach=data;
+                    return attachmentJSON;
+                });
+            })
         }
     }
 })

@@ -52,6 +52,14 @@ module.exports = Controller("Admin/BaseController", function(){
             var orderModel = D('order').getorderinfobyid(orderid).then(function(data){
                 return self.end(data);
             })
+        },
+        getattachmentinfoAction:function(){
+            var self = this;
+            var getPointId = self.post('pointid');
+            var getSelectId = self.post('id');
+            var orderModel = D('order').getattachmentinfo(getSelectId,getPointId).then(function(data){
+                return self.end(data);
+            })
         }
     };
 });
