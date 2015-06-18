@@ -32,6 +32,14 @@ module.exports = Controller("Admin/BaseController", function(){
                 ),'userCount':data.count});
                 return self.display();
             })
+        },
+        getuseraddresslistAction:function(){
+            var self = this;
+            var getuserid = self.post('id');
+            var userModel = D('user');
+            return userModel.getUserAddressList(getuserid).then(function(data){
+                return self.end(data);
+            })
         }
     };
 });

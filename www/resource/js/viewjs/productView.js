@@ -81,25 +81,5 @@ $('button[name=addProductInfo]').on('click',function(){
     });
 });
 
-//自写上传后期维护完善
-$.dragUpload = function(dom){
-    $(document).on({
-        dragleave:function(e){    //拖离
-            e.preventDefault();
-        },
-        drop:function(e){  //拖后放
-            e.preventDefault();
-            var fileList = e.originalEvent.dataTransfer.files;
-
-        },
-        dragenter:function(e){    //拖进
-            e.preventDefault();
-        },
-        dragover:function(e){    //拖来拖去
-            e.preventDefault();
-        }
-    });
-};
-$.dragUpload('.uploadDragDiv');
 
 

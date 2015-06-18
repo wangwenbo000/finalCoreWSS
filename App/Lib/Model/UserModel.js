@@ -6,6 +6,11 @@ module.exports = Model(function(){
                 console.log(data);
                 return data;
             })
+        },
+        getUserAddressList:function(id){
+            return D('addresslist').where({'userid':id}).countSelect().then(function(data){
+                return {"data":data.data,"count":data.count};
+            })
         }
     }
 })

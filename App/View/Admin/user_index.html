@@ -1,4 +1,7 @@
 <%=include adminheader_index.html%>
+<script>
+    var userJSON = <%- JSON.stringify(userList)%>;
+</script>
 <h2 class="page-header"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>用户管理 <small>User Manage</small></h2>
 <ol class="breadcrumb">
     <li><a href="/Admin/">Admin</a></li>
@@ -107,32 +110,30 @@
         </tr>
         </thead>
         <tbody>
-        <%userList.forEach(function(userList){ %>
-        <tr>
-            <td><%=userList.id%></td>
-            <td><img src="<%=userList.face + '46'%>" width="46" class="img-circle"></td>
-            <td><%=userList.username%> <span class="badge">× 2</span></td>
-            <td><%if(userList.sex==1){%>boy<%}else{%>girl<%}%></td>
-            <td><%=userList.group%></td>
-            <td><span class="label label-default"><%=userList.language%></span></td>
-            <td><%=userList.phonenum%></td>
-            <td><%=userList.location%></td>
-            <td><%=userList.phoneService%></td>
-            <td><span class="label label-success"><%=userList.openid%></span></td>
-            <td><%=userList.subscribe%></td>
+        <tr id="userList" v-repeat="userlist">
+            <td>{{id}}</td>
+            <td><img src="{{face}}" width="46" class="img-circle"></td>
+            <td>{{username}} <span class="badge">× 2</span></td>
+            <td>{{sex}}</td>
+            <td>{{group}}</td>
+            <td><span class="label label-default">{{language}}</span></td>
+            <td>{{phonenum}}</td>
+            <td>{{location}}</td>
+            <td>{{phoneService}}</td>
+            <td><span class="label label-success">{{openid}}</span></td>
+            <td>{{subscribe}}</td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         订单操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"> 地址列表</a></li>
+                        <li><a href="#" data-toggle="modal" data-id="{{id}}" data-target=".bs-example-modal-lg"> 地址列表</a></li>
                     </ul>
                 </div>
             </td>
 
         </tr>
-        <%}); %>
         </tbody>
     </table>
     <nav><ul class="pagination">
@@ -141,15 +142,15 @@
     </ul>
     </nav>
 </div>
-<div class="modal fade bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="usermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small></h4>
             </div>
-            <div class="modal-body">
-                <h3 class="page-header">王文博 地址列表 ×3</h3>
+            <div class="modal-body" id="address">
+                <h3 class="page-header">王文博 地址列表 ×{{addressListCount}}</h3>
                 <table class="table table-bordered table-hover">
                     <tbody>
                     <tr>
@@ -161,16 +162,18 @@
                         <th>分类</th>
                         <th>分类下属</th>
                         <th>时间</th>
+                        <th>使用次数</th>
                     </tr>
-                    <tr>
-                        <td>12</td>
-                        <td>王文博</td>
-                        <td>北京市朝阳区望京新城424栋1906</td>
-                        <td>15117909848</td>
+                    <tr v-repeat="addressList">
+                        <td>{{id}}</td>
+                        <td>{{receiveuser}}</td>
+                        <td>{{address}}</td>
+                        <td>{{phonenum}}</td>
                         <td>望京</td>
                         <td>小区</td>
                         <td>望京西园4区</td>
-                        <td>2015-06-19</td>
+                        <td>{{time}}</td>
+                        <td>{{usecount}}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -178,20 +181,5 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $("[name='searchBlur']").bootstrapSwitch();
-    })
-    var formfliter = new Vue({
-        el: '#formfliter',
-        data: {
-            searchC:'*',
-        }
-    });
-    $.cxSelect.defaults.url = '/resource/js/cityData.min.json';
-
-    $('#chinaSel').cxSelect({
-        selects: ['province', 'city', 'area']
-    });
-</script>
+<script src="/resource/js/viewjs/userView.js"></script>
 <%=include adminfooter_index.html%>
