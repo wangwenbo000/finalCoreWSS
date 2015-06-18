@@ -2,6 +2,10 @@ var orderList = new Vue({
     el:'#orderlist',
     data:{order:showListJson}
 });
+var orderSingleInfo = new Vue({
+    el:'#singleorderinfo',
+    data:{}
+});
 var formfliter = new Vue({
     el: '#formfliter',
     data: {
@@ -11,6 +15,9 @@ var formfliter = new Vue({
         iscallmeup:'*'
     }
 });
+Vue.filter('orderstatic',function(value){
+    if(value==30) return '状态';
+})
 $('.form_date').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
@@ -66,9 +73,29 @@ $(document).ready(function(){
             }
         });
 
-    })
+    });
+});
+$('#orderModel').on('show.bs.modal', function (event) {
+    $('#orderTab a:first').tab('show');
+    var button = $(event.relatedTarget);
+    var orderId = button.data('id');
+    var ordernum = button.data('orderid');
+    $(this).find('.modal-title').text('查看早餐详情 ID：'+orderId);
 
-})
+    Messenger().run({
+        successMessage: '早餐数据请求成功'+ordernum,
+        errorMessage: 'Error saving data',
+        progressMessage: '正在请求早餐数据...',
+    },{
+        url: '/Admin/order/getsingleorderinfo',
+        type:'post',
+        data:{'id':orderId},
+        success:function(data){
+            console.log( JSON.parse(data)[0]);
+            orderSingleInfo.$data = JSON.parse(data)[0];
+        }
+    });
+});
 $.cxSelect.defaults.url = '/resource/js/sendAddress.json';
 
 $('#chinaSel').cxSelect({

@@ -25,7 +25,7 @@ module.exports = Model(function(){
         },
         addData:function(json){
             return D('Products').add(json).then(function(insertId){
-                return ;insertId;
+                return insertId;
             })
         }
     }

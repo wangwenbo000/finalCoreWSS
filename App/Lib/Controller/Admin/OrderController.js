@@ -45,6 +45,13 @@ module.exports = Controller("Admin/BaseController", function(){
             D('Orderproductcopy').where(JSON.parse(getJSON)).order('id DESC').select().then(function(data){
                 return self.end(data);
             });
+        },
+        getsingleorderinfoAction:function(){
+            var self =this;
+            var orderid = self.post('id');
+            var orderModel = D('order').getorderinfobyid(orderid).then(function(data){
+                return self.end(data);
+            })
         }
     };
 });

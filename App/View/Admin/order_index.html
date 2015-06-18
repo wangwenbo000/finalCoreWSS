@@ -31,7 +31,15 @@
         </h4>
     </div>
 </div>
-
+<div class="page-header ">
+    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
+    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button>
+    <div class="btn-group" role="group" aria-label="...">
+        <button type="button" class="btn btn-primary">今日订单</button>
+        <button type="button" class="btn btn-default">成功订单</button>
+        <button type="button" class="btn btn-default">待发货订单</button>
+    </div>
+</div>
 <form id="formfliter">
 <div class="row">
     <div class="col-lg-1">
@@ -136,37 +144,37 @@
         </tr>
         </thead>
         <tbody>
-        <tr id="orderlist" v-repeat="order:order" class="item-{{$index}}">
-            <td><h5>{{order.id}}</h5></td>
-            <td><img src="/resource/img/food/{{order.foodimg}}" width="40" class="img-circle"></td>
-            <td>{{order.productname}}</td>
-            <td>×{{order.productnum}}</td>
+        <tr id="orderlist" v-repeat="order" class="item-{{$index}}">
+            <td><h5>{{id}}</h5></td>
+            <td><img src="/resource/img/food/{{foodimg}}" width="40" class="img-circle"></td>
+            <td>{{productname}}</td>
+            <td>×{{productnum}}</td>
             <td>
-                {{order.receiveuser}}
+                {{receiveuser}}
             </td>
-            <td>{{order.expressaddress}}</td>
-            <td><h5>￥{{order.singleprice}}</h5></td>
-            <td><h5>{{order.expressprice}}</h5></td>
-            <td>{{order.iscallmeup}}</td>
-            <td>{{order.expresstime}}</td>
-            <td><h5>{{order.phonenum}}</h5></td>
-            <td><h5>{{order.ordernum}}</h5></td>
-            <td>{{order.time}}</td>
+            <td>{{expressaddress}}</td>
+            <td><h5>￥{{singleprice}}</h5></td>
+            <td><h5>{{expressprice}}</h5></td>
+            <td>{{iscallmeup}}</td>
+            <td>{{expresstime}}</td>
+            <td><h5>{{phonenum}}</h5></td>
+            <td><h5>{{ordernum}}</h5></td>
+            <td>{{time}}</td>
             <td>
                 <div class="btn-group">
                     <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
                         订单操作 <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
+                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" class="orderAttachment"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
+                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" class="orderInfo"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
                         <li class="divider"></li>
                         <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
                         <li><a href="#"> 退款</a></li>
                     </ul>
                 </div>
             </td>
-            <td><span class="label label-success static{{order.productstaticnum}}">{{order.productstatic}}</span></td>
+            <td><span class="label label-success static{{productstaticnum}}">{{productstatic}}</span></td>
         </tr>
         </tbody>
     </table>
@@ -176,7 +184,7 @@
     </ul>
     </nav>
 </div>
-<div class="modal fade bs-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -187,49 +195,49 @@
                 <div role="tabpanel">
 
                     <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
+                    <ul class="nav nav-tabs" role="tablist" id="orderTab">
+                        <li role="presentation" class="active"><a href="#singleorderinfo" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
                         <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">依附关系</a></li>
                         <li role="presentation"><a href="#editOrder" aria-controls="profile" role="tab" data-toggle="tab">编辑订单</a></li>
                     </ul>
 
                     <!-- Tab panes -->
                     <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="home">
+                        <div role="tabpanel" class="tab-pane active" id="singleorderinfo">
                             <br>
                             <table class="table table-bordered">
                                 <tbody>
                                 <tr>
-                                    <td><img src="/resource/img/food/1.jpg" width="60"></td>
-                                    <td>早安一号早餐</td>
-                                    <td><h4>×3</h4></td>
-                                    <td><h2>王文博</h2></td>
-                                    <td><h4>ZA050700279</h4></td>
-                                    <td class="static30" align="center"><h3>待发货</h3></td>
+                                    <td><img src="/resource/img/food/{{foodimg}}" width="60"></td>
+                                    <td>{{id}}</td>
+                                    <td><h4>×{{productnum}}</h4></td>
+                                    <td><h2>{{receiveuser}}</h2></td>
+                                    <td><h4>{{ordernum}}</h4></td>
+                                    <td class="static{{productstaticnum}}" align="center"><h3>{{productstatic}}</h3></td>
                                 </tr>
                                 <tr>
                                     <td>望京</td>
                                     <td>大厦</td>
-                                    <td colspan="2">朝阳区启阳路中青大厦B座凤凰网</td>
-                                    <td>配送费：￥0</td>
-                                    <td><h4>15117909848</h4></td>
+                                    <td colspan="2">{{expressaddress}}</td>
+                                    <td>配送费：￥{{expressprice}}</td>
+                                    <td><h4>{{phonenum}}</h4></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2">配送时间</td>
+                                    <td colspan="2">配送时间:{{expresstime}}</td>
                                     <td colspan="2">配送地点</td>
-                                    <td colspan="2">是否叫起服务</td>
+                                    <td colspan="2">是否叫起服务:{{iscallmeup}}</td>
                                 </tr>
                                 <tr>
                                     <td colspan="3">配送员</td>
                                     <td>没有参与活动</td>
-                                    <td>单价：20</td>
+                                    <td>单价：￥{{singleprice}}</td>
                                     <td><h2 class="text-danger">￥88</h2></td>
                                 </tr>
                                 <tr>
                                     <td colspan="6">活动相关</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="6">早餐详细描述</td>
+                                    <td colspan="6">{{productdescribe}}</td>
                                 </tr>
                                 </tbody>
                             </table>
