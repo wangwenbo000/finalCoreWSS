@@ -1,9 +1,6 @@
 var productList = new Vue({
     el:'#productlist',
-    data:{products:dataJSONdays},
-    filters: {
-        //自定义的filters
-    },
+    data:{products:dataJSONdays}
 });
 var activeList = new Vue({
     el:'#activelist',
