@@ -16,7 +16,11 @@ module.exports = Controller("Admin/BaseController", function(){
 
             orderModel.getorderlist(self.get('page')).then(function(data){
                 var pager = new Pager(data, baseUrl);
-
+                var moment = require('moment');
+                moment().lang('zh-cn');
+                for(var k in data.data){
+                    data.data[k].time = moment(data.data[k].time).lang('zh-cn').format('LLLL');
+                }
                 self.assign({pager:pager.render(
                     '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
                     '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>',
@@ -29,6 +33,7 @@ module.exports = Controller("Admin/BaseController", function(){
                     prevClass: 'prev', // 上一页 Class
                     nextClass: 'next' // 下一页 Class
                 }),'orderList':data.data,'count':data.count});
+
 
             }).then(function(){
                 orderModel.getstaticcount('55').then(function(data){

@@ -7,8 +7,11 @@
  */
 module.exports = Controller("Admin/BaseController", function(){
     "use strict";
+    var moment = require('moment');
     var nowDateTime = new Date();
-    var dataAndTime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
+    //var dataAndTime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
+    var dataAndTime = moment().format('YYYY-MM-DD HH:mm:ss');
+    console.log(dataAndTime);
     return {
         indexAction: function(){
             var self = this;

@@ -28,25 +28,6 @@
         </h4>
     </div>
 </div>
-<div class="row">
-    <div class="col-lg-1">
-        <select class="form-control" v-model="searchC">
-            <option value="*">all</option>
-            <option value="id">id</option>
-            <option value="phonenum">手机号</option>
-            <option value="receiveuser">用户名</option>
-            <option value="ordernum">订单号</option>
-        </select>
-    </div>
-    <div class="col-lg-11">
-        <div class="input-group">
-            <input type="text" class="form-control" aria-label="..." v-model="searchV">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-primary fliterBtn" data-loading-text="Loading..." autocomplete="off" >产品筛选</button>
-            </div>
-        </div>
-    </div>
-</div>
 <!--产品列表-->
 <div class="row productliststyle">
     <!--一个三列删格-->
@@ -258,45 +239,32 @@
         </h4>
     </div>
 </div>
-<div class="row">
-    <!--一个三列删格-->
-    <div class="col-sm-3" id="activelist" v-repeat="active:actives">
-        <!-- 产品模版-->
-        <div class="panel panel-default">
-            <div class="panel-heading morningFoodDays"><h4 class="text-success">{{active.productName}} <small>{{active.updatetime}}</small></h4></div>
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>id：{{active.id}}</th>
-                    <th colspan="2">图片</th>
-                    <th>成本</th>
-                    <th>单价</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
-                    <td colspan="2">{{active.productName}}</td>
-                    <td><h4>￥{{active.cost}}</h4></td>
-                    <td><h3 class="text-danger">￥{{active.price}}</h3></td>
-                </tr>
-                <tr>
-                    <td colspan="2"></td>
-                    <td colspan="2">
-                        <h5>活动促销A</h5>
-                    </td>
-                    <td>
-                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <div class="panel-body">
-                {{active.describe}}
-            </div>
-        </div>
-    </div>
-</div>
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>图片</th>
+        <th>产品名称</th>
+        <th>数量</th>
+        <th>购买者</th>
+        <th>配送地址</th>
+        <th>单价</th>
+        <th>配送费</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr id="activelist" v-repeat="active:actives">
+        <td>{{active.id}}</td>
+        <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
+        <td><h4>{{active.productName}}</h4></td>
+        <td>￥{{active.cost}}</td>
+        <td>￥{{active.price}}</td>
+        <td>{{active.describe}}</td>
+        <td>{{active.updatetime}}</td>
+        <td><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a></td>
+    </tr>
+    </tbody>
+</table>
 <script>
 //        var html = CodeMirror.fromTextArea($('textarea[name=zhtml]')[0], {
 //            lineNumbers: true,
