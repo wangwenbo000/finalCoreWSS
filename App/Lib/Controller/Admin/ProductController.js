@@ -32,7 +32,6 @@ module.exports = Controller("Admin/BaseController", function(){
             var updateID = self.post('id');
             var updatejson = JSON.parse(self.post('json'));
             updatejson.updatetime = dataAndTime;
-            console.log(nowDateTime.updatetime);
             var productModel = D('product');
             return productModel.updateById(updateID,updatejson).then(function(data){
                 return self.end(data);

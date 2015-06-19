@@ -8,7 +8,6 @@ module.exports = Model(function(){
             }).then(function(){
                 return D('Products').where({'isactive':'1'}).order('id DESC').select().then(function(data){
                     json.active = data;
-                    console.log(json);
                     return json;
                 })
             })

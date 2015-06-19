@@ -123,3 +123,7 @@ $.cxSelect.defaults.url = '/resource/js/sendAddress.json';
 $('#chinaSel').cxSelect({
     selects: ['province', 'city', 'area']
 });
+$('.selectgroup').on('click',function(){
+    $('.selectgroup').attr('class','btn btn-default selectgroup');
+    $(this).attr('class','btn btn-primary selectgroup');
+});

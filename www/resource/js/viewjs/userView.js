@@ -33,7 +33,6 @@ $('#usermodal').on('show.bs.modal', function (event) {
         success:function(data){
             getAddressList.$data.addressList = JSON.parse(data).data;
             getAddressList.$data.addressListCount = JSON.parse(data).count;
-            console.log(JSON.parse(data).count);
         }
     });
 });

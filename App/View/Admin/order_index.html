@@ -35,10 +35,10 @@
     <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
     <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button>
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-primary">今日订单</button>
-        <button type="button" class="btn btn-default">成功订单</button>
-        <button type="button" class="btn btn-default">待发货订单</button>
-        <button type="button" class="btn btn-default">所有订单</button>
+        <button type="button" class="btn btn-primary selectgroup">今日订单</button>
+        <button type="button" class="btn btn-default selectgroup">成功订单</button>
+        <button type="button" class="btn btn-default selectgroup">待发货订单</button>
+        <button type="button" class="btn btn-default selectgroup">所有订单</button>
     </div>
 </div>
 <form id="formfliter">
@@ -214,7 +214,7 @@
                                     <td><h4>×{{productnum}}</h4></td>
                                     <td><h2>{{receiveuser}}</h2></td>
                                     <td><h4>{{ordernum}}</h4></td>
-                                    <td class="static{{productstaticnum}}" align="center"><h3>{{productstatic}}</h3></td>
+                                    <td class="static{{productstaticnum}}" align="center"><h3 style="color: #fff;">{{productstatic}}</h3></td>
                                 </tr>
                                 <tr>
                                     <td>望京</td>
