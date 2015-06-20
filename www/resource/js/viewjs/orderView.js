@@ -68,7 +68,7 @@ $(document).ready(function(){
             errorMessage: 'Error saving data',
             progressMessage: '正在处理数据',
         },{
-            url: '/Admin/Order/fliter',
+            url: '/Admin/Order/filter',
             type:'post',
             data:{'fliterjson':JSON.stringify(getFliterJson)},
             success:function(data){

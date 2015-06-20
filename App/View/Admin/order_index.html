@@ -20,14 +20,14 @@
     <div class="col-lg-9">
         <h4 class="text-right">
             共<%=count%>单 |
-            已发货3单 |
-            已成功<%=succ%>单 |
-            待付款3单 |
-            待发货3单 |
-            待退款0单 |
-            已退款0单 |
-            已取消0单 |
-            异常0单
+            已发货<%=HAS_POST%>单 |
+            已成功<%=HAS_SUCC%>单 |
+            待付款<%=WAIT_PAY%>单 |
+            待发货<%=WAIT_POST%>单 |
+            待退款<%=WAIT_REFUND%>单 |
+            已退款<%=HAS_REFUND%>单 |
+            已取消<%=HAS_CANCEL%>单 |
+            异常<%=ERROR%>单
         </h4>
     </div>
 </div>
@@ -65,10 +65,14 @@
     <div class="col-lg-1">
         <select class="form-control" v-model="productstatic">
             <option value="*">all</option>
-            <option value="30">已发送订单</option>
-            <option value="40">待收货订单</option>
-            <option value="55">已完成订单</option>
-            <option value="30">已取消订单</option>
+            <option value="33">已发货</option>
+            <option value="55">已成功</option>
+            <option value="10">待付款</option>
+            <option value="30">待发货</option>
+            <option value="40">待退款</option>
+            <option value="44">已退款</option>
+            <option value="60">已取消</option>
+            <option value="err">异常</option>
         </select>
     </div>
     <div class="col-lg-1">
@@ -272,31 +276,33 @@
                             <br>
                             <table class="table table-bordered">
                                 <tbody>
-                                <tr>
-                                    <td><img src="/resource/img/food/1.jpg" width="60"></td>
-                                    <td colspan="2">{{attachment.id}}早安一号早餐</td>
-                                    <td><h2>{{attachment.username}}</h2></td>
-                                    <td><img src="/resource/img/adminimg/face1.jpg" width="60" class="img-circle"></td>
+                                <tr class="active">
+                                    <td><img src="{{userInfo.face}}" width="60" class="img-circle"></td>
+                                    <td>{{attachment.id}}</td>
+                                    <td><h2>{{userInfo.username}}</h2><span class="label label-success">{{attachment.orderfrom}}</span></td>
+                                    <td colspan="4"><h5><span class="label label-success">地图获取地点</span></h5> {{attachment.address}}</td>
                                     <td><h4>{{attachment.orderid}}</h4></td>
                                 </tr>
-                                <tr>
-                                    <td colspan="2">配送时间:{{attachment.settime}}</td>
-                                    <td colspan="2">配送地点</td>
-                                    <td colspan="2">是否叫起服务:{{attachment.iscallmeup}}</td>
+
+                                <tr class="active">
+                                    <td colspan="2"><h3>3<small>天</small></h3></td>
+                                    <td><h3>20<small>份</small></h3></td>
+                                    <td>运费：￥{{attachment.expressprice}}</td>
+                                    <td colspan="3">{{attachment.ordertime}}</td>
+                                    <td><h2 class="text-danger">￥{{attachment.pricetotal}}</h2></td>
+                                </tr>
+                                <tr class="active">
+                                    <td colspan="8">{{attachment.remark}}</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">{{attachment.address}}</td>
-                                    <td>没有参与活动</td>
-                                    <td>单价：20</td>
-                                    <td><h2 class="text-danger">￥88</h2></td>
-                                </tr>
-                                <tr>
-                                    <th colspan="6">配餐列表</th>
+                                    <th colspan="8">配餐列表</th>
                                 </tr>
                                 <tr v-repeat="attach" class="{{thisPoint}}">
                                     <td><img src="/resource/img/food/{{foodimg}}" width="40" class="img-circle"></td>
                                     <td><h4>{{orderid}}</h4></td>
                                     <td><h4>×{{productnum}}</h4></td>
+                                    <td><h4>无活动</h4></td>
+                                    <td>{{time}}</td>
                                     <td>{{expresstime}} {{iscallmeup}}</td>
                                     <td><h4 class="text-danger">￥{{singleprice}}</h4></td>
                                     <td><span class="label label-success static{{productstaticnum}}">{{productstatic}}</span></td>
@@ -304,7 +310,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div role="tabpanel" class="tab-pane" id="editOrder">暂时不允许修改订单</div>
+                        <div role="tabpanel" class="tab-pane" id="editOrder">
+                            暂时不允许修改订单
+                        </div>
                     </div>
                 </div>
 

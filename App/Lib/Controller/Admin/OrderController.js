@@ -17,7 +17,6 @@ module.exports = Controller("Admin/BaseController", function(){
             orderModel.getorderlist(self.get('page')).then(function(data){
                 var pager = new Pager(data, baseUrl);
                 var moment = require('moment');
-                moment().lang('zh-cn');
                 for(var k in data.data){
                     data.data[k].time = moment(data.data[k].time).lang('zh-cn').format('LLLL');
                 }
@@ -36,18 +35,56 @@ module.exports = Controller("Admin/BaseController", function(){
 
 
             }).then(function(){
-                orderModel.getstaticcount('55').then(function(data){
-                    self.assign({'succ':data.count});
+                var stateJsonCase = {
+                    "HAS_SUCC":'55',
+                    "HAS_POST":'33',
+                    "WAIT_PAY":'10',
+                    "WAIT_POST":'30',
+                    "WAIT_REFUND":'40',
+                    "HAS_REFUND":'44',
+                    "HAS_CANCEL":'60',
+                    "ERROR":'err'
+                };
+                orderModel.getstatecount('55').then(function(data){
+                    self.assign({"HAS_SUCC":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('33').then(function(data){
+                    self.assign({"HAS_POST":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('10').then(function(data){
+                    self.assign({"WAIT_PAY":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('30').then(function(data){
+                    self.assign({"WAIT_POST":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('40').then(function(data){
+                    self.assign({"WAIT_REFUND":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('44').then(function(data){
+                    self.assign({"HAS_REFUND":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('60').then(function(data){
+                    self.assign({"HAS_CANCEL":data.count});
+                });
+            }).then(function(){
+                orderModel.getstatecount('err').then(function(data){
+                    self.assign({"ERROR":data.count});
                     return self.display();
                 });
-
-            });
+            })
 
         },
-        fliterAction:function(){
+        filterAction:function(){
             var self = this;
             var getJSON = self.post('fliterjson');
-            D('Orderproductcopy').where(JSON.parse(getJSON)).order('id DESC').select().then(function(data){
+            var orderModel = D('order');
+            orderModel.orderfilter(JSON.parse(getJSON)).then(function(data){
                 return self.end(data);
             });
         },

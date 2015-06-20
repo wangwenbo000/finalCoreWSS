@@ -58,10 +58,10 @@ module.exports = Model(function(){
                 return data;
             });
         },
-        getstaticcount:function(num){
-            return D('Orderproductcopy').where({'productstatic':['=',num]}).countSelect().then(function(data){
-                return data;
-            });
+        getstatecount:function(data){
+                    return D('Orderproductcopy').where({'productstatic':['=',data]}).countSelect().then(function(data){
+                        return data;
+                    });
         },
         getorderinfobyid:function(id){
             return D('Orderproductcopy').where({'id':id}).select().then(function(data){
@@ -72,15 +72,22 @@ module.exports = Model(function(){
         },
         getattachmentinfo:function(orderid,pointid){
             var attachmentJSON = {};
+            var moment = require('moment');
             return D('Order').where({'id':orderid}).select().then(function(data){
+                for(var k in data){
+                    data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('LLLL');
+                }
                 attachmentJSON.attachment=data[0];
                 return {'json':data,'now':pointid};
             }).then(function(data){
                 var pointId = parseInt(data.now);
+                var userId = data.json[0].userid;
+                console.log(userId);
                 return D('Orderproductcopy').where({'orderid':data.json[0].id}).select().then(function(data){
                     staticFilter(data);
                     isCallMeUpFilter(data);
                     for(var k in data){
+                        data[k].time = moment(data[k].time).lang('zh-cn').format('LLLL');
                         switch (data[k].id){
                             case pointId:
                                 data[k].thisPoint = "warning";
@@ -90,9 +97,23 @@ module.exports = Model(function(){
                         }
                     }
                     attachmentJSON.attach=data;
+                    return userId;
+                });
+            }).then(function(userid){
+                return D('Users').where({'id':userid}).select().then(function(data){
+                    attachmentJSON.userInfo=data[0];
                     return attachmentJSON;
                 });
             })
+        },
+        orderfilter:function(json){
+            return D('Orderproductcopy').where(json).order('id DESC').select().then(function(data){
+
+                staticFilter(data);
+                isCallMeUpFilter(data);
+                console.log(data);
+                return data;
+            });
         }
     }
 })
