@@ -11,7 +11,7 @@ module.exports = Controller("Admin/BaseController", function(){
         loginAction:function(){
             var self = this;
 
-            if(self.isPost()){
+            if(self.isAjax()){
                 var userName = self.post("username");
                 var passWord = self.post("password");
                 return D("Admin").where({
@@ -19,14 +19,13 @@ module.exports = Controller("Admin/BaseController", function(){
                     password:md5(passWord+'goodmorning1288zwc')
                 }).find().then(function(data){
                     if(isEmpty(data)){
-                        console.log(data);
-                        return self.error(403,"用户名密码错误");
+                        return self.error();
                     }else{
-                        console.log(data);
                         return self.session("userInfo",data);
                     }
                 }).then(function(){
-                    return self.redirect('/Admin/index');
+                    //return self.redirect('/Admin/index');
+                    return self.success();
                 })
             }else{
                 return self.display();

@@ -46,7 +46,7 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
+                    <td><img src="/resource/img/food/{{product.days}}.jpg" alt="..." width="66" ></td>
                     <td colspan="2">{{product.productName}}</td>
                     <td><h4>￥{{product.cost}}</h4></td>
                     <td><h3 class="text-danger">￥{{product.price}}</h3></td>
@@ -57,7 +57,7 @@
                         <h5>活动促销A</h5>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
+                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
                     </td>
                 </tr>
                 </tbody>
@@ -124,9 +124,9 @@
                                     </div>
                                 </form>
                             </div>
-                            <div class="col-sm-6 col-lg-4">
+                            <div class="col-sm-6 col-lg-4" id="dragUpload">
                                 <a href="#" class="thumbnail" data-toggle="tooltip" data-placement="top" title="图片拖拽至此上传并覆盖原文件">
-                                    <img src="/resource/img/food/b0.jpg" alt="..." class="uploadimgag">
+                                    <img src="/resource/img/adminimg/drag.jpg" alt="..." class="uploadimgag">
                                 </a>
                                 <div class="progress">
                                     <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">

@@ -62,7 +62,6 @@ $(document).ready(function(){
         $.each(getFliterJson,function(index,item){
             if(item=='*') delete getFliterJson[index];
         });
-        console.log(getFliterJson);
         Messenger().run({
             successMessage: '数据请求成功.',
             errorMessage: 'Error saving data',
@@ -126,4 +125,9 @@ $('#chinaSel').cxSelect({
 $('.selectgroup').on('click',function(){
     $('.selectgroup').attr('class','btn btn-default selectgroup');
     $(this).attr('class','btn btn-primary selectgroup');
+});
+$('#page-selection').bootpag({
+    total:10
+}).on("page",function(event,num){
+    console.log(num);
 });

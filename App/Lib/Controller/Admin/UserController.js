@@ -40,6 +40,16 @@ module.exports = Controller("Admin/BaseController", function(){
             return userModel.getUserAddressList(getuserid).then(function(data){
                 return self.end(data);
             })
+        },
+        getfliterusersdatalistAction:function(){
+            var self = this;
+            var filterJSON = self.post('data');
+            var realFilterJson = JSON.parse(filterJSON);
+            console.log(realFilterJson);
+            var userModel = D('user');
+            userModel.getFilterList(realFilterJson).then(function(data){
+                return self.end(data);
+            });
         }
     };
 });

@@ -42,6 +42,13 @@ module.exports = Model(function(){
             return D('addresslist').where({'userid':id}).countSelect().then(function(data){
                 return {"data":data.data,"count":data.count};
             })
+        },
+        getFilterList:function(data){
+            return D('Users').where(data).order('id DESC').select().then(function(data){
+                userSexFilter(data.data);
+                isSubFilter(data.data);
+                return data;
+            })
         }
     }
 })

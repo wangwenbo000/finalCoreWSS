@@ -11,7 +11,6 @@ module.exports = Controller("Admin/BaseController", function(){
     var nowDateTime = new Date();
     //var dataAndTime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
     var dataAndTime = moment().format('YYYY-MM-DD HH:mm:ss');
-    console.log(dataAndTime);
     return {
         indexAction: function(){
             var self = this;
@@ -49,6 +48,21 @@ module.exports = Controller("Admin/BaseController", function(){
             return productModel.addData(getRealJson).then(function(data){
                 return self.end(data);
             })
+        },
+        uploadAction:function(){
+            var fs = require('fs');
+            var self = this;
+            var uploadInfo = self.file('file');
+            var getDay = self.post('name');
+            var newFileName = getDay+".jpg";//+uploadInfo.headers['content-type'].split('/')[1];
+            var oldPath = uploadInfo.path;
+            var newPath = RESOURCE_PATH+'/resource/img/food/';
+            fs.rename(oldPath,newPath+newFileName,function(err){
+                if(err){
+                    console.error(err);
+                }
+            });
+            return self.end(newFileName);
         }
     };
 });

@@ -1,4 +1,3 @@
-$("[name='searchBlur']").bootstrapSwitch();
 $.cxSelect.defaults.url = '/resource/js/cityData.min.json';
 
 $('#chinaSel').cxSelect({
@@ -15,7 +14,63 @@ var getAddressList = new Vue({
         addressList:''
     }
 });
-//获取订单列表
+var formfliter = new Vue({
+    el: '#formfliter',
+    data: {
+        searchC:'*',
+        sex:'*',
+        isSubscribe:'*',
+        province:'0',
+        city:'0',
+        logic:'AND'
+    },
+    methods: {
+        onClick: function (e) {
+            this.city='0';
+        }
+    },
+    computed: {
+        outPutFilterJson:function(){
+            var json={};
+            if(this.searchC!='*'){
+                switch (this.searchC){
+                    case 'username':
+                        var searchVArr = [];
+                        searchVArr[0]='like';
+                        searchVArr[1]='%'+this.searchV+'%';
+                        json[this.searchC] = searchVArr;
+                        break;
+                    default :
+                        json[this.searchC]=this.searchV;
+                        break
+                }
+            }
+            if(this.sex!='*'){
+                json['sex'] = this.sex;
+            }
+            if(this.isSubscribe!='*'){
+                json['isSubscribe'] = this.isSubscribe;
+            }
+            if(this.logic!='AND'){
+                json['_logic']=this.logic;
+            }
+            if(this.province!='0'){
+                var locationArr = [];
+                locationArr[0]='like';
+                locationArr[1]='%'+this.province.substr(0, 2)+'%';
+                json['location']=locationArr;
+                if(this.city!=0){
+                    var cityArr=[];
+                    cityArr[0]='like';
+                    cityArr[1]='%'+this.city.substr(0,2)+','+this.province.substr(0, 2)+'%';
+                    json['location']=cityArr;
+                }
+            }
+            return json;
+        }
+        }
+});
+//获取用户地址列表
 $('#usermodal').on('show.bs.modal', function (event) {
 
     var button = $(event.relatedTarget);
@@ -39,4 +94,22 @@ $('#usermodal').on('show.bs.modal', function (event) {
 $('.selectgroup').on('click',function(){
     $('.selectgroup').attr('class','btn btn-default selectgroup');
     $(this).attr('class','btn btn-primary selectgroup');
+});
+//筛选
+$('#searchUsers').on('click',function(){
+    var filterJsonStr = JSON.stringify(formfliter.outPutFilterJson);
+    console.log(filterJsonStr);
+    Messenger().run({
+        successMessage: '成功返回请求数据',
+        errorMessage: 'Error saving data',
+        progressMessage: '正在请求用户数据...'
+    },{
+        url: '/Admin/user/getfliterusersdatalist',
+        type:'post',
+        data:{'data':filterJsonStr},
+        success:function(data){
+            console.log(data);
+            userList.$data.userlist = JSON.parse(data);
+        }
+    });
 });
