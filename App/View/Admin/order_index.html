@@ -1,6 +1,7 @@
 <%=include adminheader_index.html%>
 <script>
-    var showListJson = <%- JSON.stringify(orderList) %>;
+    var listJSON = <%- JSON.stringify(listJSON)%>;
+    var total = <%- total%>;
 </script>
 <h2 class="page-header">
     <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>默认今日订单［待开发］</small>
@@ -32,8 +33,8 @@
     </div>
 </div>
 <div class="page-header ">
-    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
-    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button>
+    <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
+    <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button>
     <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-primary selectgroup">今日订单</button>
         <button type="button" class="btn btn-default selectgroup">成功订单</button>
@@ -93,7 +94,7 @@
         <div class="col-lg-1">
             <select class="form-control city" v-model="city" name="city"></select>
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-1">
             <select class="form-control area" v-model="area" name="area"></select>
         </div>
     </div>
@@ -105,7 +106,7 @@
             </div>
             <input type="hidden" id="flitertime" value="" /><br/>
     </div>
-    <div class="col-lg-2">
+    <div class="col-lg-1">
         <div class="input-group">
             <span class="input-group-addon">叫起</span>
                 <select class="form-control" v-model="iscallmeup">
@@ -116,20 +117,24 @@
             </div>
     </div>
     <div class="col-lg-2">
+
+        <label class="radio-inline">
+            <input type="radio" name="_logic" v-model="logic" value="AND"> AND
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="_logic" v-model="logic" value="OR"> OR
+        </label>
+        <label class="radio-inline">
+            <input type="radio" name="_logic" v-model="logic" value="XOR"> XOR
+        </label>
+    </div>
+    <div class="col-lg-2">
         <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
     <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
-<nav>
-    <ul class="pagination">
-    <%-pager%>
-    <li><span>共<%=count%>笔数据</span></li>
-</ul>
-</nav>
-<nav id="page-selection">
-
-</nav>
+<nav class="page-selection-top"></nav>
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
@@ -186,12 +191,8 @@
         </tr>
         </tbody>
     </table>
-    <nav><ul class="pagination">
-        <%-pager%>
-        <li><span>共<%=count%>笔数据</span></li>
-    </ul>
-    </nav>
 </div>
+<nav class="page-selection-bottom"></nav>
 <div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">

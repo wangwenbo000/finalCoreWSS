@@ -2,10 +2,10 @@ module.exports = Model(function(){
     function userSexFilter(data){
         for(var k in data){
             switch (data[k].sex){
-                case "2":
+                case "1":
                     data[k].sex="boy";
                     break;
-                case "1":
+                case "2":
                     data[k].sex="girl";
                     break;
                 default :
@@ -43,8 +43,8 @@ module.exports = Model(function(){
                 return {"data":data.data,"count":data.count};
             })
         },
-        getFilterList:function(data){
-            return D('Users').where(data).order('id DESC').select().then(function(data){
+        getFilterList:function(data,getPage){
+            return D('Users').where(data).order('id DESC').page(getPage, 20).countSelect().then(function(data){
                 userSexFilter(data.data);
                 isSubFilter(data.data);
                 return data;

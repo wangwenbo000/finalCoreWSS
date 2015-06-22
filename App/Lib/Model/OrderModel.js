@@ -106,12 +106,11 @@ module.exports = Model(function(){
                 });
             })
         },
-        orderfilter:function(json){
-            return D('Orderproductcopy').where(json).order('id DESC').select().then(function(data){
-
-                staticFilter(data);
-                isCallMeUpFilter(data);
+        orderfilter:function(json,getPage){
+            return D('Orderproductcopy').where(json).order('id DESC').page(getPage, 20).countSelect().then(function(data){
                 console.log(data);
+                staticFilter(data.data);
+                isCallMeUpFilter(data.data);
                 return data;
             });
         }

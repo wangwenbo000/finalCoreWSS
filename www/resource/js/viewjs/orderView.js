@@ -1,6 +1,6 @@
 var orderList = new Vue({
     el:'#orderlist',
-    data:{order:showListJson}
+    data:{order:listJSON}
 });
 var orderSingleInfo = new Vue({
     el:'#singleorderinfo',
@@ -16,12 +16,34 @@ var formfliter = new Vue({
         searchC:'*',
         productstatic:'*',
         expresstime:'*',
-        iscallmeup:'*'
+        iscallmeup:'*',
+        logic:'AND'
+    },
+    computed: {
+        outPutFilterJson:function(){
+            var json={};
+            if(this.searchC!='*'){
+                json[this.searchC]=this.searchV;
+            }
+            if(this.productstatic!='*'){
+                json['productstatic'] = this.productstatic;
+            }
+            if(this.expresstime!='*'){
+                json['expresstime'] = this.expresstime;
+            }
+            if(this.logic!='AND'){
+                json['_logic']=this.logic;
+            }
+            if(this.iscallmeup!='*'){
+                json['iscallmeup']=this.iscallmeup;
+            }
+            if($('#flitertime').attr('value')!=''){
+                json['time'] = $('#flitertime').attr('value');
+            }
+            return json;
+        }
     }
 });
-Vue.filter('orderstatic',function(value){
-    if(value==30) return '状态';
-})
 $('.form_date').datetimepicker({
     language:  'zh-CN',
     weekStart: 1,
@@ -43,41 +65,56 @@ $('.form_time').datetimepicker({
     maxView: 1,
     forceParse: 0
 });
-$(document).ready(function(){
-    var fliterJSON = {};
-
-    $('button[class~=fliterBtn]').on('click',function(){
-        var $btnstatic = $(this).button('loading');
-
-        var getFliterJson = JSON.parse($('#fliterjson').attr('value'));
-        if($('#flitertime').attr('value')!=''){
-            getFliterJson.time = $('#flitertime').attr('value');
+function pageAjax(json){
+    $.ajax({
+        url: '/Admin/Order/filter',
+        type:'post',
+        data:json,
+        success:function(data){
+            orderList.$data.order = JSON.parse(data).data;
         }
-        if(getFliterJson[getFliterJson.searchC] != '' || getFliterJson[getFliterJson.searchC] != '*'){
-            getFliterJson[getFliterJson.searchC] = getFliterJson.searchV;
-            delete getFliterJson.searchC;
-            delete getFliterJson.searchV;
-            delete getFliterJson['*'];
-        }
-        $.each(getFliterJson,function(index,item){
-            if(item=='*') delete getFliterJson[index];
+    })
+}
+function bindPager(top,bottom,json,total){
+    $(top).bootpag({
+        total:total
+    }).on("page",function(event,num){
+        pageAjax({pagenum:num,fliterjson:json});
+        $(bottom).bootpag({
+            total:total,
+            page:num
         });
-        Messenger().run({
-            successMessage: '数据请求成功.',
-            errorMessage: 'Error saving data',
-            progressMessage: '正在处理数据',
-        },{
-            url: '/Admin/Order/filter',
-            type:'post',
-            data:{'fliterjson':JSON.stringify(getFliterJson)},
-            success:function(data){
-                orderList.$data.order = JSON.parse(data);
-                $btnstatic.button('reset');
-            }
-        });
+    });
+}
+//初次加载绑定头部底部翻页
+bindPager('.page-selection-top','.page-selection-bottom','{}',total);
+bindPager('.page-selection-bottom','.page-selection-top','{}',total);
 
+
+//点击按钮筛选
+$('button[class~=fliterBtn]').on('click',function(){
+    var $btnstatic = $(this).button('loading');
+    var getFliterJson=JSON.stringify(formfliter.outPutFilterJson);
+    console.log(getFliterJson);
+    Messenger().run({
+        successMessage: '数据请求成功.',
+        errorMessage: 'Error saving data',
+        progressMessage: '正在处理数据',
+    },{
+        url: '/Admin/Order/filter',
+        type:'post',
+        data:{'fliterjson':getFliterJson},
+        success:function(data){
+            orderList.$data.order = JSON.parse(data).data;
+            $btnstatic.button('reset');
+            var str2json = JSON.parse(data);
+            //绑定翻页
+            bindPager('.page-selection-top','.page-selection-bottom',filterJsonStr,str2json.total);
+            bindPager('.page-selection-bottom','.page-selection-top',filterJsonStr,str2json.total);
+        }
     });
 });
+//模态打开时的操作
 $('#orderModel').on('show.bs.modal', function (event) {
     var nowbotton = event.relatedTarget.className;
     if(nowbotton=='orderAttachment'){
@@ -126,8 +163,4 @@ $('.selectgroup').on('click',function(){
     $('.selectgroup').attr('class','btn btn-default selectgroup');
     $(this).attr('class','btn btn-primary selectgroup');
 });
-$('#page-selection').bootpag({
-    total:10
-}).on("page",function(event,num){
-    console.log(num);
-});
+

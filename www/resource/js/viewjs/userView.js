@@ -70,6 +70,31 @@ var formfliter = new Vue({
         }
         }
 });
+function pageAjax(json){
+    $.ajax({
+        url: '/Admin/User/getfliterusersdatalist',
+        type:'post',
+        data:json,
+        success:function(data){
+            userList.$data.userlist = JSON.parse(data).data;
+        }
+    })
+}
+function bindPager(top,bottom,json,total){
+    $(top).bootpag({
+        total:total
+    }).on("page",function(event,num){
+        pageAjax({pagenum:num,fliterjson:json});
+        $(bottom).bootpag({
+            total:total,
+            page:num
+        });
+    });
+}
+//初次加载绑定头部底部翻页
+bindPager('.page-selection-top','.page-selection-bottom','{}',total);
+bindPager('.page-selection-bottom','.page-selection-top','{}',total);
+
 //获取用户地址列表
 $('#usermodal').on('show.bs.modal', function (event) {
 
@@ -104,12 +129,15 @@ $('#searchUsers').on('click',function(){
         errorMessage: 'Error saving data',
         progressMessage: '正在请求用户数据...'
     },{
-        url: '/Admin/user/getfliterusersdatalist',
+        url: '/Admin/User/getfliterusersdatalist',
         type:'post',
-        data:{'data':filterJsonStr},
+        data:{'fliterjson':filterJsonStr},
         success:function(data){
-            console.log(data);
-            userList.$data.userlist = JSON.parse(data);
+            var str2json = JSON.parse(data);
+            userList.$data.userlist = str2json.data;
+            //绑定翻页
+            bindPager('.page-selection-top','.page-selection-bottom',filterJsonStr,str2json.total);
+            bindPager('.page-selection-bottom','.page-selection-top',filterJsonStr,str2json.total);
         }
     });
 });

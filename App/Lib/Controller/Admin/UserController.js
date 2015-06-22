@@ -17,19 +17,7 @@ module.exports = Controller("Admin/BaseController", function(){
             var getPage = self.get("page");
             getUserList.getList(getPage).then(function (data) {
                 var pager = new Pager(data, baseUrl);
-                self.assign({'userList':data.data,'pager':pager.render(
-                    '<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>',
-                    '<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>',
-                    "3",
-                    "...",
-                    {
-                        itemTag: 'li', // 每个按钮的标签
-                        textTag: 'span', // 分割符文本的标签
-                        currentClass: 'active', // 当前选中的页码 Class
-                        prevClass: 'prev', // 上一页 Class
-                        nextClass: 'next' // 下一页 Class
-                    }
-                ),'userCount':data.count});
+                self.assign({'userList':data.data,total:data.total,'userCount':data.count});
                 return self.display();
             })
         },
@@ -43,11 +31,12 @@ module.exports = Controller("Admin/BaseController", function(){
         },
         getfliterusersdatalistAction:function(){
             var self = this;
-            var filterJSON = self.post('data');
+            var filterJSON = self.post('fliterjson');
+            console.log(filterJSON);
+            var pageNum = self.post('pagenum');
             var realFilterJson = JSON.parse(filterJSON);
-            console.log(realFilterJson);
             var userModel = D('user');
-            userModel.getFilterList(realFilterJson).then(function(data){
+            userModel.getFilterList(realFilterJson,pageNum).then(function(data){
                 return self.end(data);
             });
         }

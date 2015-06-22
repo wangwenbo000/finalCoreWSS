@@ -1,6 +1,7 @@
 <%=include adminheader_index.html%>
 <script>
     var userJSON = <%- JSON.stringify(userList)%>;
+    var total=<%-total%>;
 </script>
 <h2 class="page-header"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span>用户管理 <small>User Manage</small></h2>
 <ol class="breadcrumb">
@@ -93,11 +94,7 @@
 </div>
     <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
-<nav><ul class="pagination">
-    <%-pager%>
-    <li><span>共<%=userCount%>笔数据</span></li>
-</ul>
-</nav>
+<nav class="page-selection-top"></nav>
 <div class="table-responsive">
     <table class="table table-bordered table-hover">
         <thead>
@@ -139,11 +136,7 @@
         </tr>
         </tbody>
     </table>
-    <nav><ul class="pagination">
-        <%-pager%>
-        <li><span>共<%=userCount%>笔数据</span></li>
-    </ul>
-    </nav>
+    <nav class="page-selection-bottom"></nav>
 </div>
 <div class="modal fade bs-example-modal-lg" id="usermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
