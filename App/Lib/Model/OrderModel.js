@@ -1,38 +1,38 @@
 module.exports = Model(function(){
     function staticFilter(data){
         for(var k in data){
-            switch (data[k].productstatic){
+            switch (data[k].productstate){
                 case '33':
-                    data[k].productstatic = '已发货';
-                    data[k].productstaticnum = '33';
+                    data[k].productstate = '已发货';
+                    data[k].productstatenum = '33';
                     break;
                 case '55':
-                    data[k].productstatic = '已成功';
-                    data[k].productstaticnum = '55';
+                    data[k].productstate = '已成功';
+                    data[k].productstatenum = '55';
                     break;
                 case '10':
-                    data[k].productstatic = '待付款';
-                    data[k].productstaticnum = '10';
+                    data[k].productstate = '待付款';
+                    data[k].productstatenum = '10';
                     break;
                 case '30':
-                    data[k].productstatic = '待发货';
-                    data[k].productstaticnum = '30';
+                    data[k].productstate = '待发货';
+                    data[k].productstatenum = '30';
                     break;
                 case '40':
-                    data[k].productstatic = '待退款';
-                    data[k].productstaticnum = '40';
+                    data[k].productstate = '待退款';
+                    data[k].productstatenum = '40';
                     break;
                 case '44':
-                    data[k].productstatic = '已退款';
-                    data[k].productstaticnum = '44';
+                    data[k].productstate = '已退款';
+                    data[k].productstatenum = '44';
                     break;
                 case '60':
-                    data[k].productstatic = '已取消';
-                    data[k].productstaticnum = '60';
+                    data[k].productstate = '已取消';
+                    data[k].productstatenum = '60';
                     break;
                 default :
-                    data[k].productstatic = "异常!"
-                    data[k].productstaticnum = 'err';
+                    data[k].productstate = "异常!"
+                    data[k].productstatenum = 'err';
             }
         }
     };
@@ -59,7 +59,7 @@ module.exports = Model(function(){
             });
         },
         getstatecount:function(data){
-                    return D('Orderproductcopy').where({'productstatic':['=',data]}).countSelect().then(function(data){
+                    return D('Orderproductcopy').where({'productstate':['=',data]}).countSelect().then(function(data){
                         return data;
                     });
         },
@@ -76,6 +76,19 @@ module.exports = Model(function(){
             return D('Order').where({'id':orderid}).select().then(function(data){
                 for(var k in data){
                     data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('LLLL');
+                    switch (data[k].orderfrom){
+                        case 2:
+                            data[k].orderfrom = "PC用户";
+                            data[k].orderstate = "warning";
+                            break;
+                        case 1:
+                            data[k].orderfrom = "微信用户";
+                            data[k].orderstate = "success";
+                            break;
+                        default :
+                            data[k].orderfrom = "未知终端";
+                            data[k].orderstate = "danger";
+                    }
                 }
                 attachmentJSON.attachment=data[0];
                 return {'json':data,'now':pointid};
@@ -108,7 +121,6 @@ module.exports = Model(function(){
         },
         orderfilter:function(json,getPage){
             return D('Orderproductcopy').where(json).order('id DESC').page(getPage, 20).countSelect().then(function(data){
-                console.log(data);
                 staticFilter(data.data);
                 isCallMeUpFilter(data.data);
                 return data;

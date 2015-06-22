@@ -14,7 +14,7 @@
         <a href="/Admin/<%=http.controller%>"><%=http.controller%></a>
     </li>
 </ol>
-<div class="staticcount page-header clearfix">
+<div class="statecount page-header clearfix">
     <div class="col-lg-3 ">
         <h3>订单列表</h3>
     </div>
@@ -64,7 +64,7 @@
 </div>
 <div class="row orderfliter">
     <div class="col-lg-1">
-        <select class="form-control" v-model="productstatic">
+        <select class="form-control" v-model="productstate">
             <option value="*">all</option>
             <option value="33">已发货</option>
             <option value="55">已成功</option>
@@ -187,7 +187,7 @@
                     </ul>
                 </div>
             </td>
-            <td><span class="label label-success static{{productstaticnum}}">{{productstatic}}</span></td>
+            <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
         </tr>
         </tbody>
     </table>
@@ -222,7 +222,7 @@
                                     <td><h4>×{{productnum}}</h4></td>
                                     <td><h2>{{receiveuser}}</h2></td>
                                     <td><h4>{{ordernum}}</h4></td>
-                                    <td class="static{{productstaticnum}}" align="center"><h3 style="color: #fff;">{{productstatic}}</h3></td>
+                                    <td class="state{{productstatenum}}" align="center"><h3 style="color: #fff;">{{productstate}}</h3></td>
                                 </tr>
                                 <tr>
                                     <td>望京</td>
@@ -283,7 +283,7 @@
                                 <tr class="active">
                                     <td><img src="{{userInfo.face}}" width="60" class="img-circle"></td>
                                     <td>{{attachment.id}}</td>
-                                    <td><h2>{{userInfo.username}}</h2><span class="label label-success">{{attachment.orderfrom}}</span></td>
+                                    <td><h2>{{userInfo.username}}</h2><span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span></td>
                                     <td colspan="4"><h5><span class="label label-success">地图获取地点</span></h5> {{attachment.address}}</td>
                                     <td><h4>{{attachment.orderid}}</h4></td>
                                 </tr>
@@ -309,7 +309,7 @@
                                     <td>{{time}}</td>
                                     <td>{{expresstime}} {{iscallmeup}}</td>
                                     <td><h4 class="text-danger">￥{{singleprice}}</h4></td>
-                                    <td><span class="label label-success static{{productstaticnum}}">{{productstatic}}</span></td>
+                                    <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
                                 </tr>
                                 </tbody>
                             </table>

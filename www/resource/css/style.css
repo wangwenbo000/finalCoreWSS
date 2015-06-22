@@ -121,7 +121,7 @@ body {
 .orderfliter .col-lg-2{
     height: 30px;
 }
-.staticcount h3{
+.statecount h3{
     margin-top: 0;
 }
 .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
@@ -211,10 +211,10 @@ body {
 .panel-default>.panel-heading{border-color: #ddd;}
 .panel-heading{padding: 5px 10px;}
 .productliststyle{margin-top:20px;}
-.static33{background: #428bca;}
-.static55{background: #5cb85c;}
-.static10{background: #5bc0de;}
-.static30{background: #f0ad4e;}
-.static40{background: #d9534f;}
-.static44{background: #000066;}
-.static60{background: #000066;}
+.state33{background: #428bca;}
+.state55{background: #5cb85c;}
+.state10{background: #5bc0de;}
+.state30{background: #f0ad4e;}
+.state40{background: #d9534f;}
+.state44{background: #000066;}
+.state60{background: #000066;}

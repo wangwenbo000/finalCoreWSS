@@ -33,8 +33,7 @@
     $._messengerDefaults = {
         extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
         theme: 'flat'
-    }
-    $.globalMessenger().post('当前控制器 <%=http.controller%>');
+    };
     $(document).ready(function(){
         $('[data-toggle="tooltip"]').tooltip();
     });
@@ -78,7 +77,7 @@
                 <!--<li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>-->
             </ul>
             <ul class="nav nav-sidebar">
-                <li class="btn-success">
+                <li>
                     <a href="/Admin/activity">
                         <span class="glyphicon glyphicon-fire" aria-hidden="true"></span><br>活动
                     </a>

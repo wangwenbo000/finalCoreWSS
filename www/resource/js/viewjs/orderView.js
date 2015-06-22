@@ -14,7 +14,7 @@ var formfliter = new Vue({
     el: '#formfliter',
     data: {
         searchC:'*',
-        productstatic:'*',
+        productstate:'*',
         expresstime:'*',
         iscallmeup:'*',
         logic:'AND'
@@ -25,8 +25,8 @@ var formfliter = new Vue({
             if(this.searchC!='*'){
                 json[this.searchC]=this.searchV;
             }
-            if(this.productstatic!='*'){
-                json['productstatic'] = this.productstatic;
+            if(this.productstate!='*'){
+                json['productstate'] = this.productstate;
             }
             if(this.expresstime!='*'){
                 json['expresstime'] = this.expresstime;
