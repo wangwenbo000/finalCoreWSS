@@ -2,14 +2,126 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>index</title>
+    <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
+    <link href="/resource/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <script src="/resource/js/jquery-1.11.3.min.js"></script>
+    <script src="/resource/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
 </head>
+<style>
+    body{padding: 0 0 72px 0;}
+    html{-webkit-user-select: none;}
+    .row{margin-bottom: 10px;}
+    .panel{margin-bottom: 0;}
+    .date-picker{background: #fff;opacity:0.9;padding: 10px 0;}
+    .jumbotron{background: url("/resource/img/indexImg/bg.jpg") no-repeat center;}
+    .datetimepicker table ,.datetimepicker-inline{width: 100%;}
+    #logo{width: 220px;}
+</style>
 <body>
+<nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+    <div class="container-fluid">
+            <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">微信支付</button>
+    </div>
+</nav>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-xs-12">
+            <img src="/resource/img/indexImg/logo.png" id="logo">
+        </div>
+    </div>
+        <div class="date-picker">
+        </div>
+</div>
+<div class="container-fluid">
 
-</body>
+    <div class="row">
+        <div class="col-xs-6">
+            <select class="form-control">
+                <option>配送时间段</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+        <div class="col-xs-6">
+            <select class="form-control">
+                <option>不使用暂存地点亲自接收</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+            </select>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-8">
+            <button type="submit" class="btn btn-success btn-block btn-lg">查看菜单</button>
+        </div>
+        <div class="col-xs-4">
+            <button type="submit" class="btn btn-warning btn-block btn-lg">配送</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#myModal">选择配送地址</button>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">请选择配送地址 或</h4>
+                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">添加新的订餐地址</button>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">Panel heading</div>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">Panel heading</div>
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                            <td>a</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    window.onload = function(){
-        alert('hello')
-    }
+    $('.date-picker').datetimepicker({
+                language:  'zh-CN',
+                weekStart: 1,
+                todayBtn:  0,
+                autoclose: 1,
+                todayHighlight: 1,
+                startView: 2,
+                minView: 2,
+                forceParse: 0
+            });
 </script>
+</body>
 </html>
