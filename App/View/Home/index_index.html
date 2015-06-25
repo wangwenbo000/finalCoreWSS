@@ -2,14 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="telephone=no" name="format-detection">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>index</title>
     <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
     <link href="/resource/css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+    <link href="/resource/css/bootstrap-switch.min.css" rel="stylesheet" media="screen">
     <script src="/resource/js/jquery-1.11.3.min.js"></script>
     <script src="/resource/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="/resource/js/bootstrap-switch.min.js" charset="UTF-8"></script>
 </head>
 <style>
     body{padding: 0 0 72px 0;}
@@ -20,6 +23,12 @@
     .jumbotron{background: url("/resource/img/indexImg/bg.jpg") no-repeat center;}
     .datetimepicker table ,.datetimepicker-inline{width: 100%;}
     #logo{width: 220px;}
+    #face{width: 58px;}
+    .modal-body{height: 300px;overflow: auto;}
+    .modal-header{padding: 8px 15px;}
+    .media{border-bottom: 1px solid #efefef;}
+    .glyphicon{top:12px;}
+    input{-wekit-appearance:none;}
 </style>
 <body>
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
@@ -30,7 +39,8 @@
 <div class="jumbotron">
     <div class="row">
         <div class="col-xs-12">
-            <img src="/resource/img/indexImg/logo.png" id="logo">
+            <img src="/resource/img/indexImg/logo.png" id="logo" class="pull-left">
+            <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
         </div>
     </div>
         <div class="date-picker">
@@ -59,11 +69,16 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-8">
-            <button type="submit" class="btn btn-success btn-block btn-lg">查看菜单</button>
+        <div class="col-xs-4">
+            <div class="switch switch-large" data-on-label="<i class='icon-ok icon-white'></i>" data-off-label="<i class='icon-remove'></i>">
+                <input type="checkbox" name="iscallmeup" checked />
+            </div>
         </div>
         <div class="col-xs-4">
-            <button type="submit" class="btn btn-warning btn-block btn-lg">配送</button>
+            <button type="submit" class="btn btn-success btn-block">查看菜单</button>
+        </div>
+        <div class="col-xs-4">
+            <button type="submit" class="btn btn-warning btn-block">配送</button>
         </div>
     </div>
     <div class="row">
@@ -76,52 +91,77 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">请选择配送地址 或</h4>
-                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">添加新的订餐地址</button>
+                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg" data-toggle="modal" data-target="#addAddress">添加新的订餐地址</button>
             </div>
             <div class="modal-body">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Panel heading</div>
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="panel panel-default">
-                    <div class="panel-heading">Panel heading</div>
-                    <table class="table">
-                        <tbody>
-                        <tr>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                            <td>a</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <h4>王文博 <small>15117909848</small></h4>
+                            北京市朝阳区望京新城424栋1906
+                        </td>
+                        <td>
+                           <h4><i class="glyphicon glyphicon-pencil"></i></h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>王文博 <small>15117909848</small></h4>
+                            北京市朝阳区望京新城424栋1906
+                        </td>
+                        <td>
+                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>王文博 <small>15117909848</small></h4>
+                            北京市朝阳区望京新城424栋1906
+                        </td>
+                        <td>
+                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h4>王文博 <small>15117909848</small></h4>
+                            北京市朝阳区望京新城424栋1906
+                        </td>
+                        <td>
+                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">添加新的订餐地址</button>
             </div>
         </div>
     </div>
 </div>
 <script>
-    $('.date-picker').datetimepicker({
-                language:  'zh-CN',
-                weekStart: 1,
-                todayBtn:  0,
-                autoclose: 1,
-                todayHighlight: 1,
-                startView: 2,
-                minView: 2,
-                forceParse: 0
-            });
+    $(document).ready(function(){
+        $('.date-picker').datetimepicker({
+            language:  'zh-CN',
+            weekStart: 1,
+            todayBtn:  0,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            forceParse: 0
+        });
+        $("input[name=iscallmeup]").bootstrapSwitch();
+    })
 </script>
 </body>
 </html>
