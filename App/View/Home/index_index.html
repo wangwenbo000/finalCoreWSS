@@ -28,7 +28,8 @@
     .modal-header{padding: 8px 15px;}
     .media{border-bottom: 1px solid #efefef;}
     .glyphicon{top:12px;}
-    input{-wekit-appearance:none;}
+    input{-webkit-appearance:none;border: none;}
+    .addAddress-body{height:400px;}
 </style>
 <body>
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
@@ -101,7 +102,7 @@
                             北京市朝阳区望京新城424栋1906
                         </td>
                         <td>
-                           <h4><i class="glyphicon glyphicon-pencil"></i></h4>
+                           <a href="#" data-toggle="modal" data-target="#addAddress"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
                         </td>
                     </tr>
                     <tr>
@@ -113,7 +114,7 @@
                             <h4><i class="glyphicon glyphicon-pencil"></i></h4>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="active">
                         <td>
                             <h4>王文博 <small>15117909848</small></h4>
                             北京市朝阳区望京新城424栋1906
@@ -139,11 +140,41 @@
 <div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body">
-
+            <div class="modal-body addAddress-body">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">联系人</label>
+                        <input type="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="你的姓名">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">联系电话</label>
+                        <input type="number" class="form-control input-lg" id="exampleInputPassword1" placeholder="你的手机号">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">送餐地址</label>
+                        <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" readonly>
+                    </div>
+                    <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="详细地址（如门牌号等）">
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">添加新的订餐地址</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form class="form-inline">
+                    <form class="form-group">
+                        <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等">
+                    </form>
+                </form>
+            </div>
+            <div class="modal-body">
+
             </div>
         </div>
     </div>
