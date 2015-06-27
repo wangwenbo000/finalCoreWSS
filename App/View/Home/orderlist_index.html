@@ -1,0 +1,117 @@
+<%=include indexheader_index.html%>
+<style>
+    table{background: #fff;}
+    p{margin: 0;}
+    .nav-tabs{border: none;}
+    .nav-tabs>li{width: 33.3333%;font-size: 16px;}
+    .nav-tabs>li>a{text-align: center;padding:14px 15px;border-radius:0;margin-right:0; }
+    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{border: none;background-color:#449d44;color: #fff;}
+</style>
+    <br>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="home">
+            <table class="table ">
+                <tbody>
+                <tr>
+                    <td colspan="4">订单号：<kbd>ZA050700279</kbd></td>
+                    <td class="text-danger">￥60</td>
+                </tr>
+                <tr>
+                    <td colspan="5">联系人：王文博</td>
+                </tr>
+                <tr>
+                    <td colspan="5">配送费：￥20</td>
+                </tr>
+                <tr>
+                    <td colspan="5">山东省泰安市美丽的好地方</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-muted">下单时间：2015年5月11日星期一凌晨12点00分</td>
+                </tr>
+                <tr class="active">
+                    <th colspan="2">名称</th>
+                    <th>量</th>
+                    <th>合计</th>
+                    <th>状态</th>
+                </tr>
+                <tr>
+                    <td colspan="2">健康早餐韩国和锅<p class="text-muted">2015-5-7 星期三</p></td>
+                    <td>×1</td>
+                    <td class="text-danger">￥20</td>
+                    <td><span class="label label-warning">待发货</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">健康早餐<p class="text-muted">2015-5-7 星期三</p></td>
+                    <td>×1</td>
+                    <td class="text-danger">￥20</td>
+                    <td><span class="label label-warning">待发货</span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" align="right">
+                        <button type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-headphones"></i> 联系客服</button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> 投诉建议</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="profile">
+
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="messages">
+            <table class="table ">
+                <tbody>
+                <tr>
+                    <td colspan="4">订单号：<kbd>ZA050700279</kbd></td>
+                    <td class="text-danger">￥60</td>
+                </tr>
+                <tr>
+                    <td colspan="5">联系人：王文博</td>
+                </tr>
+                <tr>
+                    <td colspan="5">配送费：￥20</td>
+                </tr>
+                <tr>
+                    <td colspan="5">山东省泰安市美丽的好地方</td>
+                </tr>
+                <tr>
+                    <td colspan="5" class="text-muted">下单时间：2015年5月11日星期一凌晨12点00分</td>
+                </tr>
+                <tr class="active">
+                    <th colspan="2">名称</th>
+                    <th>量</th>
+                    <th>合计</th>
+                    <th>状态</th>
+                </tr>
+                <tr>
+                    <td colspan="2">健康早餐韩国和锅<p class="text-muted">2015-5-7 星期三</p></td>
+                    <td>×1</td>
+                    <td class="text-danger">￥20</td>
+                    <td><span class="label label-success">已完成</span></td>
+                </tr>
+                <tr>
+                    <td colspan="2">健康早餐<p class="text-muted">2015-5-7 星期三</p></td>
+                    <td>×1</td>
+                    <td class="text-danger">￥20</td>
+                    <td><span class="label label-success">已完成</span></td>
+                </tr>
+                <tr>
+                    <td colspan="5" align="right">
+                        <button type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-headphones"></i> 联系客服</button>
+                        <button type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> 投诉建议</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">进行中</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">待确认</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">已完成</a></li>
+    </ul>
+</nav>
+</body>
+</html>

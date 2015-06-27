@@ -1,0 +1,40 @@
+<%=include indexheader_index.html%>
+<style>
+    .formdiv{background: #fff;padding: 15px;}
+</style>
+<nav class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container-fluid">
+        <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确定</button>
+    </div>
+</nav>
+<div class="formdiv">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">联系人</label>
+            <input type="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="你的姓名">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">联系电话</label>
+            <input type="number" class="form-control input-lg" id="exampleInputPassword1" placeholder="你的手机号">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">送餐地址</label>
+            <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" readonly>
+        </div>
+        <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="详细地址（如门牌号等）">
+    </form>
+</div>
+<div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等">
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
