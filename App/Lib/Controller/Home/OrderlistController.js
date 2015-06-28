@@ -7,11 +7,14 @@ module.exports = Controller("Home/BaseController", function(){
     return {
         indexAction: function(){
             //render View/Home/index_index.html file
-            this.display();
-        },
-        _404Action: function(){
-            this.status(404); //发送404状态码
-            this.end('404 not found');
+            var self = this;
+            self.session('userInfo').then(function(data){
+                var orderListModel = D('Orderlist');
+                orderListModel.getUserOrderList(data[0].id).then(function(data){
+
+                });
+            });
+            self.display();
         }
     };
 });
