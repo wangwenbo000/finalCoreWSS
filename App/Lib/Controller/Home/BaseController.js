@@ -20,6 +20,7 @@ module.exports = Controller(function(){
           return D('Users').where({'openid':data}).countSelect().then(function(data){
             if(data.count){
               self.session('userInfo',data.data);
+              return self.assign('userInfo',data.data[0]);
             }else{
               //做一个存储数据库的操作
               //并将信息存储到session
