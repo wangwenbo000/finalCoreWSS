@@ -39,7 +39,7 @@ global.staticFilter = function(data){
 global.formatTime = function(data){
     var moment = require('moment');
     for(var k in data){
-        data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('LL');
+        data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('llll');
 
     }
 }
