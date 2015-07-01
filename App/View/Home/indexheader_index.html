@@ -12,6 +12,16 @@
     <script src="/resource/js/vue.min.js"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.min.js" charset="UTF-8"></script>
     <script type="text/javascript" src="/resource/js/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+    <script>
+        if (/iP(hone|od|ad)/.test(navigator.userAgent)) {
+            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/),
+            version = parseInt(v[1], 10);
+            console.log(version);
+        if(version >= 8){
+            document.documentElement.classList.add('hairlines');
+            }
+        }
+    </script>
 </head>
 <style>
     body{padding: 0 0 72px 0;background: #EBEEE6;}
@@ -31,5 +41,12 @@
     .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
         vertical-align:middle;
     }
+    .hairlines input,
+    .hairlines a,
+    .hairlines span,
+    .hairlines button,
+    .hairlines select,
+    .hairlines table
+    {border-width:0.5px;}
 </style>
 <body>

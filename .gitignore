@@ -5,3 +5,5 @@ output/
 output.tar.gz
 sftp-config.json
 .idea
+.settings
+settings.json
