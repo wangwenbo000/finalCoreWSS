@@ -1,4 +1,17 @@
 <%=include indexheader_index.html%>
+    <style>
+        .cal{width:100%;height: 36px;list-style: none;padding:0;}
+.cal li{float: left;width: 14.2857%;}
+.cal li span ,.dateUl li span{text-align: center;display: block;width: 36px;height:36px;line-height:36px;margin: 0 auto;}
+.dateUl li span{border-radius: 50px;transition:background 0.6s;}
+.dateUl{width: 100%;overflow: auto;list-style: none;padding: 0;}
+.dateUl li{width: 14.2857%;float: left;height: 46px;}
+.nowday{border:2px #535a60 solid;}
+.olddays{color: #ccc;}
+.checkDaysOk{background-color: #36b967;color: #fff;}
+.checkCallMeUp{border:1px #36b967 solid; color: #36b967;background: #fff;}
+.calBody{background: #fff;font-size: 16ppx;border-radius: 6px;padding:10px;}
+        </style>
 <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
     <div class="container-fluid">
             <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>
@@ -11,7 +24,20 @@
             <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
         </div>
     </div>
-        <div class="date-picker">
+        <!--<div class="date-picker">
+        </div>-->
+        <div class="calBody">
+        <ul class="cal">
+        <li><span>一</span></li>
+        <li><span>二</span></li>
+        <li><span>三</span></li>
+        <li><span>四</span></li>
+        <li><span>五</span></li>
+        <li><span>六</span></li>
+        <li><span>日</span></li>
+      </ul>
+      <ul class="dateUl">
+      </ul>
         </div>
 </div>
 <div class="container-fluid">
@@ -53,7 +79,7 @@
 
     <div class="row">
         <div class="col-xs-12">
-            <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#myModal">选择配送地址</button>
+            <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus-sign"></i> 选择配送地址</button>
         </div>
     </div>
 </div>
@@ -145,18 +171,115 @@
     </div>
 </div>
 <script>
-    $(document).ready(function(){
-        $('.date-picker').datetimepicker({
-            language:  'zh-CN',
-            weekStart: 1,
-            todayBtn:  0,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            forceParse: 0
-        });
-    })
+    // $(document).ready(function(){
+    //     $('.date-picker').datetimepicker({
+    //         language:  'zh-CN',
+    //         weekStart: 1,
+    //         todayBtn:  0,
+    //         autoclose: 1,
+    //         todayHighlight: 1,
+    //         startView: 2,
+    //         minView: 2,
+    //         forceParse: 0
+    //     });
+    // })
+    
+    //canlder
+    var dateUl = document.querySelector('.dateUl');
+    var firstDay=getFirstDay(); //0-6
+  //   4    ->前面放  3
+  //   2             1
+  //   7             6
+  if(firstDay==0)firstDay=7;
+  firstDay--;
+  
+  for(var i=0;i<firstDay;i++)
+  {
+    var oLi=document.createElement('li');
+    var oSpan = document.createElement('span');
+    oSpan.innerHTML=preDays()+(i-5);
+    oSpan.className="olddays";
+    oLi.appendChild(oSpan);
+    dateUl.appendChild(oLi);
+  };
+  
+  //本月有多少天就创建多少个LI
+  var oDate=new Date();
+  var toDay=oDate.getDate();
+  var aLi=dateUl.children;
+  var days=getDays();
+  for(var i=0;i<days;i++)
+  {
+    var oLi=document.createElement('li');
+    var oSpan = document.createElement('span');
+    oSpan.innerHTML=i+1;
+    if(oSpan.innerHTML<toDay){
+        oSpan.className='olddays';
+    }else if(oSpan.innerHTML==toDay)
+    {
+      //今天
+      oSpan.className='nowday';     
+    }else{
+      oSpan.className='checkDays';
+      var Y = oDate.getFullYear();
+      var M = oDate.getMonth();
+      var D = (i+1);
+      var fullDate = new Date(Y,M,D);
+      var S = fullDate.getDay();
+      oSpan.setAttribute('data-info',Y+"-"+M+"-"+D+"-"+S);
+    }
+    oLi.appendChild(oSpan);
+    dateUl.appendChild(oLi);
+  };
+  var lastDays = 42-getDays()-firstDay;
+  console.log(lastDays);
+  for(var i=0;i<lastDays;i++){
+    var oLi=document.createElement('li');
+    var oSpan = document.createElement('span');
+    if(i==0){
+      oSpan.innerHTML='<i class="glyphicon glyphicon-heart-empty"></i>';
+    }else{
+      oSpan.innerHTML=i+1;
+    }
+    oSpan.className="checkDays";
+    var Y = oDate.getFullYear();
+    var M = oDate.getMonth()+1;
+    var D = (i+1);
+    var fullDate = new Date(Y,M,D);
+    var S = fullDate.getDay();
+    oSpan.setAttribute('data-info',Y+"-"+(M+1)+"-"+D+"-"+S);
+    oLi.appendChild(oSpan);
+    dateUl.appendChild(oLi);
+  }
+    function getDays(){
+      var oDate=new Date();
+      oDate.setMonth(oDate.getMonth()+1);
+      oDate.setDate(0);
+      return oDate.getDate(); 
+    };
+    function preDays(){
+      var oDate=new Date();
+      oDate.setMonth(oDate.getMonth());
+      oDate.setDate(0);
+      return oDate.getDate(); 
+    };
+    function getFirstDay(){
+      var oDate=new Date();
+      oDate.setDate(1);
+      return oDate.getDay();  
+      //0-6
+    };
+    var allCheckDays = document.querySelectorAll(".checkDays");
+    for(var i=0;i<allCheckDays.length;i++){
+      allCheckDays[i].onclick=function(){
+        if (this.className=="checkDays") {
+          this.className="checkDaysOk";
+        }else{
+          this.className="checkDays"
+        }
+        
+      }
+    }
 </script>
 </body>
 </html>
