@@ -5,7 +5,7 @@
 .cal li span ,.dateUl li span{text-align: center;display: block;width: 36px;height:36px;line-height:36px;margin: 0 auto;}
 .dateUl li span{border-radius: 50px;transition:background 0.6s;}
 .dateUl{width: 100%;overflow: auto;list-style: none;padding: 0;}
-.dateUl li{width: 14.2857%;float: left;height: 46px;}
+.dateUl li{width: 14.2857%;float: left;height: 40px;}
 .nowday{background: #f4cc20;color:#fff;}
 .olddays{color: #ccc;}
 .checkDaysOk{background-color: #36b967;color: #fff;}
@@ -44,13 +44,13 @@
         <div class="col-xs-12">
             <div class="input-group">
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-success fliterBtn" data-loading-text="Loading..." autocomplete="off" >—</button>
+                    <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" >—</button>
                 </div>
                 <span class="input-group-addon">每天</span>
                 <input type="text" class="form-control" aria-label="..." value="1">
                 <span class="input-group-addon">份</span>
                 <div class="input-group-btn">
-                    <button type="button" class="btn btn-success fliterBtn" data-loading-text="Loading..." autocomplete="off" >+</button>
+                    <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" >+</button>
                 </div>
             </div>
         </div>
@@ -184,6 +184,7 @@
     // })
     
     //canlder
+    
     var dateUl = document.querySelector('.dateUl');
     var firstDay=getFirstDay(); //0-6
   //   4    ->前面放  3
