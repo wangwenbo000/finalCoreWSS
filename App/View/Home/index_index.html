@@ -1,6 +1,7 @@
 <%=include indexheader_index.html%>
 <script>
     var addresslistJson = <%- JSON.stringify(addresslist)%>;
+    var calendarArr = <%-JSON.stringify(calendarArr)%>;
 </script>
 <style>
     .cal {
@@ -29,45 +30,46 @@
         border-radius: 50px;
         transition: background 0.6s;
     }
-
-    .dateUl {
-        width: 100%;
-        overflow: auto;
-        list-style: none;
-        padding: 0;
-    }
-
-    .dateUl li {
-        width: 14.2857%;
-        float: left;
-        height: 40px;
-    }
-
-    .nowday {
-        background: #f4cc20;
-        color: #fff;
-    }
-
-    .olddays {
-        color: #ccc;
-    }
-
-    .checkDaysOk {
-        background-color: #36b967;
-        color: #fff;
-    }
-
-    .checkCallMeUp {
-        border: 1px #36b967 solid;
-        color: #36b967;
+    .calendar>tbody>tr>th, .calendar>tbody>tr>td{
         background: #fff;
+        text-align: center;
+    }
+    .calTitle{
+        margin: 0;
+    }
+    .paybtn{
+        display: block;
+        height: 49px;
+        width: 120px;
+        background: #f40;
+        float: right;
+        line-height: 49px;
+        color: #fff;
+        padding: 0;
+        border-radius: 0;
+        font-size: 16px;
+    }
+    .paybtn:hover{
+        color:#fff;
+    }
+    .countP{
+        height: 49px;
+        line-height: 49px;
+        margin-bottom: 0;
+        padding-left: 15px;
+    }
+    .countP span:nth-child(2){
+        font-size: 18px;
+        color: #f40;
     }
 </style>
 <div id="indexPostOrder">
-    <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-        <div class="container-fluid">
-            <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>
-        </div>
+    <nav class="navbar navbar-default navbar-fixed-bottom ">
+        <a href="javascript:;" class="btn paybtn">确认订单</a>
+        <p class="countP"><span>总价:</span><span> ￥0.00</span></p>
+        <!--<div class="container-fluid">-->
+            <!--<button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>-->
+        <!--</div>-->
     </nav>
     <div class="jumbotron">
         <div class="row">
@@ -76,20 +78,22 @@
                 <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
             </div>
         </div>
-        <!--<div class="date-picker">
-        </div>-->
-        <div class="calBody">
-            <ul class="cal">
-                <li><span>一</span></li>
-                <li><span>二</span></li>
-                <li><span>三</span></li>
-                <li><span>四</span></li>
-                <li><span>五</span></li>
-                <li><span>六</span></li>
-                <li><span>日</span></li>
-            </ul>
-            <ul class="dateUl">
-            </ul>
+        <table class="table table-bordered calendar">
+            <tr>
+                <td colspan="7"><h3 class="calTitle"><%=date%>月 <small>一周早餐</small></h3></td>
+            </tr>
+            <tr>
+                <th v-repeat="calendar">{{week}}</th>
+            </tr>
+            <tr>
+                <td v-repeat="calendar" v-on="click:chooseDay(this)" class="{{choose}}"><h4>{{days}}</h4></td>
+            </tr>
+        </table>
+        <div class="alert alert-warning" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+            每天 <span class="label label-warning">22:00</span> 前可预订明日早餐 ☀️
         </div>
     </div>
     <div class="container-fluid">
@@ -217,113 +221,13 @@
         </div>
         <!--{{$data | json 2}}-->
     </div>
-    <a href="/addresslist">地址</a>
-    <a href="/orderlist">订单列表</a>
-    <a href="">地址</a>
-    <a href="">地址</a>
+    <!--<a href="/addresslist">地址</a>-->
+    <!--<a href="/orderlist">订单列表</a>-->
+    <!--<a href="">地址</a>-->
+    <!--<a href="">地址</a>-->
 </div>
 
 <script>
-
-    var dateUl = document.querySelector('.dateUl');
-    var firstDay = getFirstDay(); //0-6
-    //   4    ->前面放  3
-    //   2             1
-    //   7             6
-    if (firstDay == 0)firstDay = 7;
-    firstDay--;
-
-    for (var i = 0; i < firstDay; i++) {
-        var oLi = document.createElement('li');
-        var oSpan = document.createElement('span');
-        oSpan.innerHTML = preDays() + (i - 5);
-        oSpan.className = "olddays";
-        oLi.appendChild(oSpan);
-        dateUl.appendChild(oLi);
-    }
-    ;
-
-    //本月有多少天就创建多少个LI
-    var oDate = new Date();
-    var toDay = oDate.getDate();
-    var aLi = dateUl.children;
-    var days = getDays();
-    for (var i = 0; i < days; i++) {
-        var oLi = document.createElement('li');
-        var oSpan = document.createElement('span');
-        oSpan.innerHTML = i + 1;
-        if (oSpan.innerHTML < toDay) {
-            oSpan.className = 'olddays';
-        } else if (oSpan.innerHTML == toDay) {
-            //今天
-            oSpan.className = 'nowday';
-        } else {
-            oSpan.className = 'checkDays';
-            var Y = oDate.getFullYear();
-            var M = oDate.getMonth();
-            var D = (i + 1);
-            var fullDate = new Date(Y, M, D);
-            var S = fullDate.getDay();
-//            oSpan.setAttribute('data-info', Y + "-" + M + "-" + D + "-" + S);
-            oSpan.setAttribute('v-on',"click:getdata");
-        }
-        oLi.appendChild(oSpan);
-        dateUl.appendChild(oLi);
-    }
-    ;
-    var lastDays = 42 - getDays() - firstDay;
-    for (var i = 0; i < lastDays; i++) {
-        var oLi = document.createElement('li');
-        var oSpan = document.createElement('span');
-        if (i == 0) {
-            oSpan.innerHTML = '<i class="glyphicon glyphicon-heart-empty"></i>';
-        } else {
-            oSpan.innerHTML = i + 1;
-        }
-        oSpan.className = "checkDays";
-        var Y = oDate.getFullYear();
-        var M = oDate.getMonth() + 1;
-        var D = (i + 1);
-        var fullDate = new Date(Y, M, D);
-        var S = fullDate.getDay();
-//        oSpan.setAttribute('data-info', Y + "-" + (M + 1) + "-" + D + "-" + S);
-        oSpan.setAttribute('v-on',"click:getdata");
-        oLi.appendChild(oSpan);
-        dateUl.appendChild(oLi);
-    }
-    function getDays() {
-        var oDate = new Date();
-        oDate.setMonth(oDate.getMonth() + 1);
-        oDate.setDate(0);
-        return oDate.getDate();
-    }
-    ;
-    function preDays() {
-        var oDate = new Date();
-        oDate.setMonth(oDate.getMonth());
-        oDate.setDate(0);
-        return oDate.getDate();
-    }
-    ;
-    function getFirstDay() {
-        var oDate = new Date();
-        oDate.setDate(1);
-        return oDate.getDay();
-        //0-6
-    }
-    ;
-    var allCheckDays = document.querySelectorAll(".checkDays");
-    for (var i = 0; i < allCheckDays.length; i++) {
-        allCheckDays[i].onclick = function () {
-            if (this.className == "checkDays") {
-                this.className = "checkDaysOk";
-            } else {
-                this.className = "checkDays"
-            }
-
-        }
-    }
-
     var sendOrder = new Vue({
         el:'#indexPostOrder',
         data:{
@@ -331,6 +235,7 @@
             receiveWay:0,
             everyDayNum:1,
             addresslist:addresslistJson,
+            calendar:calendarArr,
             suggest:'',
             updateForm:{
                 userid:'<%- userid%>',
@@ -398,6 +303,15 @@
                 this.$data.updateForm['addressKey']=suggess.su._name;
                 this.$data.updateForm['address']=suggess.su._address;
                 console.log(suggess.su);
+            },
+            chooseDay:function(p){
+                if(p.done){
+                    p.choose='success';
+                }else{
+                    p.choose='';
+                }
+                p.done = !p.done;
+
             }
         }
     });

@@ -8,9 +8,31 @@ module.exports = Controller("Home/BaseController", function(){
     indexAction: function(){
       //render View/Home/index_index.html file
       var self = this;
+      var moment = require('moment');
+      var calendarArr = [];
+
+      console.log(moment().format('Hm'));
+
+      if(parseInt(moment().format('Hm'))>220){
+        var start = 2;
+        var end = 9;
+      }else{
+        var start = 1;
+        var end = 8;
+      }
+
+      for(var d=start;d<end;d++){
+        calendarArr.push({
+          days:moment().add('days',d).format('DD'),
+          week:moment().add('days',d).lang('zh-cn').format('dd'),
+          date:moment().add('days',d).lang('zh-cn').format('l'),
+          choose:'',
+          done:true
+        });
+      }
       self.session('userInfo').then(function(data){
         return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
-          self.assign({'addresslist':data,userid:data[0].userid});
+          self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM')});
           self.display();
         });
       });
