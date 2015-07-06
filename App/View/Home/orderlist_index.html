@@ -17,6 +17,15 @@
 <div id="Order">
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="progressOrder">
+            <% if(orderlist.progressCount==""){ %>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p class="text-center">没有处理中的订单：-）</p>
+                    <br>
+                    <a href="/" class="btn btn-success btn-block btn-lg">现在就去预定早餐</a>
+                </div>
+            </div>
+            <%}%>
             <table class="table" v-repeat='progress'>
                 <tbody>
                 <tr>
@@ -36,6 +45,7 @@
             </table>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="cancelOrder">
+            <% if(orderlist.cancelCount==""){ %>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <p class="text-center">没有处理中的订单：-）</p>
@@ -43,6 +53,7 @@
                     <a href="/" class="btn btn-success btn-block btn-lg">现在就去预定早餐</a>
                 </div>
             </div>
+            <%}%>
             <table class="table" v-repeat='cancel'>
                 <tbody>
                 <tr>
@@ -62,6 +73,15 @@
             </table>
         </div>
         <div role="tabpanel" class="tab-pane fade" id="completeOrder" >
+            <% if(orderlist.completeCount==""){ %>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p class="text-center">没有处理中的订单：-）</p>
+                    <br>
+                    <a href="/" class="btn btn-success btn-block btn-lg">现在就去预定早餐</a>
+                </div>
+            </div>
+            <%}%>
             <table class="table" v-repeat='complete'>
                 <tbody>
                 <tr>
