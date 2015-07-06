@@ -1,55 +1,93 @@
 <%=include indexheader_index.html%>
 <style>
-    table{background: #fff;}
-    .table{margin-bottom: 0;}
-    .formdiv{background: #fff;padding: 15px;}
+    table {
+        background: #fff;
+    }
+
+    .table {
+        margin-bottom: 0;
+    }
+
+    .formdiv {
+        background: #fff;
+        padding: 15px;
+    }
 </style>
 <script>
-    var addresslistJSON = <%- JSON.stringify(addresslist)%>;
+    var addresslistJSON =<%-JSON.stringify(addresslist)%>;
 </script>
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
         <a href="/address" class="btn btn-success navbar-btn btn-block btn-lg">添加新地址</a>
     </div>
 </nav>
+<div id="addresslist">
 <div class="formdiv">
-<table class="table">
-    <tr id="addresslist" v-repeat="list">
-        <td>
-            <h4>{{receiveuser}} <small>{{phonenum}}</small></h4>
-            {{addressKey}} {{address}}
-        </td>
-        <td>
-            <a href="#" data-toggle="modal" data-target="#delAddress" data-id="{{id}}"><h4><i class="glyphicon glyphicon-trash"></i></h4></a>
-        </td>
-        <td>
-            <a href="address/index/id/{{id}}"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
-        </td>
-    </tr>
-</table>
-    </div>
+    <table class="table">
+        <tr v-repeat="list" class="{{$index}}">
+            <td>
+                <h4>{{receiveuser}}
+                    <small>{{phonenum}}</small>
+                </h4>
+                {{addressKey}} {{address}}
+            </td>
+            <td>
+                <a href="#" data-toggle="modal" data-target="#delAddress" v-on="click:delid(this)"><h4><i
+                        class="glyphicon glyphicon-trash"></i></h4></a>
+            </td>
+            <td>
+                <a href="address/index/id/{{id}}"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
+            </td>
+        </tr>
+    </table>
+</div>
 <div class="modal fade" id="delAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
-                <p class="text-center">确定删除地址？</p>
+                <h4 class="text-center">确定删除地址？</h4>
             </div>
             <div class="modal-footer">
-                <div class="row">
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block btn-lg" data-dismiss="modal">放弃操作</button>
+                        <button type="button" class="btn btn-default btn-block btn-lg" data-dismiss="modal">放弃操作
+                        </button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="submit" class="btn btn-danger btn-block btn-lg">确定删除</button>
+                        <button type="button" class="btn btn-danger btn-block btn-lg" v-on="click:del">确定删除</button>
                     </div>
-                </div>
             </div>
         </div>
     </div>
 </div>
+</div>
 <script>
+    Array.prototype.remove = function(dx)
+    {
+        if(isNaN(dx)||dx>this.length){return false;}
+        this.splice(dx,1);
+    }
     var addresslist = new Vue({
-        el:'#addresslist',
-        data:{list:addresslistJSON}
+        el: '#addresslist',
+        data: {list: addresslistJSON},
+        methods:{
+            delid:function(p){
+                console.log(p.id);
+                this.$data.delid= p.id;
+                this.$data.delindex = parseInt(p.$el.className);
+            },
+            del:function(){
+                var _this = this;
+                $.ajax({
+                    url:'/addresslist/del',
+                    type:'POST',
+                    data:{id:this.$data.delid},
+                    success:function(data){
+                        console.log(data);
+                        $('#delAddress').modal('hide');
+                        addresslistJSON.remove(_this.$data.delindex);
+                    }
+                });
+            }
+        }
     });
 </script>

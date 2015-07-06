@@ -39,6 +39,7 @@
         </div>
     </div>
 </div>
+
 <script>
     var form = new Vue({
         el: '#form',
@@ -57,7 +58,7 @@
                     }
                 })
             },
-            check:function(e){
+            checkphone:function(e){
                 var re = /^1\d{10}$/;
                 if (re.test(this.$data.phonenum)) {
                     e.target.parentNode.className="form-group has-success";

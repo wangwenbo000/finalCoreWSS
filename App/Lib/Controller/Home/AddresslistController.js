@@ -14,6 +14,13 @@ module.exports = Controller("Home/BaseController", function(){
                     self.display();
                 });
             });
+        },
+        delAction:function(){
+            var self=this;
+            var getid = self.post('id');
+            return D('Addresslist').where({id:getid}).delete().then(function(row){
+                self.end(row);
+            });
         }
     };
 });

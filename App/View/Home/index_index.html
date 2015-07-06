@@ -1,285 +1,429 @@
 <%=include indexheader_index.html%>
-    <style>
-        .cal{width:100%;height: 36px;list-style: none;padding:0;}
-.cal li{float: left;width: 14.2857%;font-size: 18px;}
-.cal li span ,.dateUl li span{text-align: center;display: block;width: 36px;height:36px;line-height:36px;margin: 0 auto;}
-.dateUl li span{border-radius: 50px;transition:background 0.6s;}
-.dateUl{width: 100%;overflow: auto;list-style: none;padding: 0;}
-.dateUl li{width: 14.2857%;float: left;height: 40px;}
-.nowday{background: #f4cc20;color:#fff;}
-.olddays{color: #ccc;}
-.checkDaysOk{background-color: #36b967;color: #fff;}
-.checkCallMeUp{border:1px #36b967 solid; color: #36b967;background: #fff;}
-        </style>
-<nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
-    <div class="container-fluid">
+<script>
+    var addresslistJson = <%- JSON.stringify(addresslist)%>;
+</script>
+<style>
+    .cal {
+        width: 100%;
+        height: 36px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .cal li {
+        float: left;
+        width: 14.2857%;
+        font-size: 18px;
+    }
+
+    .cal li span, .dateUl li span {
+        text-align: center;
+        display: block;
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        margin: 0 auto;
+    }
+
+    .dateUl li span {
+        border-radius: 50px;
+        transition: background 0.6s;
+    }
+
+    .dateUl {
+        width: 100%;
+        overflow: auto;
+        list-style: none;
+        padding: 0;
+    }
+
+    .dateUl li {
+        width: 14.2857%;
+        float: left;
+        height: 40px;
+    }
+
+    .nowday {
+        background: #f4cc20;
+        color: #fff;
+    }
+
+    .olddays {
+        color: #ccc;
+    }
+
+    .checkDaysOk {
+        background-color: #36b967;
+        color: #fff;
+    }
+
+    .checkCallMeUp {
+        border: 1px #36b967 solid;
+        color: #36b967;
+        background: #fff;
+    }
+</style>
+<div id="indexPostOrder">
+    <nav class="navbar navbar-default navbar-fixed-bottom navbar-inverse">
+        <div class="container-fluid">
             <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>
-    </div>
-</nav>
-<div class="jumbotron">
-    <div class="row">
-        <div class="col-xs-12">
-            <img src="/resource/img/indexImg/logo.png" id="logo" class="pull-left">
-            <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
         </div>
-    </div>
+    </nav>
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-xs-12">
+                <img src="/resource/img/indexImg/logo.png" id="logo" class="pull-left">
+                <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
+            </div>
+        </div>
         <!--<div class="date-picker">
         </div>-->
         <div class="calBody">
-        <ul class="cal">
-        <li><span>一</span></li>
-        <li><span>二</span></li>
-        <li><span>三</span></li>
-        <li><span>四</span></li>
-        <li><span>五</span></li>
-        <li><span>六</span></li>
-        <li><span>日</span></li>
-      </ul>
-      <ul class="dateUl">
-      </ul>
-        </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" >—</button>
-                </div>
-                <span class="input-group-addon">每天</span>
-                <input type="text" class="form-control" aria-label="..." value="1">
-                <span class="input-group-addon">份</span>
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" >+</button>
-                </div>
-            </div>
+            <ul class="cal">
+                <li><span>一</span></li>
+                <li><span>二</span></li>
+                <li><span>三</span></li>
+                <li><span>四</span></li>
+                <li><span>五</span></li>
+                <li><span>六</span></li>
+                <li><span>日</span></li>
+            </ul>
+            <ul class="dateUl">
+            </ul>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6">
-            <select class="form-control">
-                <option>配送时间段</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
-        </div>
-        <div class="col-xs-6">
-            <select class="form-control">
-                <option>接收方式</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-            </select>
-        </div>
-    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" v-on="click:everyDayNumBtn('a')">
+                            —
+                        </button>
+                    </div>
+                    <span class="input-group-addon">每天</span>
+                    <input type="text" class="form-control" aria-label="..." v-model="everyDayNum">
+                    <span class="input-group-addon">份</span>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#myModal"><i class="glyphicon glyphicon-plus-sign"></i> 选择配送地址</button>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg" data-toggle="modal" data-target="#addAddress">添加新的订餐地址</button>
-            </div>
-            <div class="modal-body">
-                <table class="table">
-                    <tr>
-                        <td>
-                            <h4>王文博 <small>15117909848</small></h4>
-                            北京市朝阳区望京新城424栋1906
-                        </td>
-                        <td>
-                           <a href="#" data-toggle="modal" data-target="#addAddress"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>王文博 <small>15117909848</small></h4>
-                            北京市朝阳区望京新城424栋1906
-                        </td>
-                        <td>
-                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
-                        </td>
-                    </tr>
-                    <tr class="active">
-                        <td>
-                            <h4>王文博 <small>15117909848</small></h4>
-                            北京市朝阳区望京新城424栋1906
-                        </td>
-                        <td>
-                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <h4>王文博 <small>15117909848</small></h4>
-                            北京市朝阳区望京新城424栋1906
-                        </td>
-                        <td>
-                            <h4><i class="glyphicon glyphicon-pencil"></i></h4>
-                        </td>
-                    </tr>
-                </table>
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" v-on="click:everyDayNumBtn('b')">
+                            +
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div class="modal fade" id="addAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body addAddress-body">
-                <form>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">联系人</label>
-                        <input type="email" class="form-control input-lg" id="exampleInputEmail1" placeholder="你的姓名">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">联系电话</label>
-                        <input type="number" class="form-control input-lg" id="exampleInputPassword1" placeholder="你的手机号">
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">送餐地址</label>
-                        <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" readonly>
-                    </div>
-                    <input type="address" class="form-control input-lg" id="exampleInputPassword1" placeholder="详细地址（如门牌号等）">
-                </form>
+        <div class="row">
+            <div class="col-xs-6">
+                <select class="form-control" v-model="expressTime">
+                    <option value="0">配送时间段</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
             </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">添加新的订餐地址</button>
+            <div class="col-xs-6">
+                <select class="form-control" v-model="receiveWay">
+                    <option value="0">接收方式</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
             </div>
         </div>
-    </div>
-</div>
-<div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                        <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等">
-            </div>
-            <div class="modal-body">
 
+        <div class="row">
+            <div class="col-xs-12">
+                <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#chooseAddress" id="chooseAddressBtn"><i class="glyphicon glyphicon-plus-sign"></i> 选择配送地址
+                </button>
             </div>
         </div>
     </div>
+    <div class="modal fade" id="chooseAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="submit" class="btn btn-success btn-block btn-lg" data-toggle="modal"
+                            data-target="#addressForm">添加新的订餐地址
+                    </button>
+                </div>
+                <div class="modal-body address-body">
+                    <table class="table">
+                        <tr v-repeat="addresslist">
+                            <td v-on="click:chooseAddress(this)">
+                                <h4>{{receiveuser}}<small>{{phonenum}}</small></h4>
+                                {{address}}
+                            </td>
+                            <td>
+                                <a href="#" data-toggle="modal" data-target="#addressForm" data-id="{{id}}"><h4><i
+                                        class="glyphicon glyphicon-pencil"></i></h4></a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="addressForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body addAddress-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">联系人</label>
+                            <input type="email" class="form-control input-lg" id="exampleInputEmail1"
+                                   placeholder="你的姓名" v-model="updateForm.receiveuser">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">联系电话</label>
+                            <input type="tel" class="form-control input-lg" id="exampleInputPassword1"
+                                   placeholder="你的手机号" v-model="updateForm.phonenum">
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">送餐地址</label>
+                            <input type="address" class="form-control input-lg" id="exampleInputPassword1"
+                                   placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" v-model="updateForm.addressKey" readonly>
+                        </div>
+                        <input type="address" class="form-control input-lg" id="exampleInputPassword1"
+                               placeholder="详细地址（如门牌号等）" v-model="updateForm.address">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block btn-lg" v-on="click:update">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggest">
+                </div>
+                <div class="modal-body searchAddress-body">
+                    <table class="table">
+                        <tr v-repeat="su:suggess">
+                            <td v-on="click:addsuggess(this)">
+                                <h4>{{su._name}}
+                                    <small>{{su._address}}</small>
+                                </h4>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--{{$data | json 2}}-->
+    </div>
+    <a href="/addresslist">地址</a>
+    <a href="/orderlist">订单列表</a>
+    <a href="">地址</a>
+    <a href="">地址</a>
 </div>
+
 <script>
-    // $(document).ready(function(){
-    //     $('.date-picker').datetimepicker({
-    //         language:  'zh-CN',
-    //         weekStart: 1,
-    //         todayBtn:  0,
-    //         autoclose: 1,
-    //         todayHighlight: 1,
-    //         startView: 2,
-    //         minView: 2,
-    //         forceParse: 0
-    //     });
-    // })
-    
-    //canlder
-    
+
     var dateUl = document.querySelector('.dateUl');
-    var firstDay=getFirstDay(); //0-6
-  //   4    ->前面放  3
-  //   2             1
-  //   7             6
-  if(firstDay==0)firstDay=7;
-  firstDay--;
-  
-  for(var i=0;i<firstDay;i++)
-  {
-    var oLi=document.createElement('li');
-    var oSpan = document.createElement('span');
-    oSpan.innerHTML=preDays()+(i-5);
-    oSpan.className="olddays";
-    oLi.appendChild(oSpan);
-    dateUl.appendChild(oLi);
-  };
-  
-  //本月有多少天就创建多少个LI
-  var oDate=new Date();
-  var toDay=oDate.getDate();
-  var aLi=dateUl.children;
-  var days=getDays();
-  for(var i=0;i<days;i++)
-  {
-    var oLi=document.createElement('li');
-    var oSpan = document.createElement('span');
-    oSpan.innerHTML=i+1;
-    if(oSpan.innerHTML<toDay){
-        oSpan.className='olddays';
-    }else if(oSpan.innerHTML==toDay)
-    {
-      //今天
-      oSpan.className='nowday';     
-    }else{
-      oSpan.className='checkDays';
-      var Y = oDate.getFullYear();
-      var M = oDate.getMonth();
-      var D = (i+1);
-      var fullDate = new Date(Y,M,D);
-      var S = fullDate.getDay();
-      oSpan.setAttribute('data-info',Y+"-"+M+"-"+D+"-"+S);
+    var firstDay = getFirstDay(); //0-6
+    //   4    ->前面放  3
+    //   2             1
+    //   7             6
+    if (firstDay == 0)firstDay = 7;
+    firstDay--;
+
+    for (var i = 0; i < firstDay; i++) {
+        var oLi = document.createElement('li');
+        var oSpan = document.createElement('span');
+        oSpan.innerHTML = preDays() + (i - 5);
+        oSpan.className = "olddays";
+        oLi.appendChild(oSpan);
+        dateUl.appendChild(oLi);
     }
-    oLi.appendChild(oSpan);
-    dateUl.appendChild(oLi);
-  };
-  var lastDays = 42-getDays()-firstDay;
-  console.log(lastDays);
-  for(var i=0;i<lastDays;i++){
-    var oLi=document.createElement('li');
-    var oSpan = document.createElement('span');
-    if(i==0){
-      oSpan.innerHTML='<i class="glyphicon glyphicon-heart-empty"></i>';
-    }else{
-      oSpan.innerHTML=i+1;
-    }
-    oSpan.className="checkDays";
-    var Y = oDate.getFullYear();
-    var M = oDate.getMonth()+1;
-    var D = (i+1);
-    var fullDate = new Date(Y,M,D);
-    var S = fullDate.getDay();
-    oSpan.setAttribute('data-info',Y+"-"+(M+1)+"-"+D+"-"+S);
-    oLi.appendChild(oSpan);
-    dateUl.appendChild(oLi);
-  }
-    function getDays(){
-      var oDate=new Date();
-      oDate.setMonth(oDate.getMonth()+1);
-      oDate.setDate(0);
-      return oDate.getDate(); 
-    };
-    function preDays(){
-      var oDate=new Date();
-      oDate.setMonth(oDate.getMonth());
-      oDate.setDate(0);
-      return oDate.getDate(); 
-    };
-    function getFirstDay(){
-      var oDate=new Date();
-      oDate.setDate(1);
-      return oDate.getDay();  
-      //0-6
-    };
-    var allCheckDays = document.querySelectorAll(".checkDays");
-    for(var i=0;i<allCheckDays.length;i++){
-      allCheckDays[i].onclick=function(){
-        if (this.className=="checkDays") {
-          this.className="checkDaysOk";
-        }else{
-          this.className="checkDays"
+    ;
+
+    //本月有多少天就创建多少个LI
+    var oDate = new Date();
+    var toDay = oDate.getDate();
+    var aLi = dateUl.children;
+    var days = getDays();
+    for (var i = 0; i < days; i++) {
+        var oLi = document.createElement('li');
+        var oSpan = document.createElement('span');
+        oSpan.innerHTML = i + 1;
+        if (oSpan.innerHTML < toDay) {
+            oSpan.className = 'olddays';
+        } else if (oSpan.innerHTML == toDay) {
+            //今天
+            oSpan.className = 'nowday';
+        } else {
+            oSpan.className = 'checkDays';
+            var Y = oDate.getFullYear();
+            var M = oDate.getMonth();
+            var D = (i + 1);
+            var fullDate = new Date(Y, M, D);
+            var S = fullDate.getDay();
+//            oSpan.setAttribute('data-info', Y + "-" + M + "-" + D + "-" + S);
+            oSpan.setAttribute('v-on',"click:getdata");
         }
-        
-      }
+        oLi.appendChild(oSpan);
+        dateUl.appendChild(oLi);
     }
+    ;
+    var lastDays = 42 - getDays() - firstDay;
+    for (var i = 0; i < lastDays; i++) {
+        var oLi = document.createElement('li');
+        var oSpan = document.createElement('span');
+        if (i == 0) {
+            oSpan.innerHTML = '<i class="glyphicon glyphicon-heart-empty"></i>';
+        } else {
+            oSpan.innerHTML = i + 1;
+        }
+        oSpan.className = "checkDays";
+        var Y = oDate.getFullYear();
+        var M = oDate.getMonth() + 1;
+        var D = (i + 1);
+        var fullDate = new Date(Y, M, D);
+        var S = fullDate.getDay();
+//        oSpan.setAttribute('data-info', Y + "-" + (M + 1) + "-" + D + "-" + S);
+        oSpan.setAttribute('v-on',"click:getdata");
+        oLi.appendChild(oSpan);
+        dateUl.appendChild(oLi);
+    }
+    function getDays() {
+        var oDate = new Date();
+        oDate.setMonth(oDate.getMonth() + 1);
+        oDate.setDate(0);
+        return oDate.getDate();
+    }
+    ;
+    function preDays() {
+        var oDate = new Date();
+        oDate.setMonth(oDate.getMonth());
+        oDate.setDate(0);
+        return oDate.getDate();
+    }
+    ;
+    function getFirstDay() {
+        var oDate = new Date();
+        oDate.setDate(1);
+        return oDate.getDay();
+        //0-6
+    }
+    ;
+    var allCheckDays = document.querySelectorAll(".checkDays");
+    for (var i = 0; i < allCheckDays.length; i++) {
+        allCheckDays[i].onclick = function () {
+            if (this.className == "checkDays") {
+                this.className = "checkDaysOk";
+            } else {
+                this.className = "checkDays"
+            }
+
+        }
+    }
+
+    var sendOrder = new Vue({
+        el:'#indexPostOrder',
+        data:{
+            expressTime:0,
+            receiveWay:0,
+            everyDayNum:1,
+            addresslist:addresslistJson,
+            suggest:'',
+            updateForm:{
+                userid:'<%- userid%>',
+                receiveuser:'',
+                address:'',
+                addressKey:'',
+                phonenum:''
+            },
+            suggess:[],
+            chooseaddressId:''
+        },
+        methods:{
+            getdata:function(e){
+                console.log(e.target.innerHTML);
+            },
+            everyDayNumBtn:function(action){
+                action=='a'?this.$data.everyDayNum--:this.$data.everyDayNum++;
+                if(this.$data.everyDayNum<1) this.$data.everyDayNum=1;
+            },
+            update:function(){
+                var updateInfo = JSON.stringify(this.$data.updateForm);
+                $.ajax({
+                    url:'Home/Index/update',
+                    type:'POST',
+                    data:{info:updateInfo},
+                    success:function(data){
+                        $('#addressForm').modal('hide');
+                    }
+                })
+            },
+            chooseAddress:function(p){
+                this.$data.chooseaddressId = p.id;
+                $('#chooseAddress').modal('hide');
+                console.log(p.address);
+                $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> "+p.address).attr('class','btn btn-success btn-block btn-lg');
+            },
+            getsuggest:function(){
+                var tableid = '5588fe0be4b062df8bcd62da';
+                var city = '北京市';
+                var keywords = this.$data.suggest;
+                var filter = ' ';
+                var limit = 10;
+                var page = 1;
+                var key = '4af78342937c8140440f75c9809063c5';
+                var that = this;
+
+                $.ajax({
+                    type: "get",
+                    url: "http://yuntuapi.amap.com/datasearch/local?tableid="+tableid+"&city="+city+"&keywords="+keywords+"&key="+key,
+                    dataType: "jsonp",
+                    jsonp: "callback",
+                    jsonpCallback:"jsonpCallback",
+                    success: function(json){
+                        var arr=[];
+                        arr.push(json);
+                        that.$data.suggess = arr[0].datas;
+                    },
+                    error: function(){
+                        console.log('fail');
+                    }
+                });
+            },
+            addsuggess:function(suggess){
+                $('#searchAddress').modal('hide');
+                this.$data.updateForm['addressKey']=suggess.su._name;
+                this.$data.updateForm['address']=suggess.su._address;
+                console.log(suggess.su);
+            }
+        }
+    });
+
+    $('#addressForm').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        if(button.data('id')!=undefined){
+            $.ajax({
+                url:'Home/Index/select',
+                type:'POST',
+                data:{id:button.data('id')},
+                success:function(data){
+                    sendOrder.$data.updateForm = JSON.parse(data)[0];
+                }
+            });
+        }else{
+            sendOrder.$data.updateForm = {
+                userid:'<%- userid%>',
+                        receiveuser:'',
+                        address:'',
+                        addressKey:'',
+                        phonenum:''
+            }
+        }
+
+    });
 </script>
 </body>
 </html>
