@@ -41,9 +41,7 @@ module.exports = Model(function(){
         getUserAddressList:function(id){
             var moment = require('moment')
             return D('addresslist').where({'userid':id}).countSelect().then(function(data){
-                for(var k in data.data){
-                    data.data[k].time = moment(data.data[k].time).lang('zh-cn').format('YYYY-MM-DD HH:mm:ss');
-                }
+                formatTime(data.data,'YYYY-MM-DD HH:mm:ss','time');
                 return {"data":data.data,"count":data.count};
             })
         },

@@ -36,10 +36,11 @@ global.staticFilter = function(data){
         }
     }
 };
-global.formatTime = function(data){
+global.formatTime = function(data,format,proto){
     var moment = require('moment');
     for(var k in data){
-        data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('llll');
+        data[k][proto] = moment(data[k][proto]).lang('zh-cn').format(format);
 
     }
+
 }
