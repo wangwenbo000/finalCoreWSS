@@ -204,7 +204,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggest">
+                    <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggestText">
                 </div>
                 <div class="modal-body searchAddress-body">
                     <table class="table">
@@ -219,12 +219,12 @@
                 </div>
             </div>
         </div>
-        <!--{{$data | json 2}}-->
     </div>
     <!--<a href="/addresslist">地址</a>-->
     <!--<a href="/orderlist">订单列表</a>-->
     <!--<a href="">地址</a>-->
     <!--<a href="">地址</a>-->
+    {{$data | json 2}}
 </div>
 
 <script>
@@ -236,7 +236,7 @@
             everyDayNum:1,
             addresslist:addresslistJson,
             calendar:calendarArr,
-            suggest:'',
+            suggestText:'',
             updateForm:{
                 userid:'<%- userid%>',
                 receiveuser:'',
@@ -275,7 +275,7 @@
             getsuggest:function(){
                 var tableid = '5588fe0be4b062df8bcd62da';
                 var city = '北京市';
-                var keywords = this.$data.suggest;
+                var keywords = this.$data.suggestText;
                 var filter = ' ';
                 var limit = 10;
                 var page = 1;
@@ -330,13 +330,12 @@
         }else{
             sendOrder.$data.updateForm = {
                 userid:'<%- userid%>',
-                        receiveuser:'',
-                        address:'',
-                        addressKey:'',
-                        phonenum:''
+                receiveuser:'',
+                address:'',
+                addressKey:'',
+                phonenum:''
             }
         }
-
     });
 </script>
 </body>

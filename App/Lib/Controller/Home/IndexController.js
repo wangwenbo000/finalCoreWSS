@@ -1,6 +1,6 @@
 /**
  * controller
- * @return 
+ * @return
  */
 module.exports = Controller("Home/BaseController", function(){
   "use strict";
@@ -13,7 +13,7 @@ module.exports = Controller("Home/BaseController", function(){
 
       console.log(moment().format('Hm'));
 
-      if(parseInt(moment().format('Hm'))>220){
+      if(parseInt(moment().format('Hm'))>2200){
         var start = 2;
         var end = 9;
       }else{
@@ -33,8 +33,16 @@ module.exports = Controller("Home/BaseController", function(){
       self.session('userInfo').then(function(data){
         return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
           self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM')});
-          self.display();
-        });
+
+        }).then(function(){
+          var productsModel = D('Product');
+          return D('Products').where({'isactive':'0'}).select().then(function(data){
+            return data;
+          }).then(function(data){
+            console.log(data);
+            self.display();
+          });
+        })
       });
     },
     selectAction:function(){
