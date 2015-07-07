@@ -13,7 +13,7 @@ module.exports = Controller("Home/BaseController", function(){
 
       console.log(moment().format('Hm'));
 
-      if(parseInt(moment().format('Hm'))>220){
+      if(parseInt(moment().format('Hm'))>2200){
         var start = 2;
         var end = 9;
       }else{
