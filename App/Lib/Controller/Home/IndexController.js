@@ -11,8 +11,6 @@ module.exports = Controller("Home/BaseController", function(){
       var moment = require('moment');
       var calendarArr = [];
 
-      console.log(moment().format('Hm'));
-
       if(parseInt(moment().format('Hm'))>2200){
         var start = 2;
         var end = 9;
@@ -48,7 +46,6 @@ module.exports = Controller("Home/BaseController", function(){
                 }
               }
             }
-            console.log(calendarArr);
             self.display();
           });
         })
@@ -91,6 +88,50 @@ module.exports = Controller("Home/BaseController", function(){
       }
 
 
+    },
+    payAction:function(){
+      var moment = require('moment');
+      var self = this;
+      var getUserId = self.post('userid');
+      var getPnum = self.post('productnum');
+      var getAddressinfo = JSON.parse(self.post('addressinfo'));
+      var getExpressTime = self.post('expresstime');
+      var getReceiveWay = self.post('receiveWay');
+      var chooseFoodList = JSON.parse(self.post('chooselist'));
+      var orderid = 2;
+
+      var total = 0;
+      for(var k in chooseFoodList){
+        total+=chooseFoodList[k]['singleprice'];
+      }
+
+        return D('Order').add({
+          orderid:orderid,
+          ordertime:moment().format('YYYY-MM-DD HH:mm:ss'),
+          address:getAddressinfo['address'],
+          pricetotal:total,
+          orderfrom:1,
+          userid:getUserId,
+          nowstate:chooseFoodList.length
+        }).then(function(rowId){
+          for(var k in chooseFoodList){
+            chooseFoodList[k]['expressaddress']=getAddressinfo['address'];
+            chooseFoodList[k]['receiveuser']=getAddressinfo['receiveuser'];
+            chooseFoodList[k]['orderid']=rowId;
+            chooseFoodList[k]['productprice']=chooseFoodList[k]['singleprice']*getPnum;
+            chooseFoodList[k]['productnum']=getPnum;
+            chooseFoodList[k]['expressprice']=0;
+            chooseFoodList[k]['productstate']=10;
+            chooseFoodList[k]['expresstime']=getExpressTime;
+            chooseFoodList[k]['userid']=getUserId;
+            chooseFoodList[k]['ordernum']=orderid;
+          }
+          console.log(chooseFoodList);
+        }).then(function(){
+          return D('Orderproductcopy').addAll(chooseFoodList).then(function(){
+            self.end('ok');
+          })
+        })
     },
     _404Action: function(){
       this.status(404); //发送404状态码

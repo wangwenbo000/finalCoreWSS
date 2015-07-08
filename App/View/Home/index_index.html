@@ -76,9 +76,6 @@
     <nav class="navbar navbar-default navbar-fixed-bottom ">
         <a href="javascript:;" class="btn paybtn" v-on="click:pay" data-loading-text="订单正在生成">确认订单</a>
         <p class="countP"><span>总价:</span><span> ￥{{total | formatPrice}}</span></p>
-        <!--<div class="container-fluid">-->
-            <!--<button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>-->
-        <!--</div>-->
     </nav>
     <div class="jumbotron">
         <div class="row">
@@ -87,7 +84,7 @@
                 <img src="/resource/img/adminImg/wangwenbo.jpg" id="face" class="pull-right img-circle">
             </div>
         </div>
-        <table class="table table-bordered calendar">
+        <table id="showP" class="table table-bordered calendar">
             <tr>
                 <td colspan="7"><h3 class="calTitle"><%=date%>月 <small>一周早餐</small></h3></td>
             </tr>
@@ -138,19 +135,21 @@
             <div class="col-xs-6">
                 <select class="form-control" v-model="expressTime">
                     <option value="0">配送时间段</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option>7:00-7:30</option>
+                    <option>7:30-8:00</option>
+                    <option>8:00-8:30</option>
+                    <option>8:30-9:00</option>
+                    <option>9:00-9:30</option>
+                    <option>9:30-10:00</option>
                 </select>
             </div>
             <div class="col-xs-6">
                 <select class="form-control" v-model="receiveWay">
                     <option value="0">接收方式</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
+                    <option>接收方式2</option>
+                    <option>接收方式3</option>
+                    <option>接收方式4</option>
+                    <option>接收方式5</option>
                 </select>
             </div>
         </div>
@@ -172,7 +171,7 @@
                 </div>
                 <div class="modal-body address-body">
                     <table class="table">
-                        <tr v-repeat="addresslist">
+                        <tr v-repeat="addresslist" data-index={{$index}}>
                             <td v-on="click:chooseAddress(this)">
                                 <h4>{{receiveuser}}<small>{{phonenum}}</small></h4>
                                 {{address}}
@@ -237,10 +236,22 @@
             </div>
         </div>
     </div>
-    <!--<a href="/addresslist">地址</a>-->
-    <!--<a href="/orderlist">订单列表</a>-->
-    <!--<a href="">地址</a>-->
-    <!--<a href="">地址</a>-->
+    <div class="modal fade" id="wariningInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                  <h4></h4>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="/addresslist">地址</a>
+    <a href="/orderlist">订单列表</a>
+    <a href="">地址</a>
+    <a href="">地址</a>
     <!-- {{$data | json 2}} -->
 </div>
 
@@ -250,7 +261,6 @@ Array.prototype.remove = function(dx)
     if(isNaN(dx)||dx>this.length){return false;}
     this.splice(dx,1);
 }
-
     var sendOrder = new Vue({
         el:'#indexPostOrder',
         data:{
@@ -270,7 +280,7 @@ Array.prototype.remove = function(dx)
                 phonenum:''
             },
             suggess:[],
-            chooseaddressId:''
+            chooseaddressinfo:null
         },
         filters:{
           formatPrice:function(value){
@@ -303,9 +313,8 @@ Array.prototype.remove = function(dx)
                 })
             },
             chooseAddress:function(p){
-                this.$data.chooseaddressId = p.id;
+              this.$data.chooseaddressinfo=addresslistJson[p.$index];
                 $('#chooseAddress').modal('hide');
-                console.log(p.address);
                 $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> "+p.address).attr('class','btn btn-success btn-block btn-lg');
             },
             getsuggest:function(){
@@ -356,10 +365,66 @@ Array.prototype.remove = function(dx)
             },
             pay:function(){
               var paybtn = $('.paybtn').button('loading');
+              var chooseProductJson_res = [];
+              var chooseProductJson = this.$data.calendar;
+              for(var k in chooseProductJson){
+                switch (chooseProductJson[k]['choose']) {
+                  case 'success':
+                  chooseProductJson_res.push({
+                    productName:chooseProductJson[k].productInfo['productName'],
+                    time:chooseProductJson[k]['date'],
+                    singleprice:chooseProductJson[k].productInfo['price']
+                  });
+                    break;
+                }
+              }
+              if(chooseProductJson_res.length==0){
+                showAlertInfo('没有选择早餐 ☀️');
+                paybtn.button('reset');
+                return false;
+              }
+              if(this.$data.receiveWay==0){
+                showAlertInfo('请选择接收方式 📮');
+                paybtn.button('reset');
+                return false;
+              }
+              if(this.$data.expressTime==0){
+                showAlertInfo('还没有选择配送时间 🕗');
+                paybtn.button('reset');
+                return false;
+              }
+              if(this.$data.chooseaddressinfo==null){
+                showAlertInfo('请选择配送地址 🌈');
+                paybtn.button('reset');
+                return false;
+              }
+              $.ajax({
+                url:'Home/Index/pay',
+                type:'POST',
+                data:{
+                  userid:'<%- userid%>',
+                  productnum:this.$data.everyDayNum,
+                  receiveWay:this.$data.receiveWay,
+                  chooselist:JSON.stringify(chooseProductJson_res),
+                  addressinfo:JSON.stringify(this.$data.chooseaddressinfo),
+                  expresstime:this.$data.expressTime
+                },
+                success:function(data){
+                  if (data=='ok') {
+                    paybtn.button('reset');
+                  }
+                }
+              });
             }
         }
     });
 
+    function showAlertInfo(value){
+      $('#wariningInfo').modal('show');
+      $('#wariningInfo').on('shown.bs.modal', function (event) {
+        $(this).find('.modal-body h4').text(value);
+      });
+    }
     $('#addressForm').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         if(button.data('id')!=undefined){
