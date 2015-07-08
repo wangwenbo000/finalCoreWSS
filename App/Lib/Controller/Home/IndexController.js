@@ -25,6 +25,7 @@ module.exports = Controller("Home/BaseController", function(){
         calendarArr.push({
           days:moment().add('days',d).format('DD'),
           week:moment().add('days',d).lang('zh-cn').format('dd'),
+          weeknum:moment().add('days',d).lang('zh-cn').format('d'),
           date:moment().add('days',d).lang('zh-cn').format('l'),
           choose:'',
           done:true
@@ -33,13 +34,20 @@ module.exports = Controller("Home/BaseController", function(){
       self.session('userInfo').then(function(data){
         return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
           self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM')});
-
         }).then(function(){
           var productsModel = D('Product');
-          return D('Products').where({'isactive':'0'}).select().then(function(data){
+          return D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select().then(function(data){
             return data;
           }).then(function(data){
-            console.log(data);
+            for(var k in calendarArr){
+              var Arr = calendarArr[k]
+              for(var kk in data){
+                if(parseInt(data[kk].days)==Arr.weeknum){
+                  Arr['productInfo'] = data[kk];
+                }
+              }
+            }
+            console.log(calendarArr);
             self.display();
           });
         })
