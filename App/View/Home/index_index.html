@@ -62,11 +62,20 @@
         font-size: 18px;
         color: #f40;
     }
+    .hidechoosefood{
+      display: none;
+    }
+    table{
+      background: #fff;
+    }
+    .table{
+      margin-bottom: 10px;
+    }
 </style>
 <div id="indexPostOrder">
     <nav class="navbar navbar-default navbar-fixed-bottom ">
-        <a href="javascript:;" class="btn paybtn">确认订单</a>
-        <p class="countP"><span>总价:</span><span> ￥0.00</span></p>
+        <a href="javascript:;" class="btn paybtn" v-on="click:pay" data-loading-text="订单正在生成">确认订单</a>
+        <p class="countP"><span>总价:</span><span> ￥{{total | formatPrice}}</span></p>
         <!--<div class="container-fluid">-->
             <!--<button type="submit" class="btn btn-success navbar-btn btn-block btn-lg">确认订单</button>-->
         <!--</div>-->
@@ -87,6 +96,14 @@
             </tr>
             <tr>
                 <td v-repeat="calendar" v-on="click:chooseDay(this)" class="{{choose}}"><h4>{{days}}</h4></td>
+            </tr>
+        </table>
+        <table class="table table-condensed">
+            <tr v-repeat="calendar" class="{{chooseFoodList}}">
+                <td><img src="/resource/img/food/{{productInfo.days}}.jpg" width="40"></td>
+                <td><h5>{{productInfo.productName}}<small> ×{{everyDayNum}}</small></h5><span class="text-muted">{{date}}</span></td>
+                <td class="text-danger">￥{{productInfo.price}}</td>
+                <td><span class="label label-warning">周{{week}}</span></td>
             </tr>
         </table>
         <div class="alert alert-warning" role="alert">
@@ -228,6 +245,12 @@
 </div>
 
 <script>
+Array.prototype.remove = function(dx)
+{
+    if(isNaN(dx)||dx>this.length){return false;}
+    this.splice(dx,1);
+}
+
     var sendOrder = new Vue({
         el:'#indexPostOrder',
         data:{
@@ -237,6 +260,8 @@
             addresslist:addresslistJson,
             calendar:calendarArr,
             suggestText:'',
+            total:0,
+            totalcopy:0,
             updateForm:{
                 userid:'<%- userid%>',
                 receiveuser:'',
@@ -247,12 +272,23 @@
             suggess:[],
             chooseaddressId:''
         },
+        filters:{
+          formatPrice:function(value){
+            return value.toFixed(2);
+          }
+        },
         methods:{
             getdata:function(e){
                 console.log(e.target.innerHTML);
             },
             everyDayNumBtn:function(action){
-                action=='a'?this.$data.everyDayNum--:this.$data.everyDayNum++;
+                if(action=='a'){
+                  this.$data.everyDayNum--;
+                  this.$data.total = this.$data.totalcopy/this.$data.everyDayNum;
+                }else {
+                  this.$data.everyDayNum++;
+                  this.$data.total = this.$data.totalcopy*this.$data.everyDayNum;
+                }
                 if(this.$data.everyDayNum<1) this.$data.everyDayNum=1;
             },
             update:function(){
@@ -307,11 +343,19 @@
             chooseDay:function(p){
                 if(p.done){
                     p.choose='success';
+                    p.chooseFoodList = '';
+                    this.$data.total = (this.$data.total+p.productInfo.price)*this.$data.everyDayNum;
+                    this.$data.totalcopy = this.$data.total;
                 }else{
                     p.choose='';
+                    p.chooseFoodList = 'hidechoosefood';
+                    this.$data.total = (this.$data.total-p.productInfo.price)*this.$data.everyDayNum;
+                    this.$data.totalcopy = this.$data.total;
                 }
                 p.done = !p.done;
-
+            },
+            pay:function(){
+              var paybtn = $('.paybtn').button('loading');
             }
         }
     });

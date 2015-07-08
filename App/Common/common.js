@@ -39,7 +39,7 @@ global.staticFilter = function(data){
 global.formatTime = function(data,format,proto){
     var moment = require('moment');
     for(var k in data){
-        data[k][proto] = moment(data[k][proto]).lang('zh-cn').format(format);
+        data[k][proto] = moment(data[k][proto]).locale('zh-cn').format(format);
 
     }
 

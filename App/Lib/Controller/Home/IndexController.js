@@ -24,10 +24,11 @@ module.exports = Controller("Home/BaseController", function(){
       for(var d=start;d<end;d++){
         calendarArr.push({
           days:moment().add('days',d).format('DD'),
-          week:moment().add('days',d).lang('zh-cn').format('dd'),
-          weeknum:moment().add('days',d).lang('zh-cn').format('d'),
-          date:moment().add('days',d).lang('zh-cn').format('l'),
+          week:moment().add('days',d).locale('zh-cn').format('dd'),
+          weeknum:moment().add('days',d).locale('zh-cn').format('d'),
+          date:moment().add('days',d).locale('zh-cn').format('l'),
           choose:'',
+          chooseFoodList:'hidechoosefood',
           done:true
         });
       }
