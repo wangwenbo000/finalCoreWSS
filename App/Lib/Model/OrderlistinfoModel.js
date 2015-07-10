@@ -9,7 +9,7 @@ module.exports = Model(function(){
                 var orderData = data;
                 return D('Orderproductcopy').where({orderid:data[0].id}).order('id DESC').countSelect().then(function(data){
                     staticFilter(data.data);
-                    formatTime(data,'llll','ordertime');
+                    formatTime(data.data,'YYYY-MM-DD dddd','time');
 ;                    return {orderdata:orderData,listdata:data.data,listcount:data.count}
                 })
             })

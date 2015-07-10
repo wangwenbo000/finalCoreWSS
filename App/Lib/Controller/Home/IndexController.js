@@ -44,7 +44,11 @@ module.exports = Controller("Home/BaseController", function(){
               for(var kk in data){
                 if(parseInt(data[kk].days)==Arr.weeknum){
                   Arr['productInfo'] = data[kk];
+                  if(parseInt(data[kk].repertory)<=0){
+                    Arr['days'] = "罄";
+                  }
                 }
+                console.log(data[kk].repertory);
               }
             }
             self.display();
@@ -75,7 +79,7 @@ module.exports = Controller("Home/BaseController", function(){
           userid:getUpdateInfo['userid'],
           time:getUpdateInfo['time']
         }).then(function(rowId){
-          self.end(rowId);
+          self.end('add');
         });
       }else{
         return D('Addresslist').where({id:getUpdateInfo.id}).update({
@@ -84,7 +88,7 @@ module.exports = Controller("Home/BaseController", function(){
           addressKey:getUpdateInfo['addressKey'],
           address:getUpdateInfo['address']
         }).then(function(rowId){
-          self.end('ok');
+          self.end('update');
         });
       }
 
