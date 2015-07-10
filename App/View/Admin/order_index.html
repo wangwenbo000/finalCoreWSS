@@ -218,17 +218,16 @@
                                 <tbody>
                                 <tr>
                                     <td><img src="/resource/img/food/{{foodimg}}" width="60"></td>
-                                    <td>{{id}}</td>
+                                    <td>DB_ID:{{id}}</td>
                                     <td><h4>×{{productnum}}</h4></td>
                                     <td><h2>{{receiveuser}}</h2></td>
-                                    <td><h4>{{ordernum}}</h4></td>
+                                    <td><h4><kbd>{{ordernum}}<kbd></h4></td>
                                     <td class="state{{productstatenum}}" align="center"><h3 style="color: #fff;">{{productstate}}</h3></td>
                                 </tr>
                                 <tr>
-                                    <td>望京</td>
-                                    <td>大厦</td>
+                                    <td colspan="2">{{addressKey}}</td>
                                     <td colspan="2">{{expressaddress}}</td>
-                                    <td>配送费：￥{{expressprice}}</td>
+                                    <td>配送费：￥{{expressprice | formatPrice}}</td>
                                     <td><h4>{{phonenum}}</h4></td>
                                 </tr>
                                 <tr>
@@ -239,8 +238,8 @@
                                 <tr>
                                     <td colspan="3">配送员</td>
                                     <td>没有参与活动</td>
-                                    <td>单价：￥{{singleprice}}</td>
-                                    <td><h2 class="text-danger">￥88</h2></td>
+                                    <td>单价：￥{{singleprice | formatPrice}}</td>
+                                    <td><h2 class="text-danger">￥{{productprice | formatPrice}}</h2></td>
                                 </tr>
                                 <tr>
                                     <td colspan="6">活动相关</td>
@@ -251,7 +250,7 @@
                                 </tbody>
                             </table>
                             <h3 class="page-header">订单配送纪录</h3>
-                            <dl class="dl-horizontal page-header">
+                            <!-- <dl class="dl-horizontal page-header">
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>商家已经确认早餐准备分配 您的早餐正在爱心制作 ❤️</dd>
                                 <div class="divider"></div>
@@ -273,7 +272,7 @@
                                 <dd>商家已确定为您办理退款，款项将在XXX内退回到您的账户请注意查收</dd>
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>数据库维护，您的订单已过期，无法进行操作</dd>
-                            </dl>
+                            </dl> -->
                                 <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="attachmentinfo">
@@ -285,15 +284,15 @@
                                     <td>{{attachment.id}}</td>
                                     <td><h2>{{userInfo.username}}</h2><span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span></td>
                                     <td colspan="4"><h5><span class="label label-success">地图获取地点</span></h5> {{attachment.address}}</td>
-                                    <td><h4>{{attachment.orderid}}</h4></td>
+                                    <td><h4><kbd>{{attachment.orderid}}</kbd></h4></td>
                                 </tr>
 
                                 <tr class="active">
-                                    <td colspan="2"><h3>3<small>天</small></h3></td>
-                                    <td><h3>20<small>份</small></h3></td>
-                                    <td>运费：￥{{attachment.expressprice}}</td>
+                                    <td colspan="2"><h3>{{attachment.countDays}}<small>天</small></h3></td>
+                                    <td><h3>{{attachment.productTotal}}<small>份</small></h3></td>
+                                    <td>运费：￥{{attachment.expressprice | formatPrice}}</td>
                                     <td colspan="3">{{attachment.ordertime}}</td>
-                                    <td><h2 class="text-danger">￥{{attachment.pricetotal}}</h2></td>
+                                    <td><h2 class="text-danger">￥{{attachment.pricetotal | formatPrice}}</h2></td>
                                 </tr>
                                 <tr class="active">
                                     <td colspan="8">{{attachment.remark}}</td>
@@ -308,7 +307,7 @@
                                     <td><h4>无活动</h4></td>
                                     <td>{{time}}</td>
                                     <td>{{expresstime}} {{iscallmeup}}</td>
-                                    <td><h4 class="text-danger">￥{{singleprice}}</h4></td>
+                                    <td><h4 class="text-danger">￥{{singleprice | formatPrice}}</h4></td>
                                     <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
                                 </tr>
                                 </tbody>

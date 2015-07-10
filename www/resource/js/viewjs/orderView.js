@@ -4,11 +4,21 @@ var orderList = new Vue({
 });
 var orderSingleInfo = new Vue({
     el:'#singleorderinfo',
-    data:{}
+    data:{},
+    filters:{
+      formatPrice:function(value){
+        return parseInt(value).toFixed(2);
+      }
+    }
 });
 var attachmentInfo = new Vue({
     el:'#attachmentinfo',
-    data:{}
+    data:{},
+    filters:{
+      formatPrice:function(value){
+        return parseInt(value).toFixed(2);
+      }
+    }
 });
 var formfliter = new Vue({
     el: '#formfliter',

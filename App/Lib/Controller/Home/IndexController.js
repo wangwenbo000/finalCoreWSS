@@ -7,6 +7,7 @@ module.exports = Controller("Home/BaseController", function(){
   return {
     indexAction: function(){
       //render View/Home/index_index.html file
+      var moment = require('moment');
       var self = this;
       var moment = require('moment');
       var calendarArr = [];
@@ -73,8 +74,8 @@ module.exports = Controller("Home/BaseController", function(){
           address:getUpdateInfo['address'],
           userid:getUpdateInfo['userid'],
           time:getUpdateInfo['time']
-        }).then(function(){
-          self.end('aok');
+        }).then(function(rowId){
+          self.end(rowId);
         });
       }else{
         return D('Addresslist').where({id:getUpdateInfo.id}).update({
@@ -82,7 +83,7 @@ module.exports = Controller("Home/BaseController", function(){
           phonenum:getUpdateInfo['phonenum'],
           addressKey:getUpdateInfo['addressKey'],
           address:getUpdateInfo['address']
-        }).then(function(){
+        }).then(function(rowId){
           self.end('ok');
         });
       }
@@ -98,7 +99,7 @@ module.exports = Controller("Home/BaseController", function(){
       var getExpressTime = self.post('expresstime');
       var getReceiveWay = self.post('receiveWay');
       var chooseFoodList = JSON.parse(self.post('chooselist'));
-      var orderid = 2;
+      var orderid = moment().format('YYYYMMDDHHmmss')+""+moment().millisecond();
 
       var total = 0;
       for(var k in chooseFoodList){
@@ -116,7 +117,9 @@ module.exports = Controller("Home/BaseController", function(){
         }).then(function(rowId){
           for(var k in chooseFoodList){
             chooseFoodList[k]['expressaddress']=getAddressinfo['address'];
+            chooseFoodList[k]['phonenum']=getAddressinfo['phonenum'];
             chooseFoodList[k]['receiveuser']=getAddressinfo['receiveuser'];
+            chooseFoodList[k]['addressKey']=getAddressinfo['addressKey'];
             chooseFoodList[k]['orderid']=rowId;
             chooseFoodList[k]['productprice']=chooseFoodList[k]['singleprice']*getPnum;
             chooseFoodList[k]['productnum']=getPnum;
@@ -125,6 +128,7 @@ module.exports = Controller("Home/BaseController", function(){
             chooseFoodList[k]['expresstime']=getExpressTime;
             chooseFoodList[k]['userid']=getUserId;
             chooseFoodList[k]['ordernum']=orderid;
+            chooseFoodList[k]['foodimg']='';
           }
           console.log(chooseFoodList);
         }).then(function(){

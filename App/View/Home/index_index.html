@@ -164,24 +164,27 @@
     <div class="modal fade" id="chooseAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="submit" class="btn btn-success btn-block btn-lg" data-toggle="modal"
-                            data-target="#addressForm">添加新的订餐地址
-                    </button>
-                </div>
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">选择一个收货地址</h4>
+              </div>
                 <div class="modal-body address-body">
                     <table class="table">
                         <tr v-repeat="addresslist" data-index={{$index}}>
                             <td v-on="click:chooseAddress(this)">
-                                <h4>{{receiveuser}}<small>{{phonenum}}</small></h4>
+                                <h4>{{receiveuser}}<small> {{phonenum}}</small></h4>
                                 {{address}}
                             </td>
-                            <td>
-                                <a href="#" data-toggle="modal" data-target="#addressForm" data-id="{{id}}"><h4><i
-                                        class="glyphicon glyphicon-pencil"></i></h4></a>
+                            <td v-on="click:editAddress(this)">
+                                <a href="#" data-toggle="modal" data-target="#addressForm"><h4><i class="glyphicon glyphicon-pencil" ></i></h4></a>
                             </td>
                         </tr>
                     </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success btn-block btn-lg" data-toggle="modal"
+                            data-target="#addressForm" v-on="click:addNewAddress">添加新的订餐地址
+                    </button>
                 </div>
             </div>
         </div>
@@ -189,6 +192,10 @@
     <div class="modal fade" id="addressForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
+                <h4 class="modal-title" id="gridSystemModalLabel">添加新的地址</h4>
+              </div>
                 <div class="modal-body addAddress-body">
                     <form>
                         <div class="form-group">
@@ -211,7 +218,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-success btn-block btn-lg" v-on="click:update">确定</button>
+                    <button type="submit" class="btn btn-success btn-block btn-lg" v-ok="addresslist : updateForm" v-on="click:update(this)">确定</button>
                 </div>
             </div>
         </div>
@@ -261,6 +268,7 @@ Array.prototype.remove = function(dx)
     if(isNaN(dx)||dx>this.length){return false;}
     this.splice(dx,1);
 }
+
     var sendOrder = new Vue({
         el:'#indexPostOrder',
         data:{
@@ -277,7 +285,8 @@ Array.prototype.remove = function(dx)
                 receiveuser:'',
                 address:'',
                 addressKey:'',
-                phonenum:''
+                phonenum:'',
+                aindex:''
             },
             suggess:[],
             chooseaddressinfo:null
@@ -289,7 +298,29 @@ Array.prototype.remove = function(dx)
         },
         methods:{
             getdata:function(e){
-                console.log(e.target.innerHTML);
+                // console.log(e.target.innerHTML);
+            },
+            editAddress:function(p){
+              var _this = this;
+              $.ajax({
+                  url:'Home/Index/select',
+                  type:'POST',
+                  data:{id:p.id},
+                  success:function(data){
+                      _this.$data.updateForm = JSON.parse(data)[0];
+                      _this.$data.updateForm.aindex = p.$index;
+                  }
+              });
+            },
+            addNewAddress:function(){
+              this.$data.updateForm = {
+                userid:'<%- userid%>',
+                receiveuser:'',
+                address:'',
+                addressKey:'',
+                phonenum:'',
+                index:''
+              }
             },
             everyDayNumBtn:function(action){
                 if(action=='a'){
@@ -301,21 +332,27 @@ Array.prototype.remove = function(dx)
                 }
                 if(this.$data.everyDayNum<1) this.$data.everyDayNum=1;
             },
-            update:function(){
-                var updateInfo = JSON.stringify(this.$data.updateForm);
+            update:function(p){
+                var updateInfo = this.$data.updateForm;
+                console.log(updateInfo);
+                var _this = this;
                 $.ajax({
                     url:'Home/Index/update',
                     type:'POST',
-                    data:{info:updateInfo},
+                    data:{info:JSON.stringify(updateInfo)},
                     success:function(data){
-                        $('#addressForm').modal('hide');
+                      addresslistJson[updateInfo.aindex]['receiveuser'] = updateInfo.receiveuser;
+                      addresslistJson[updateInfo.aindex]['phonenum'] = updateInfo.phonenum;
+                      addresslistJson[updateInfo.aindex]['address'] = updateInfo.address;
+                      addresslistJson[updateInfo.aindex]['addressKey'] = updateInfo.addressKey;
+                      $('#addressForm').modal('hide');
                     }
                 })
             },
             chooseAddress:function(p){
               this.$data.chooseaddressinfo=addresslistJson[p.$index];
-                $('#chooseAddress').modal('hide');
-                $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> "+p.address).attr('class','btn btn-success btn-block btn-lg');
+              $('#chooseAddress').modal('hide');
+              $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> "+p.address).attr('class','btn btn-success btn-block btn-lg');
             },
             getsuggest:function(){
                 var tableid = '5588fe0be4b062df8bcd62da';
@@ -418,34 +455,38 @@ Array.prototype.remove = function(dx)
             }
         }
     });
-
+    // Vue.directive('ok', function (value) {
+    //   // this function will be used as update()
+    //   sendOrder.$data.addresslist[value.index] = value;
+    //   console.log(value.index);
+    // });
     function showAlertInfo(value){
       $('#wariningInfo').modal('show');
       $('#wariningInfo').on('shown.bs.modal', function (event) {
         $(this).find('.modal-body h4').text(value);
       });
     }
-    $('#addressForm').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        if(button.data('id')!=undefined){
-            $.ajax({
-                url:'Home/Index/select',
-                type:'POST',
-                data:{id:button.data('id')},
-                success:function(data){
-                    sendOrder.$data.updateForm = JSON.parse(data)[0];
-                }
-            });
-        }else{
-            sendOrder.$data.updateForm = {
-                userid:'<%- userid%>',
-                receiveuser:'',
-                address:'',
-                addressKey:'',
-                phonenum:''
-            }
-        }
-    });
+    // $('#addressForm').on('show.bs.modal', function (event) {
+    //     var button = $(event.relatedTarget);
+    //     if(button.data('id')!=undefined){
+    //         $.ajax({
+    //             url:'Home/Index/select',
+    //             type:'POST',
+    //             data:{id:button.data('id')},
+    //             success:function(data){
+    //                 sendOrder.$data.updateForm = JSON.parse(data)[0];
+    //             }
+    //         });
+    //     }else{
+    //         sendOrder.$data.updateForm = {
+    //             userid:'<%- userid%>',
+    //             receiveuser:'',
+    //             address:'',
+    //             addressKey:'',
+    //             phonenum:''
+    //         }
+    //     }
+    // });
 </script>
 </body>
 </html>

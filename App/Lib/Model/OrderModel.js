@@ -1,41 +1,4 @@
 module.exports = Model(function(){
-    function staticFilter(data){
-        for(var k in data){
-            switch (data[k].productstate){
-                case '33':
-                    data[k].productstate = '已发货';
-                    data[k].productstatenum = '33';
-                    break;
-                case '55':
-                    data[k].productstate = '已成功';
-                    data[k].productstatenum = '55';
-                    break;
-                case '10':
-                    data[k].productstate = '待付款';
-                    data[k].productstatenum = '10';
-                    break;
-                case '30':
-                    data[k].productstate = '待发货';
-                    data[k].productstatenum = '30';
-                    break;
-                case '40':
-                    data[k].productstate = '待退款';
-                    data[k].productstatenum = '40';
-                    break;
-                case '44':
-                    data[k].productstate = '已退款';
-                    data[k].productstatenum = '44';
-                    break;
-                case '60':
-                    data[k].productstate = '已取消';
-                    data[k].productstatenum = '60';
-                    break;
-                default :
-                    data[k].productstate = "异常!"
-                    data[k].productstatenum = 'err';
-            }
-        }
-    };
     function isCallMeUpFilter(data){
         for(var k in data){
             switch (data[k].iscallmeup){
@@ -72,10 +35,8 @@ module.exports = Model(function(){
         },
         getattachmentinfo:function(orderid,pointid){
             var attachmentJSON = {};
-            var moment = require('moment');
             return D('Order').where({'id':orderid}).select().then(function(data){
                 for(var k in data){
-                    data[k].ordertime = moment(data[k].ordertime).lang('zh-cn').format('LLLL');
                     switch (data[k].orderfrom){
                         case 2:
                             data[k].orderfrom = "PC用户";
@@ -90,17 +51,18 @@ module.exports = Model(function(){
                             data[k].orderstate = "danger";
                     }
                 }
+                formatTime(data,'llll','ordertime');
                 attachmentJSON.attachment=data[0];
                 return {'json':data,'now':pointid};
             }).then(function(data){
                 var pointId = parseInt(data.now);
                 var userId = data.json[0].userid;
-                console.log(userId);
+                var Ptotal = 0
                 return D('Orderproductcopy').where({'orderid':data.json[0].id}).select().then(function(data){
                     staticFilter(data);
                     isCallMeUpFilter(data);
                     for(var k in data){
-                        data[k].time = moment(data[k].time).lang('zh-cn').format('LLLL');
+                      Ptotal+=data[k].productnum;
                         switch (data[k].id){
                             case pointId:
                                 data[k].thisPoint = "warning";
@@ -109,7 +71,10 @@ module.exports = Model(function(){
                                 data[k].thisPoint = 'a';
                         }
                     }
+                    formatTime(data,'YY-MM-DD dddd','time');
                     attachmentJSON.attach=data;
+                    attachmentJSON.attachment.countDays = data.length;
+                    attachmentJSON.attachment.productTotal = Ptotal;
                     return userId;
                 });
             }).then(function(userid){
