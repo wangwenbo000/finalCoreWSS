@@ -13,7 +13,8 @@ module.exports = Controller(function(){
         init: function(http){
             this.super("init", http);
             //其他的通用逻辑
-            if(http.action === 'login'){
+            if(http.action === 'login'||http.controller === 'Wx'){
+              console.log(http.controller);
                 return;
             }
 

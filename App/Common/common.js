@@ -50,3 +50,28 @@ global.createId = function() {
 			return v.toString(16);
 		}).toUpperCase();
 	}
+  // 微信token认证
+global.isLegel = function(signature,timestamp,nonce,token){
+  var self=this;
+  var signature = self.get('signature');
+  var timestamp = self.get('timestamp');
+  var nonce = self.get('nonce');
+  var echostr = self.get('echostr');
+  var token = 'izaoan';
+
+  var crypto=require('crypto');
+  var array=new Array();
+  array[0]=timestamp;
+  array[1]=nonce;
+  array[2]=token;
+  array.sort();
+  var hasher=crypto.createHash("sha1");
+  var msg=array[0]+array[1]+array[2];
+  hasher.update(msg);
+  var msg=hasher.digest('hex');//计算SHA1值
+  if(msg==signature){
+      this.end(echostr);
+  }else{
+      this.end('false');
+  }
+}
