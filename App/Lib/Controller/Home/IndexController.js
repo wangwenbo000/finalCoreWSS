@@ -48,7 +48,6 @@ module.exports = Controller("Home/BaseController", function(){
                     Arr['days'] = "罄";
                   }
                 }
-                console.log(data[kk].repertory);
               }
             }
             self.display();
@@ -114,6 +113,7 @@ module.exports = Controller("Home/BaseController", function(){
           orderid:orderid,
           ordertime:moment().format('YYYY-MM-DD HH:mm:ss'),
           address:getAddressinfo['address'],
+          addressKey:getAddressinfo['addressKey'],
           pricetotal:total,
           orderfrom:1,
           userid:getUserId,
@@ -134,7 +134,6 @@ module.exports = Controller("Home/BaseController", function(){
             chooseFoodList[k]['ordernum']=orderid;
             chooseFoodList[k]['foodimg']='';
           }
-          console.log(chooseFoodList);
         }).then(function(){
           return D('Orderproductcopy').addAll(chooseFoodList).then(function(){
             self.end('ok');

@@ -9,12 +9,14 @@ module.exports = Controller("Home/BaseController", function(){
             var self = this;
             var getOrderInfoId = self.get('id');
             console.log(getOrderInfoId);
-            var orderListInfoModel = D('OrderListInfo');
+            var getOrderListInfoModel = D('Orderlistinfo');
+            console.log('a');
 
-            orderListInfoModel.getUserOrderListInfo(getOrderInfoId).then(function(data){
+            return getOrderListInfoModel.getuserorderlistinfo(getOrderInfoId).then(function(data){
                 self.assign({orderlistinfo:data,listcount:data.listcount});
                 return self.display();
             });
+            // self.display();
 
         }
     };

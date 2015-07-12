@@ -1,6 +1,23 @@
 <%=include indexheader_index.html%>
 <style>
     .formdiv{background: #fff;padding: 15px;}
+    .formErr{
+      position: absolute;
+      width: 200px;
+      height: 60px;
+      font-size: 16px;
+      background: rgba(0,0,0,0.9);
+      top: 50%;
+      left: 50%;
+      margin-left: -100px;
+      margin-top: -30px;
+      border-radius: 6px;
+      z-index: 10000;
+      color:#fff;
+      text-align: center;
+      line-height: 60px;
+      display: none;
+    }
 </style>
 <script>
     var addressJSON = <%- JSON.stringify(address[0])%>;
@@ -8,76 +25,148 @@
 <form id="form">
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
-        <button type="submit" class="btn btn-success navbar-btn btn-block btn-lg" v-on="click:update">确定</button>
+        <button type="button" class="btn btn-success navbar-btn btn-block btn-lg" v-on="click:update">确定</button>
     </div>
 </nav>
 <div class="formdiv">
         <div class="form-group">
             <label for="receiveUser">联系人</label>
-            <input type="text" class="form-control input-lg" id="receiveUser" placeholder="你的姓名" v-model="receiveuser | name">
+            <input type="text" class="form-control input-lg" id="receiveUser" placeholder="你的姓名" v-model="addressById.receiveuser | name">
         </div>
         <div class="form-group">
             <label for="phoneNum">联系电话</label>
-            <input type="tel" class="form-control input-lg" id="phoneNum" placeholder="你的手机号" v-model="phonenum | phone" v-on="keyup:check">
+            <input type="tel" class="form-control input-lg" id="phoneNum" placeholder="你的手机号" v-model="addressById.phonenum" v-on="keyup:check">
         </div>
         <div class="form-group">
             <label for="address">送餐地址</label>
-            <input type="address" class="form-control input-lg" id="addressKey" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" v-model="addressKey" readonly >
+            <input type="address" class="form-control input-lg" id="addressKey" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" v-model="addressById.addressKey" readonly >
         </div>
-        <input type="address" class="form-control input-lg" id="address" placeholder="详细地址（如门牌号等）" v-model="address | name">
+        <input type="address" class="form-control input-lg" id="address" placeholder="详细地址（如门牌号等）" v-model="addressById.address">
 </div>
-</form>
+<!-- {{$data | json 4}} -->
 <div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等">
+                <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggestText">
             </div>
-            <div class="modal-body">
-
+            <div class="modal-body searchAddress-body">
+                <table class="table">
+                    <tr v-repeat="su:suggess">
+                        <td v-on="click:addsuggess(this)">
+                            <h4>{{su._name}}
+                                <small>{{su._address}}</small>
+                            </h4>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
+              <span class="pull-left ">输入地区关键字</span>
             </div>
         </div>
     </div>
+</div>
+</form>
+<div class="formErr">
+  错误
 </div>
 
 <script>
     var form = new Vue({
         el: '#form',
-        data: addressJSON,
+        data: {
+          addressById:addressJSON,
+          suggestText:'',
+          suggess:''
+        },
         methods:{
             update:function(e){
-                e.preventDefault();
-                var updateJson = this.$data;
-                var updateId = updateJson.id;
+                // e.preventDefault();
+                var updateInfo = this.$data.addressById;
+                var re_phone = /^1\d{10}$/;
+                var re_str = /[@<>#\$%\^&\*]+/g;
+                for(var k in updateInfo){
+
+                  if(updateInfo[k]=="" || updateInfo[k]==null){
+                    console.log(updateInfo[k]);
+                    switch(k){
+                      case 'receiveuser':
+                        showFormErr('请填写收货人姓名');
+                        break;
+                        case 'phonenum':
+                        showFormErr('请填写联系电话');
+                        break;
+                        case 'address':
+                        showFormErr('请填写收货人地址');
+                        break;
+                        case 'addressKey':
+                        showFormErr('请填写收货人详细地址');
+                        break;
+                    }
+                    return false;
+                  }
+                }
+                console.log('a');
+                  if(!re_phone.test(updateInfo['phonenum'])){
+                    showFormErr('手机号码格式不正确');
+                    return false;
+                  }
+                  if(re_str.test(updateInfo['receiveuser'])){
+                    showFormErr('用户名包含非法字符');
+                    return false;
+                  }
+                var updateId = updateInfo.id;
                 $.ajax({
                     type:'POST',
                     url:'/address/update',
-                    data:{updateJson:JSON.stringify(updateJson),id:updateId},
+                    data:{updateJson:JSON.stringify(updateInfo),id:updateId},
                     success:function(data){
-                        console.log(data);
+                      console.log('a');
+                        window.location.href='/addresslist';
                     }
                 })
             },
-            checkphone:function(e){
-                var re = /^1\d{10}$/;
-                if (re.test(this.$data.phonenum)) {
-                    e.target.parentNode.className="form-group has-success";
-                } else {
-                    e.target.parentNode.className="form-group has-error";
-                }
-            }
-        },
-        filters: {
-            name: function(value){
-                var pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
-                return value.replace(pattern, '');
+            getsuggest:function(){
+                var tableid = '5588fe0be4b062df8bcd62da';
+                var city = '北京市';
+                var keywords = this.$data.suggestText;
+                var filter = ' ';
+                var limit = 10;
+                var page = 1;
+                var key = '4af78342937c8140440f75c9809063c5';
+                var that = this;
+
+                $.ajax({
+                    type: "get",
+                    url: "http://yuntuapi.amap.com/datasearch/local?tableid="+tableid+"&city="+city+"&keywords="+keywords+"&key="+key,
+                    dataType: "jsonp",
+                    jsonp: "callback",
+                    jsonpCallback:"jsonpCallback",
+                    success: function(json){
+                        var arr=[];
+                        arr.push(json);
+                        that.$data.suggess = arr[0].datas;
+                    },
+                    error: function(){
+                        console.log('fail');
+                    }
+                });
             },
-            phone:function(value){
-                var pattern = new RegExp("/\D/g");
-                return value.replace(pattern, '');
+            addsuggess:function(suggess){
+                $('#searchAddress').modal('hide');
+                this.$data.addressById['addressKey']=suggess.su._name;
+                this.$data.addressById['address']=suggess.su._address;
             }
         }
     });
+    function showFormErr(value){
+      $('.formErr').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
+      setTimeout(function(){
+        $('.formErr').css({'display':'none'}).html('');
+      },1200);
+    }
 </script>
 </body>
 </html>

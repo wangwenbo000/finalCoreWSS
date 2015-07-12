@@ -46,11 +46,11 @@
       margin-bottom: 10px;
     }
     .formErr{
-      position: absolute;
+      position: fixed;
       width: 200px;
       height: 60px;
       font-size: 16px;
-      background: #333;
+      background: rgba(0,0,0,0.9);
       top: 50%;
       left: 50%;
       margin-left: -100px;
@@ -98,7 +98,7 @@
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
-            每天 <span class="label label-warning">22:00</span> 前可预订明日早餐 ☀️
+            每天 <span class="label label-warning">22:00</span> 前可预订明日早餐 🌞
         </div>
     </div>
     <div class="container-fluid">
@@ -111,7 +111,7 @@
                         </button>
                     </div>
                     <span class="input-group-addon">每天</span>
-                    <input type="text" class="form-control" aria-label="..." v-model="everyDayNum">
+                    <input type="text" class="form-control" aria-label="..." v-model="everyDayNum | numNotZreo">
                     <span class="input-group-addon">份</span>
 
                     <div class="input-group-btn">
@@ -157,7 +157,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">选择一个收货地址</h4>
+                <h4 class="modal-title">选择一个收货地址</h4>
               </div>
                 <div class="modal-body address-body">
                     <table class="table">
@@ -185,7 +185,7 @@
             <div class="modal-content">
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
-                <h4 class="modal-title" id="gridSystemModalLabel">添加新的地址</h4>
+                <h4 class="modal-title">添加新的地址</h4>
               </div>
                 <div class="modal-body addAddress-body">
                     <form>
@@ -238,18 +238,6 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="wariningInfo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-body">
-                  <h4></h4>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal">确定</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="formErr">
       错误
     </div>
@@ -259,12 +247,10 @@
 </div>
 
 <script>
-Array.prototype.remove = function(dx)
-{
+Array.prototype.remove = function(dx){
     if(isNaN(dx)||dx>this.length){return false;}
     this.splice(dx,1);
 }
-
     var sendOrder = new Vue({
         el:'#indexPostOrder',
         data:{
@@ -297,6 +283,13 @@ Array.prototype.remove = function(dx)
             }else {
               return value;
             }
+          },
+          numNotZreo:function(value){
+            if(value<=0){
+              return 1;
+            } else {
+              return value;
+            }
           }
         },
         methods:{
@@ -323,13 +316,17 @@ Array.prototype.remove = function(dx)
             },
             everyDayNumBtn:function(action){
                 if(action=='a'){
-                  this.$data.everyDayNum--;
-                  this.$data.total = this.$data.totalcopy/this.$data.everyDayNum;
+                  if(this.$data.everyDayNum<=1) {
+                    this.$data.everyDayNum=1;
+                    return false;
+                  }else {
+                    this.$data.everyDayNum--;
+                    this.$data.total = total(this)*this.$data.everyDayNum;
+                  }
                 }else {
                   this.$data.everyDayNum++;
-                  this.$data.total = this.$data.totalcopy*this.$data.everyDayNum;
+                  this.$data.total = total(this)*this.$data.everyDayNum;
                 }
-                if(this.$data.everyDayNum<1) this.$data.everyDayNum=1;
             },
             update:function(p){
                 var updateInfo = this.$data.updateForm;
@@ -412,7 +409,6 @@ Array.prototype.remove = function(dx)
                 $('#searchAddress').modal('hide');
                 this.$data.updateForm['addressKey']=suggess.su._name;
                 this.$data.updateForm['address']=suggess.su._address;
-                console.log(suggess.su);
             },
             chooseDay:function(p){
               if(p.productInfo.repertory<=0){
@@ -421,13 +417,11 @@ Array.prototype.remove = function(dx)
                 if(p.done){
                     p.choose='success';
                     p.chooseFoodList = '';
-                    this.$data.total = (this.$data.total+p.productInfo.price)*this.$data.everyDayNum;
-                    this.$data.totalcopy = this.$data.total;
+                    this.$data.total=total(this)*this.$data.everyDayNum;
                 }else{
                     p.choose='';
                     p.chooseFoodList = 'hidechoosefood';
-                    this.$data.total = (this.$data.total-p.productInfo.price)*this.$data.everyDayNum;
-                    this.$data.totalcopy = this.$data.total;
+                    this.$data.total=total(this)*this.$data.everyDayNum;
                 }
                 p.done = !p.done;
               }
@@ -449,22 +443,27 @@ Array.prototype.remove = function(dx)
                 }
               }
               if(chooseProductJson_res.length==0){
-                showAlertInfo('没有选择早餐 ☀️');
+                showFormErr('没有选择早餐 ☀️');
                 paybtn.button('reset');
                 return false;
               }
               if(this.$data.receiveWay==0){
-                showAlertInfo('请选择接收方式 📮');
+                showFormErr('请选择接收方式 📮');
                 paybtn.button('reset');
                 return false;
               }
               if(this.$data.expressTime==0){
-                showAlertInfo('还没有选择配送时间 🕗');
+                showFormErr('还没有选择配送时间 🕗');
                 paybtn.button('reset');
                 return false;
               }
               if(this.$data.chooseaddressinfo==null){
-                showAlertInfo('请选择配送地址 🌈');
+                showFormErr('请选择配送地址 🌈');
+                paybtn.button('reset');
+                return false;
+              }
+              if(this.$data.everyDayNum<1){
+                showFormErr('每天至少一份早餐 🍔');
                 paybtn.button('reset');
                 return false;
               }
@@ -488,17 +487,23 @@ Array.prototype.remove = function(dx)
             }
         }
     });
-    function showAlertInfo(value){
-      $('#wariningInfo').modal('show');
-      $('#wariningInfo').on('shown.bs.modal', function (event) {
-        $(this).find('.modal-body h4').text(value);
-      });
-    }
     function showFormErr(value){
       $('.formErr').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
       setTimeout(function(){
         $('.formErr').css({'display':'none'}).html('');
-      },1000);
+      },1200);
+    };
+    function total(_this){
+      _this.$data.total=0;
+      var chooseProductJson = _this.$data.calendar;
+      for(var k in chooseProductJson){
+        switch (chooseProductJson[k]['choose']) {
+          case 'success':
+          _this.$data.total+=chooseProductJson[k]['productInfo']['price'];
+            break;
+        }
+      }
+      return _this.$data.total;
     }
 </script>
 </body>

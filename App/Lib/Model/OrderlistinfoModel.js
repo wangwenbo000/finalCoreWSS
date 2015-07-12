@@ -1,7 +1,7 @@
 module.exports = Model(function(){
     return {
         //获取用户列表
-        getUserOrderListInfo: function(id){
+        getuserorderlistinfo: function(id){
             return D('Order').where({id:id}).order('id DESC').select().then(function(data){
                 formatTime(data,'llll','ordertime');
                 return data;

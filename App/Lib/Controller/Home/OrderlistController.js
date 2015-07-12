@@ -10,12 +10,13 @@ module.exports = Controller("Home/BaseController", function(){
             var self = this;
             self.session('userInfo').then(function(data){
                 var orderListModel = D('Orderlist');
+                console.log(orderListModel);
                 orderListModel.getUserOrderList(data[0].id).then(function(data){
                     self.assign({orderlist:data});
                     self.display();
                 });
             });
-            
+
         }
     };
 });

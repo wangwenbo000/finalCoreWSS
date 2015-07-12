@@ -29,7 +29,7 @@
             <table class="table" v-repeat='progress'>
                 <tbody>
                 <tr>
-                    <td colspan="2">订单号：<kbd>{{orderid}}</kbd></td>
+                    <td colspan="2">订单号：{{orderid}}</td>
                     <td class="text-danger">￥{{pricetotal}}</td>
                 </tr>
                 <tr>
@@ -39,7 +39,7 @@
                     </td>
                 </tr>
                 <tr>
-                    
+
                 </tr>
                 </tbody>
             </table>
@@ -105,8 +105,8 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <ul class="nav nav-pills" role="tablist">
         <li role="presentation" class="active"><a href="#progressOrder" role="tab" data-toggle="tab">进行中 <span class="badge">{{pc}}</span></a></li>
-        <li role="presentation"><a href="#cancelOrder" role="tab" data-toggle="tab">处理 <span class="badge">{{cc}}</span></a></li>
-        <li role="presentation"><a href="#completeOrder" aria-controls="messages" role="tab" data-toggle="tab">已完成 <span class="badge">{{tc}}</span></a></li>
+        <li role="presentation"><a href="#cancelOrder" role="tab" data-toggle="tab">待处理</a></li>
+        <li role="presentation"><a href="#completeOrder" aria-controls="messages" role="tab" data-toggle="tab">已完成</a></li>
     </ul>
 </nav>
 </div>

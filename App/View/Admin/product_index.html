@@ -52,7 +52,7 @@
                     <td><h3 class="text-danger">￥{{product.price}}</h3></td>
                 </tr>
                 <tr>
-                    <td colspan="2"></td>
+                    <td colspan="2"><h4><small>库存剩余:</small> {{product.repertory}} <small>份</small></h4></td>
                     <td colspan="2">
                         <h5>活动促销A</h5>
                     </td>
@@ -108,6 +108,10 @@
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">单价</label>
                                         <input type="text" class="form-control" id="recipient-name" v-model="price">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="recipient-name" class="control-label">库存</label>
+                                        <input type="text" class="form-control" id="recipient-name" v-model="repertory">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail2" class="control-label">活动</label>

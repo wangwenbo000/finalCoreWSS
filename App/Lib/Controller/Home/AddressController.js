@@ -10,7 +10,7 @@ module.exports = Controller("Home/BaseController", function(){
             var isEdit = self.get('id')||null;
             if(isEdit){
                 self.session('userInfo').then(function(data){
-                    return D('Addresslist').where({'id':isEdit,'userid':data[0].id}).select().then(function(data){
+                    return D('Addresslist').where({'id':isEdit,'userid':data[0].id}).field(['id','userid','address','addressKey','phonenum','receiveuser']).select().then(function(data){
                         self.assign('address',data);
                         self.display();
                     })
@@ -18,9 +18,12 @@ module.exports = Controller("Home/BaseController", function(){
             }else{
                 return self.session('userInfo').then(function(data){
                     var defaultData = [];
-                    console.log(data);
                     defaultData[0]={
-                        userid:data[0].id
+                        userid:data[0].id,
+                        receiveuser:'',
+                        phonenum:'',
+                        address:'',
+                        addressKey:'',
                     };
                     self.assign('address',defaultData);
                     self.display();
