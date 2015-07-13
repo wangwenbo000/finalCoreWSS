@@ -32,69 +32,10 @@ module.exports = Controller("Home/BaseController", function(){
         });
       }
 
-      var OAuth = require('wechat-oauth');
-      var appid = 'wxde2277be54c81c1d';
-      var secret = '5cdd015be8db790c01b98d7a980397b6';
-      var client = new OAuth(appid,secret);
-      var getCode = self.get('code');
-      console.log(getCode);
-      var redirect_uri = 'http://www.izaoan.cn';
-      var scope = 'snsapi_userinfo';
-      var state = 'getCODEok';
-      var url = client.getAuthorizeURL(redirect_uri, state, scope);
-      var getState = self.get('state');
-      if(getState==''){
-        self.redirect(url);
-      }
-
-      client.getAccessToken(getCode, function (err, result) {
-        var accessToken = result.data.access_token;
-        var openid = result.data.openid;
-
-        return D('Users').where({'openid':openid}).countSelect().then(function(data){
-          if(data.count==1){
-            console.log(data);
-            self.session('userInfo',data.data);
-            return self.assign('userInfo',data.data[0]);
-          }
-          // else{
-            //做一个存储数据库的操作
-            //并将信息存储到session
-            // client.getUser(openid, function (err, result){
-            //   var userInfo = result;
-            //   return D('Users').add({
-            //
-            //   }).then(function(){
-            //
-            //   });
-            // });
-          // }
-      });
-    });
-
-      // return D('Users').where({'openid':'o510Kj_ydZPIMQdl1jww5w9MecQk'}).countSelect().then(function(data){
-      //   if(data.count==1){
-      //     console.log(data);
-      //     self.session('userInfo',data.data);
-      //     return self.assign('userInfo',data.data[0]);
-      //   }else{
-      //     //做一个存储数据库的操作
-      //     //并将信息存储到session
-      //     client.getUser(openid, function (err, result) {
-      //       var userInfo = result;
-      //       return D('Users').add({
-      //
-      //       }).then(function(){
-      //
-      //       })
-      //     });
-      //   }
-      // });
-
-
       self.session('userInfo').then(function(data){
+        var userInfoFromWechat = data;
         return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
-          self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM')});
+          self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'userInfo':userInfoFromWechat.data[0]});
         }).then(function(){
           var productsModel = D('Product');
           return D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select().then(function(data){
@@ -111,6 +52,7 @@ module.exports = Controller("Home/BaseController", function(){
                 }
               }
             }
+            // self.assign({'userInfo':userInfoFromWechat.data[0]});
             self.display();
           });
         })

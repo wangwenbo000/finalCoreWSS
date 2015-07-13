@@ -10,15 +10,24 @@ module.exports = Controller(function(){
     init: function(http){
       this.super("init", http);
       var self = this;
+      // self.session('userInfo','');
 
-      // var OAuth = require('wechat-oauth');
-      // var appid = 'wxde2277be54c81c1d';
-      // var secret = '5cdd015be8db790c01b98d7a980397b6';
-      // var client = new OAuth(appid,secret);
+      var OAuth = require('wechat-oauth');
+      var appid = 'wxde2277be54c81c1d';
+      var secret = '5cdd015be8db790c01b98d7a980397b6';
+      var client = new OAuth(appid,secret);
 
+      var redirect_uri = 'http://www.izaoan.cn/Oauth';
+      var scope = 'snsapi_userinfo';
+      var state = http.Controller;
+      var url = client.getAuthorizeURL(redirect_uri, state, scope);
 
-
-      // self.session('openid','o510Kj_ydZPIMQdl1jww5w9MecQk');
+      return self.session('userInfo').then(function(data){
+        if(isEmpty(data)){
+          self.redirect(url);
+        }
+      });
+      //
     }
   }
 })

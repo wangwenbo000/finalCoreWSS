@@ -14,10 +14,8 @@ module.exports = Controller(function(){
             this.super("init", http);
             //其他的通用逻辑
             if(http.action === 'login'||http.controller === 'Wx'){
-              console.log(http.controller);
                 return;
             }
-
             var self = this;
             return this.session("userInfo").then(function(data){
                 if(isEmpty(data)){
