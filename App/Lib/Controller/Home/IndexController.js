@@ -34,8 +34,8 @@ module.exports = Controller("Home/BaseController", function(){
 
       self.session('userInfo').then(function(data){
         var userInfoFromWechat = data;
-        return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
-          self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'userInfo':userInfoFromWechat.data[0]});
+        return D('Addresslist').where({'userid':data.id}).order('id DESC').select().then(function(data){
+          self.assign({'addresslist':data,userid:data[0].userid,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'WxUserInfo':userInfoFromWechat});
         }).then(function(){
           var productsModel = D('Product');
           return D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select().then(function(data){
@@ -52,7 +52,7 @@ module.exports = Controller("Home/BaseController", function(){
                 }
               }
             }
-            // self.assign({'userInfo':userInfoFromWechat.data[0]});
+          }).then(function(){
             self.display();
           });
         })

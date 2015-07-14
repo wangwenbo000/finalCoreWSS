@@ -15,9 +15,9 @@ module.exports = Controller(function(){
       var client = new OAuth(appid,secret);
       var getCode = self.get('code');
       var getState = self.get('state');
-      if(getState=='index'){
-        getState = 'index?showwxpaytitle=1';
-      }
+      // if(getState=='index'){
+      //   getState = 'index?showwxpaytitle=1';
+      // }
       var url = 'http://www.izaoan.cn/'+getState;
 
       client.getAccessToken(getCode, function (err, result) {
@@ -26,7 +26,6 @@ module.exports = Controller(function(){
 
         return D('Users').where({'openid':openid}).countSelect().then(function(data){
           if(data.count==1){
-            console.log(data);
             self.session('userInfo',data.data[0]);
             // return self.assign('userInfo',data.data[0]);
           }
