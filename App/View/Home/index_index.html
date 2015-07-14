@@ -263,7 +263,7 @@ Array.prototype.remove = function(dx){
             total:0,
             totalcopy:0,
             updateForm:{
-                userid:'<%- userid%>',
+                userid:'<%- WxUserInfo.id%>',
                 receiveuser:'',
                 address:'',
                 addressKey:'',
@@ -307,7 +307,7 @@ Array.prototype.remove = function(dx){
             },
             addNewAddress:function(){
               this.$data.updateForm = {
-                userid:'<%- userid%>',
+                userid:'<%- WxUserInfo.id%>',
                 receiveuser:'',
                 address:'',
                 addressKey:'',
@@ -471,7 +471,7 @@ Array.prototype.remove = function(dx){
                 url:'Home/Index/pay',
                 type:'POST',
                 data:{
-                  userid:'<%- userid%>',
+                  userid:'<%- WxUserInfo.id%>',
                   productnum:this.$data.everyDayNum,
                   receiveWay:this.$data.receiveWay,
                   chooselist:JSON.stringify(chooseProductJson_res),

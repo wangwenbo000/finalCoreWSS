@@ -14,17 +14,11 @@ module.exports = Controller(function(){
       var OAuth = require('wechat-oauth');
       var appid = 'wxde2277be54c81c1d';
       var secret = '5cdd015be8db790c01b98d7a980397b6';
+      var state = http.controller;
       var client = new OAuth(appid,secret);
 
       var scope = 'snsapi_userinfo';
-      var state = http.Controller;
-      var redirect_uri = '';
-      console.log(state);
-      if(state=='index'){
-        redirect_uri = 'http://www.izaoan.cn/Oauth?showwxpaytitle=1';
-      }else {
-        redirect_uri = 'http://www.izaoan.cn/Oauth';
-      }
+      var redirect_uri = 'http://www.izaoan.cn/Oauth';
       var url = client.getAuthorizeURL(redirect_uri, state, scope);
 
       return self.session('userInfo').then(function(data){

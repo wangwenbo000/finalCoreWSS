@@ -16,8 +16,6 @@ module.exports = Controller("Home/BaseController", function(){
                 self.assign({orderlistinfo:data,listcount:data.listcount});
                 return self.display();
             });
-            // self.display();
-
         }
     };
 });

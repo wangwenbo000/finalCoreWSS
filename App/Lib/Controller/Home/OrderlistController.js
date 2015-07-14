@@ -11,7 +11,7 @@ module.exports = Controller("Home/BaseController", function(){
             self.session('userInfo').then(function(data){
                 var orderListModel = D('Orderlist');
                 console.log(orderListModel);
-                orderListModel.getUserOrderList(data.id).then(function(data){
+                orderListModel.getUserOrderList(data[0].id).then(function(data){
                     self.assign({orderlist:data});
                     self.display();
                 });
