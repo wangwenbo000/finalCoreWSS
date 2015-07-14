@@ -6,7 +6,6 @@ module.exports = Controller("Home/BaseController", function(){
   "use strict";
   return {
     indexAction: function(){
-      //render View/Home/index_index.html file
       var moment = require('moment');
       var self = this;
       var moment = require('moment');
@@ -22,10 +21,10 @@ module.exports = Controller("Home/BaseController", function(){
 
       for(var d=start;d<end;d++){
         calendarArr.push({
-          days:moment().add('days',d).format('DD'),
-          week:moment().add('days',d).locale('zh-cn').format('dd'),
-          weeknum:moment().add('days',d).locale('zh-cn').format('d'),
-          date:moment().add('days',d).locale('zh-cn').format('l'),
+          days:moment().add(d,'days').format('DD'),
+          week:moment().add(d,'days').locale('zh-cn').format('dd'),
+          weeknum:moment().add(d,'days').locale('zh-cn').format('d'),
+          date:moment().add(d,'days').locale('zh-cn').format('l'),
           choose:'',
           chooseFoodList:'hidechoosefood',
           done:true
