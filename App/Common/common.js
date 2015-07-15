@@ -75,3 +75,35 @@ global.isLegel = function(signature,timestamp,nonce,token){
       this.end('false');
   }
 }
+global.WX_getToken = function(){
+  var request = require('request');
+  request({
+    url:'https://api.weixin.qq.com/cgi-bin/token',
+    qs:{grant_type:'client_credential',appid:'wxde2277be54c81c1d',secret:'5cdd015be8db790c01b98d7a980397b6'},
+    method:'GET'
+  },function(error,response,body){
+    if(error){
+      console.log(error);
+    }else {
+      S('access_token',body.access_token,{timeout:body.expires_in});
+      console.log(body);
+    }
+  })
+}
+
+global.WX_getJsapi_ticket = function(token){
+  var request = require('request');
+  request({
+    url:'https://api.weixin.qq.com/cgi-bin/ticket/getticket',
+    qs:{access_token:token},
+    method:'GET'
+  },function(error,response,body){
+    if(error){
+      console.log(error);
+    }else {
+      S('jsapi_ticket',body.ticket,{timeout:body.expires_in});
+      console.log(body);
+      return body.ticket;
+    }
+    });
+}

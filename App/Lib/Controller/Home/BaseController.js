@@ -20,11 +20,30 @@ module.exports = Controller(function(){
       var scope = 'snsapi_userinfo';
       var redirect_uri = 'http://www.izaoan.cn/Oauth';
       var url = client.getAuthorizeURL(redirect_uri, state, scope);
+      // WX_getToken();
+      // WX_getJsapi_ticket();
 
-      return self.session('userInfo').then(function(data){
-        if(isEmpty(data)){
-          self.redirect(url);
+      S('access_token').then(function(value){
+        if(isEmpty(value)){
+          console.log('token缓存是空的');
+            WX_getToken();
+        }else {
+          console.log('token缓存并不是空的');
+          return value;
         }
+      }).then(function(data){
+        S('jsapi_ticket').then(function(value){
+          if(isEmpty(value)){
+            console.log('获取ticket');
+            WX_getJsapi_ticket(data);
+          }
+        })
+      }).then(function(){
+        return self.session('userInfo').then(function(data){
+          if(isEmpty(data)){
+            self.redirect(url);
+          }
+        });
       });
     }
   }
