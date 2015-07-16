@@ -8,19 +8,16 @@
 module.exports = Controller("Admin/BaseController", function(){
     "use strict";
     var moment = require('moment');
+    var Q = require('q');
     var nowDateTime = new Date();
     //var dataAndTime = nowDateTime.getFullYear()+'-'+(nowDateTime.getMonth()+1)+'-'+nowDateTime.getDate()+' '+nowDateTime.getHours()+':'+nowDateTime.getMinutes()+':'+nowDateTime.getSeconds();
     var dataAndTime = moment().format('YYYY-MM-DD HH:mm:ss');
     return {
-        indexAction: function(){
-            var self = this;
-            var getProductList = D('Product');
-            return getProductList.getProduct().then(function(data){
-                self.assign({'productList':data.days,'activelist':data.active});
-                return self.display();
-            });
-
-        },
+        indexAction: Q.async(function* (){
+          var data = yield D('Product').getProduct();
+          this.assign({'productList':data.days,'activelist':data.active});
+          this.display();
+        }),
         getinfobyidAction:function(){
             var self = this;
             var selectId = self.post('id');

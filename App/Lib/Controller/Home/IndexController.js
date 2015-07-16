@@ -4,10 +4,10 @@
  */
 module.exports = Controller("Home/BaseController", function(){
   "use strict";
+  var Q = require('q');
+
   return {
-    indexAction: function(){
-      var moment = require('moment');
-      var self = this;
+    indexAction: Q.async(function* (){
       var moment = require('moment');
       var calendarArr = [];
 
@@ -31,32 +31,29 @@ module.exports = Controller("Home/BaseController", function(){
         });
       }
 
-      self.session('userInfo').then(function(data){
-        var userInfoFromWechat = data;
-        return D('Addresslist').where({'userid':data[0].id}).order('id DESC').select().then(function(data){
-          self.assign({'addresslist':data,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'WxUserInfo':userInfoFromWechat[0]});
-        }).then(function(){
-          var productsModel = D('Product');
-          return D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select().then(function(data){
-            return data;
-          }).then(function(data){
-            for(var k in calendarArr){
-              var Arr = calendarArr[k]
-              for(var kk in data){
-                if(parseInt(data[kk].days)==Arr.weeknum){
-                  Arr['productInfo'] = data[kk];
-                  if(parseInt(data[kk].repertory)<=0){
-                    Arr['days'] = "罄";
-                  }
-                }
-              }
+      var userInfoData = yield this.session('userInfo');
+      var addressListData = yield D('Addresslist').where({'userid':userInfoData[0].id}).order('id DESC').select();
+      this.assign({'addresslist':addressListData,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'WxUserInfo':userInfoData[0]});
+      var productsData = yield D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select();
+      for(var k in calendarArr){
+        var Arr = calendarArr[k]
+        for(var kk in productsData){
+          if(parseInt(productsData[kk].days)==Arr.weeknum){
+            Arr['productInfo'] = productsData[kk];
+            if(parseInt(productsData[kk].repertory)<=0){
+              Arr['days'] = "罄";
             }
-          }).then(function(){
-            self.display();
-          });
-        })
-      });
-    },
+          }
+        }
+      };
+      this.display();
+    }),
+    jsapicofigAction:Q.async(function* (){
+      var getURL = this.post('url');
+      var jsapi_ticket = yield S('jsapi_ticket');
+      var json = WX_sign(jsapi_ticket,getURL);
+      this.end(json);
+    }),
     selectAction:function(){
       var self = this;
       var editId = self.post('id');
