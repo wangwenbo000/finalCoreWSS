@@ -20,8 +20,8 @@ module.exports = Controller(function(){
       var scope = 'snsapi_userinfo';
       var redirect_uri = 'http://www.izaoan.cn/Oauth';
       var url = client.getAuthorizeURL(redirect_uri, state, scope);
-      // WX_getToken();
-      // WX_getJsapi_ticket();
+
+      
 
       S('access_token').then(function(value){
         if(isEmpty(value)){
