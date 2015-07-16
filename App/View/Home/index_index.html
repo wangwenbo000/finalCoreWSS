@@ -529,6 +529,9 @@ Array.prototype.remove = function(dx){
                 // 用户取消分享后执行的回调函数
               }
             });
+            wx.hideMenuItems({
+              menuList: ["menuItem:share:facebook","menuItem:copyUrl", "menuItem:originPage","menuItem:readMode","menuItem:openWithQQBrowser","menuItem:openWithSafari", "menuItem:share:email"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            });
           });
           wx.error(function(res){
             alert('e');
