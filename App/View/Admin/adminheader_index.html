@@ -1,89 +1,122 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>admin</title>
-    <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/resource/css/todc-bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
-    <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css" type="text/css">
-    <link rel="stylesheet" href="/resource/css/messenger.css" type="text/css">
-    <link rel="stylesheet" href="/resource/css/messenger-theme-flat.css" type="text/css">
-    <script src="/resource/js/jquery-1.11.3.min.js"></script>
-    <script src="/resource/js/vue.min.js"></script>
-    <script src="/resource/js/bootstrap.min.js"></script>
-    <script src="/resource/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="/resource/js/bootstrap-datetimepicker.zh-CN.js"></script>
-    <script src="/resource/js/pace.min.js"></script>
-    <script src="/resource/js/messenger.min.js"></script>
-    <script src="/resource/js/messenger-theme-future.js"></script>
-    <script src="/resource/js/bootstrap-switch.min.js"></script>
-    <script src="/resource/js/jquery.cxselect.min.js"></script>
-    <script src="/resource/js/dmuploader.min.js"></script>
-    <script src="/resource/js/jquery.bootpag.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>admin</title>
+  <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
+  <!-- <link rel="stylesheet" href="/resource/css/todc-bootstrap.min.css" type="text/css"> -->
+  <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
+  <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css" type="text/css">
+  <link rel="stylesheet" href="/resource/css/messenger.css" type="text/css">
+  <link rel="stylesheet" href="/resource/css/messenger-theme-flat.css" type="text/css">
+  <script src="/resource/js/jquery-1.11.3.min.js"></script>
+  <script src="/resource/js/vue.min.js"></script>
+  <script src="/resource/js/bootstrap.min.js"></script>
+  <script src="/resource/js/bootstrap-datetimepicker.min.js"></script>
+  <script src="/resource/js/bootstrap-datetimepicker.zh-CN.js"></script>
+
+  <script src="/resource/js/messenger.min.js"></script>
+  <script src="/resource/js/messenger-theme-future.js"></script>
+  <script src="/resource/js/bootstrap-switch.min.js"></script>
+  <script src="/resource/js/jquery.cxselect.min.js"></script>
+  <script src="/resource/js/dmuploader.min.js"></script>
+  <script src="/resource/js/jquery.bootpag.min.js"></script>
 </head>
+
 <body>
-<script>
+  <script>
     $._messengerDefaults = {
-        extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-        theme: 'flat'
+      extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
+      theme: 'flat'
     };
-    $(document).ready(function(){
+    $(document).ready(function() {
       $('a[data-toggle="tooltip"]').tooltip();
     })
-</script>
-<nav class="navbar navbar-masthead navbar-inverse navbar-fixed-top" role="navigation">
+  </script>
+  <nav class="navbar navbar-masthead navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-        <a class="navbar-brand logoCube" href="#">
-            <img src="/resource/img/adminImg/logo.jpg">
-        </a>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav navbar-right">
-                <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
-                <li><a href=""><i class="glyphicon glyphicon-send"></i> 配送员</a></li>
-                <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li>
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><%=userInfo.username%><span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i> 修改资料信息</a></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> 增加新管理员</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> 关于WSS</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#"><i class="glyphicon glyphicon-off" aria-hidden="true"></i> 注销</a></li>
-                    </ul>
-                </li>
-                <li><img src="/resource/img/adminImg/<%=userInfo.face%>" width="28" class="img-circle"></li>
+      <a class="navbar-brand logoCube" href="#">
+        <img src="/resource/img/adminImg/logo.jpg">
+      </a>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
+          <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+              <%=userInfo.username%>
+                <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li><a href="#"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i> 修改资料信息</a></li>
+              <li><a href="#"><i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> 增加新管理员</a></li>
+              <li class="divider"></li>
+              <li><a href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> 关于WSS</a></li>
+              <li class="divider"></li>
+              <li><a href="#"><i class="glyphicon glyphicon-off" aria-hidden="true"></i> 注销</a></li>
             </ul>
-        </div>
+          </li>
+          <li>
+            <img src="/resource/img/adminImg/<%=userInfo.face%>" width="28" class="img-circle">
+          </li>
+        </ul>
+      </div>
     </div>
-</nav>
+  </nav>
 
-<div class="container-fluid">
+  <div class="container-fluid">
     <div class="row">
-        <div class=" sidebar">
-            <ul class="nav nav-sidebar">
-                <li <%if(http.controller=='Index'){%>class="active"<%}%>><a href="/Admin/Index"><span class="glyphicon glyphicon-home" aria-hidden="true"></span><br>首页</a></li>
-                <li <%if(http.controller=='Product'){%>class="active"<%}%>><a href="/Admin/Product"><span class="glyphicon glyphicon-leaf" aria-hidden="true"></span><br>产品</a></li>
-                <li <%if(http.controller=='Order'){%>class="active"<%}%>><a href="/Admin/Order" data-toggle="tooltip" data-original-title="The last tip!" data-placement="right"><span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span><br>订单</a></li>
-                <!--<li <%if(http.controller=='R'){%>class="active"<%}%>><a href="/Admin/R"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span><br>R单</a></li>-->
-                <li <%if(http.controller=='User'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span><br>用户</a></li>
-                <!--<li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>-->
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li>
-                    <a href="/Admin/activity">
-                        <span class="glyphicon glyphicon-fire" aria-hidden="true"></span><br>活动
-                    </a>
-                </li>
-            </ul>
-            <ul class="nav nav-sidebar">
+      <div class=" sidebar">
+        <ul class="nav nav-sidebar">
+          <li <%if(http.controller=='Index' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/Index">
+                <span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+              </a>
+          </li>
+          <li <%if(http.controller=='Product' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/Product">
+                <span class="glyphicon glyphicon-leaf" aria-hidden="true"></span>
+              </a>
+          </li>
+          <li <%if(http.controller=='Order' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/Order" data-toggle="tooltip" title data-original-title="订单" data-placement="right">
+                <span class="glyphicon glyphicon-piggy-bank" aria-hidden="true"></span>
+              </a>
+          </li>
+          <!-- <li <%if(http.controller=='R'){%>class="active"<%}%>><a href="/Admin/R"><span class="glyphicon glyphicon-barcode" aria-hidden="true"></span><br>R单</a></li> -->
+          <li <%if(http.controller=='Express' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/Express">
+                <span class="glyphicon glyphicon-plane" aria-hidden="true"></span>
+              </a>
+          </li>
+          <li <%if(http.controller=='User' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/User">
+                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+              </a>
+          </li>
+          <!--<li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>-->
+        </ul>
+        <ul class="nav nav-sidebar">
+          <li <%if(http.controller=='Activity' ){%>class="active"
+            <%}%>>
+              <a href="/Admin/activity">
+                <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+              </a>
+          </li>
+        </ul>
+        <!-- <ul class="nav nav-sidebar">
                 <li class="btn-danger">
                     <a href="/Admin/Login/loginout">
                         <span class="glyphicon glyphicon-off" aria-hidden="true"></span><br>注销
                     </a>
                 </li>
-            </ul>
-        </div>
-        <div class=" main">
+            </ul> -->
+      </div>
+      <div class=" main">

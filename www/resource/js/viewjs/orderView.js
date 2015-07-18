@@ -105,7 +105,7 @@ bindPager('.page-selection-bottom','.page-selection-top','{}',total);
 $('button[class~=fliterBtn]').on('click',function(){
     var $btnstatic = $(this).button('loading');
     var getFliterJson=JSON.stringify(formfliter.outPutFilterJson);
-    console.log(getFliterJson);
+    // console.log(getFliterJson);
     Messenger().run({
         successMessage: '数据请求成功.',
         errorMessage: 'Error saving data',
