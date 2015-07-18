@@ -48,12 +48,6 @@ module.exports = Controller("Home/BaseController", function(){
       };
       this.display();
     }),
-    jsapicofigAction:Q.async(function* (){
-      var getURL = this.post('url');
-      var jsapi_ticket = yield S('jsapi_ticket');
-      var json = WX_sign(jsapi_ticket,getURL);
-      this.end(json);
-    }),
     selectAction:function(){
       var self = this;
       var editId = self.post('id');

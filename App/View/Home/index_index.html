@@ -477,7 +477,7 @@ Array.prototype.remove = function(dx){
                 },
                 success:function(data){
                   if (data=='ok') {
-                    paybtn.button('reset');
+                    // paybtn.button('reset');
                   }
                 }
               });
@@ -507,7 +507,7 @@ Array.prototype.remove = function(dx){
     function configWxJsapi(){
       var url = window.location.href;
       $.ajax({
-        url:'Home/Index/jsapicofig',
+        url:'Admin/Wx/jsapicofig',
         type:'POST',
         data:{url:url},
         success:function(json){
@@ -519,7 +519,7 @@ Array.prototype.remove = function(dx){
               title: '早安早安', // 分享标题
               desc: '幸福正能量', // 分享描述
               link: 'http://www.izaoan.cn?showwxpaytitle=1', // 分享链接
-              imgUrl: 'http://www.izaoan.cn/', // 分享图标
+              imgUrl: 'http://www.izaoan.cn/resource/img/indexImg/wxiconnew.png', // 分享图标
               type: '', // 分享类型,music、video或link，不填默认为link
               dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
               success: function () {
@@ -534,7 +534,7 @@ Array.prototype.remove = function(dx){
             });
           });
           wx.error(function(res){
-            alert('e');
+            console.log('微信jssdk接入失败');
           });
         }
       });

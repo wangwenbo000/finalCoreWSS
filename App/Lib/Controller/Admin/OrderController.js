@@ -14,7 +14,7 @@ module.exports = Controller("Admin/BaseController", function(){
             var orderModel = D('Order');
 
             orderModel.getorderlist(self.get('page')).then(function(data){
-                formatTime(data.data,'LLLL','time');
+                formatTime(data.data,'YYYY-MM-DD dddd','time');
                 self.assign({listJSON:data.data,total:data.total,'count':data.count});
             }).then(function(){
                 var stateJsonCase = {

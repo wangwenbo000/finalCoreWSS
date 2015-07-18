@@ -42,7 +42,7 @@ body {
         z-index: 1000;
         display: block;
         padding: 16px;
-        overflow-x: hidden;
+        overflow-x: auto;
         overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
         background-color: #2b2d38;
     }
