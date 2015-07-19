@@ -9,9 +9,9 @@
     var yuntu = <%- JSON.stringify(yuntu)%>
     var total = <%- total%>;
 </script>
-<h2 class="page-header">
+<h4 class="page-header">
     <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>默认今日订单［待开发］</small>
-</h2>
+</h4>
 <ol class="breadcrumb">
     <li>
         <a href="/Admin/">Admin</a>
@@ -22,10 +22,9 @@
 </ol>
 <div class="statecount page-header clearfix">
     <div class="col-lg-3 ">
-        <h3>订单列表</h3>
+        <h4>订单列表</h4>
     </div>
-    <div class="col-lg-9">
-        <h4 class="text-right">
+    <div class="col-lg-9 text-right">
             共<%=count%>单 |
             已发货<%=stateCount.HAS_POST%>单 |
             已成功<%=stateCount.HAS_SUCC%>单 |
@@ -35,7 +34,6 @@
             已退款<%=stateCount.HAS_REFUND%>单 |
             已取消<%=stateCount.HAS_CANCEL%>单 |
             异常<%=stateCount.ERROR%>单
-        </h4>
     </div>
 </div>
 <div class="page-header ">

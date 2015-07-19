@@ -6,9 +6,9 @@
     var dataJSONdays =<%- JSON.stringify(productList) %>;
     var dataJSONactive =<%- JSON.stringify(activelist) %>;
 </script>
-<h2 class="page-header">
+<h4 class="page-header">
     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small>
-</h2>
+</h4>
 <ol class="breadcrumb">
     <li><a href="/Admin/">Admin</a></li>
     <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
@@ -20,12 +20,7 @@
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
-        <h3><i class="glyphicon glyphicon-calendar"></i> 默认一周早餐列表</h3>
-    </div>
-    <div class="col-lg-9">
-        <h4 class="text-right">
-
-        </h4>
+        <h4><i class="glyphicon glyphicon-calendar"></i> 默认一周早餐列表</h4>
     </div>
 </div>
 <!--产品列表-->
@@ -188,41 +183,6 @@
                                 </blockquote>
 
                             </div>
-                            <!-- 代码自定义片段-->
-                            <!--
-                            <div role="tabpanel">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li role="presentation" class="active">
-                                        <a href="#html" aria-controls="home" role="tab" data-toggle="tab">html</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#css" aria-controls="profile" role="tab" data-toggle="tab">css</a>
-                                    </li>
-                                    <li role="presentation">
-                                        <a href="#js" aria-controls="messages" role="tab" data-toggle="tab">javascript</a>
-                                    </li>
-                                </ul>
-                                <div class="tab-content">
-                                    <div role="tabpanel" class="tab-pane active" id="html">
-<textarea class="form-control" name="zhtml" id="zhtml" rows="20" >
-//你需要增加的自定义HTML元素
-</textarea>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="css">
-<textarea class="form-control" id="zcss" name="zcss" rows="20">
-//你需要增加的自定义css样式
-</textarea>
-                                    </div>
-                                    <div role="tabpanel" class="tab-pane" id="js">
-<textarea class="form-control" id="zjs" name="zjs" rows="20">
-//你需要增加的自定义js
-</textarea>
-                                    </div>
-                                </div>
-                                <div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> 特殊活动使用代码自定义页面样式，专题页面等。</div>
-
-                            </div>
-                        -->
                             <div class="form-group">
                                 <button type="button" class="btn btn-success btn-lg btn-block" name="addProductInfo">添加活动早餐</button>
                             </div>
@@ -235,7 +195,7 @@
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
-        <h3><i class="glyphicon glyphicon-yen"></i> 活动早餐列表</h3>
+        <h4><i class="glyphicon glyphicon-yen"></i> 活动早餐列表</h4>
     </div>
     <div class="col-lg-9">
         <h4 class="text-right">

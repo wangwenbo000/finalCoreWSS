@@ -35,36 +35,46 @@
       $('[data-toggle="tooltip"]').tooltip();
     })
   </script>
-  <nav class="navbar navbar-masthead navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-      <a class="navbar-brand logoCube" href="#">
-        <img src="/resource/img/adminImg/logo.jpg" width="53">
-      </a>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
-          <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-              <%=userInfo.username%>
-                <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="#"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i> 修改资料信息</a></li>
-              <li><a href="#"><i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> 增加新管理员</a></li>
-              <li class="divider"></li>
-              <li><a href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> 关于WSS</a></li>
-              <li class="divider"></li>
-              <li><a href="#"><i class="glyphicon glyphicon-off" aria-hidden="true"></i> 注销</a></li>
-            </ul>
-          </li>
-          <!-- <li>
-            <img src="/resource/img/adminImg/<%=userInfo.face%>" width="28" class="img-circle">
-          </li> -->
-        </ul>
-      </div>
+
+  <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><i class="glyphicon glyphicon-text-background"></i></a>
     </div>
-  </nav>
+
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="#">管理控制台</a></li>
+        <li><a href="#">快速通道</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
+        <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+            <%=userInfo.username%>
+              <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#"><i class="glyphicon glyphicon-edit" aria-hidden="true"></i> 修改资料信息</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="glyphicon glyphicon-plus-sign" aria-hidden="true"></i> 增加新管理员</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="glyphicon glyphicon-bookmark" aria-hidden="true"></i> 关于WSS</a></li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="glyphicon glyphicon-off" aria-hidden="true"></i> 注销</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
   <div class="container-fluid">
     <div class="row">
