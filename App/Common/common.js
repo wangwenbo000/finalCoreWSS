@@ -76,6 +76,32 @@ global.isLegel = function(signature,timestamp,nonce,token){
   }
 }
 
+global.getSexFromId = function(idNo){
+  var UUserCard = idNo;
+  if (parseInt(UUserCard.substr(16, 1)) % 2 == 1) {
+  return '1';
+  } else {
+  return '0';
+  }
+}
+
+global.getAgeFromId = function(idNo){
+  var UUserCard = idNo;
+  var myDate = new Date();
+  var month = myDate.getMonth() + 1;
+  var day = myDate.getDate();
+  var age = myDate.getFullYear() - UUserCard.substring(6, 10) - 1;
+  if (UUserCard.substring(10, 12) < month || UUserCard.substring(10, 12) == month && UUserCard.substring(12, 14) <= day) {
+  age++;
+  }
+  return age;
+}
+
+global.getBorthFromId = function(idNo){
+  var UUserCard = idNo;
+  return UUserCard.substring(6, 10) + "-" + UUserCard.substring(10, 12) + "-" + UUserCard.substring(12, 14);
+}
+
 global.WX_createNonceStr = function () {
   return Math.random().toString(36).substr(2, 15);
 }

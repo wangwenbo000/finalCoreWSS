@@ -1,6 +1,43 @@
 var orderList = new Vue({
     el:'#orderlist',
-    data:{order:listJSON}
+    data:{order:listJSON},
+    filters:{
+      formatPrice:function(value){
+        return value.toFixed(2);
+      },
+      isAllocation:function(value){
+        if(value!=''){
+          return "<span class='label label-success' data-toggle='tooltip' data-placement='top' title='订单已分配'><i class='glyphicon glyphicon-pushpin'></i></span> "+value;
+        }
+      }
+    }
+});
+var expressAllocation = new Vue({
+    el:'#expressAllocation',
+    data:{
+      selected:'',
+      expressData:express
+    },
+    methods:{
+      allocation:function(){
+        var checkOrder = $('input[name=checkorder]');
+        var updateOrderIdArr = [];
+        checkOrder.each(function(){
+          if($(this).prop('checked') == true){
+            updateOrderIdArr.push(parseInt($(this).prop('value')));
+          }
+        });
+
+        $.ajax({
+          url:'/Admin/Order/allocation',
+          type:'POST',
+          data:{updateId:JSON.stringify(updateOrderIdArr),data:expressAllocation.$data.selected},
+          success:function(data){
+            console.log(data);
+          }
+        });
+      }
+    }
 });
 var orderSingleInfo = new Vue({
     el:'#singleorderinfo',
@@ -27,7 +64,8 @@ var formfliter = new Vue({
         productstate:'*',
         expresstime:'*',
         iscallmeup:'*',
-        logic:'AND'
+        logic:'AND',
+        address:yuntu
     },
     computed: {
         outPutFilterJson:function(){

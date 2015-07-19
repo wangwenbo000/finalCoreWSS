@@ -12,7 +12,10 @@ body {
 /*
  * Global add-ons
  */
-
+.navbar-inverse{
+  background-color: #00a2ca
+}
+.navbar-inverse .navbar-nav > li > a{color: #fff;border-left: 1px #008eb7 solid;}
 .sub-header {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
@@ -40,12 +43,13 @@ body {
 @media (min-width: 768px) {
   .sidebar {
     position: fixed;
-    width: 47px;
+    width: 53px;
     top: 44px;
     bottom: 0;
     left: 0;
     z-index: 1000;
     display: block;
+    padding-top: 20px;
     /*padding: 16px;*/
     /*overflow-x: auto;*/
     /*overflow-y: auto;*/

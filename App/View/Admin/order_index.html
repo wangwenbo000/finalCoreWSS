@@ -1,6 +1,12 @@
 <%=include adminheader_index.html%>
+<style>
+.allocation{margin-top: 10px;}
+.affix{top:50px;background: #fff;margin-top: 0;width: 100%;height: 46px;padding: 5px 0;z-index: 10000;border-bottom: 2px #008eb7 solid;left: 68px;right: 0;}
+</style>
 <script>
     var listJSON = <%- JSON.stringify(listJSON)%>;
+    var express = <%- JSON.stringify(express)%>;
+    var yuntu = <%- JSON.stringify(yuntu)%>
     var total = <%- total%>;
 </script>
 <h2 class="page-header">
@@ -21,14 +27,14 @@
     <div class="col-lg-9">
         <h4 class="text-right">
             共<%=count%>单 |
-            已发货<%=HAS_POST%>单 |
-            已成功<%=HAS_SUCC%>单 |
-            待付款<%=WAIT_PAY%>单 |
-            待发货<%=WAIT_POST%>单 |
-            待退款<%=WAIT_REFUND%>单 |
-            已退款<%=HAS_REFUND%>单 |
-            已取消<%=HAS_CANCEL%>单 |
-            异常<%=ERROR%>单
+            已发货<%=stateCount.HAS_POST%>单 |
+            已成功<%=stateCount.HAS_SUCC%>单 |
+            待付款<%=stateCount.WAIT_PAY%>单 |
+            待发货<%=stateCount.WAIT_POST%>单 |
+            待退款<%=stateCount.WAIT_REFUND%>单 |
+            已退款<%=stateCount.HAS_REFUND%>单 |
+            已取消<%=stateCount.HAS_CANCEL%>单 |
+            异常<%=stateCount.ERROR%>单
         </h4>
     </div>
 </div>
@@ -87,17 +93,10 @@
             <option>9:30-10:00</option>
         </select>
     </div>
-    <div id="chinaSel">
-        <div class="col-lg-1">
-            <select class="form-control province" v-model="province" name="province"></select>
+        <div class="col-lg-3">
+            <select class="form-control address" v-model="" options="address">
+            </select>
         </div>
-        <div class="col-lg-1">
-            <select class="form-control city" v-model="city" name="city"></select>
-        </div>
-        <div class="col-lg-1">
-            <select class="form-control area" v-model="area" name="area"></select>
-        </div>
-    </div>
     <div class="col-lg-2">
             <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
                 <input class="form-control" size="16" type="text" value="" readonly>
@@ -131,8 +130,18 @@
         <button type="button" class="btn btn-primary btn-block">重置条件</button>
     </div>
 </div>
-    <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
+
+<div class="row allocation clearfix" id="expressAllocation" data-spy="affix" data-offset-top="360">
+
+  <div class="col-xs-3">
+      <select class="form-control" name="expressData" v-model="selected" options='expressData'>
+      </select>
+  </div>
+  全选
+  <input type="checkbox">
+  <button type="button" class="btn btn-success" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
+</div>
 <nav class="page-selection-top"></nav>
 <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -158,13 +167,13 @@
         <tbody>
         <tr id="orderlist" v-repeat="order" class="item-{{$index}}">
             <td><h5>{{id}}</h5></td>
-            <td><img src="/resource/img/food/{{foodimg}}" width="40" class="img-circle"></td>
+            <td><input type="checkbox" value="{{id}}" name='checkorder'></td>
             <td>{{productname}}</td>
             <td>×{{productnum}}</td>
             <td><h4>{{receiveuser}}</h4></td>
-            <td>{{expressaddress}}</td>
-            <td><h5>￥{{singleprice}}</h5></td>
-            <td><h5>{{expressprice}}</h5></td>
+            <td>{{{expresserid | isAllocation}}}{{expressaddress}}</td>
+            <td><h5>￥{{singleprice | formatPrice}}</h5></td>
+            <td><h5>{{expressprice | formatPrice}}</h5></td>
             <td>{{iscallmeup}}</td>
             <td>{{expresstime}}</td>
             <td><h5><h4>{{phonenum}}</h4></h5></td>
@@ -217,7 +226,7 @@
                                     <td><img src="/resource/img/food/{{foodimg}}" width="60"></td>
                                     <td>DB_ID:{{id}}</td>
                                     <td><h4>×{{productnum}}</h4></td>
-                                    <td><h2>{{receiveuser}}</h2></td>
+                                    <td><h4>{{receiveuser}}</h4></td>
                                     <td><h4><kbd>{{ordernum}}<kbd></h4></td>
                                     <td class="state{{productstatenum}}" align="center"><h3 style="color: #fff;">{{productstate}}</h3></td>
                                 </tr>
@@ -279,7 +288,7 @@
                                 <tr class="active">
                                     <td><img src="{{userInfo.face}}" width="60" class="img-circle"></td>
                                     <td>{{attachment.id}}</td>
-                                    <td><h2>{{userInfo.username}}</h2><span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span></td>
+                                    <td><h4>{{userInfo.username}}</h4><span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span></td>
                                     <td colspan="4"><h5><span class="label label-success">地图获取地点</span></h5> {{attachment.address}}</td>
                                     <td><h4><kbd>{{attachment.orderid}}</kbd></h4></td>
                                 </tr>
@@ -320,6 +329,7 @@
         </div>
     </div>
 </div>
+
 <!--确定模态-->
 <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="checkmodal">
     <div class="modal-dialog">
@@ -332,8 +342,8 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
                 <button type="button" class="btn btn-danger">确定取消</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div>
 <script src="/resource/js/viewjs/orderView.js"></script>
 <%=include adminfooter_index.html%>
