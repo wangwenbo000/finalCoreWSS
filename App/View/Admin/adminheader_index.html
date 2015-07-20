@@ -4,7 +4,13 @@
 <head lang="en">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <title>admin</title>
+  <title>
+    <%if(http.controller=='Index' ){%>控制台--早安早安管理中心<%}%>
+    <%if(http.controller=='Product'){%>产品管理--早安早安管理中心<%}%>
+    <%if(http.controller=='Order'){%>订单管理--早安早安管理中心<%}%>
+    <%if(http.controller=='Express' ){%>配送管理--早安早安管理中心<%}%>
+    <%if(http.controller=='User' ){%>用户管理--早安早安管理中心<%}%>
+  </title>
   <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
   <!-- <link rel="stylesheet" href="/resource/css/todc-bootstrap.min.css" type="text/css"> -->
   <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
@@ -113,14 +119,14 @@
           </li>
           <!--<li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>-->
         </ul>
-        <ul class="nav nav-sidebar">
+        <!-- <ul class="nav nav-sidebar">
           <li <%if(http.controller=='Activity' ){%>class="active"
             <%}%>>
               <a href="/Admin/activity">
                 <span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
               </a>
           </li>
-        </ul>
+        </ul> -->
         <!-- <ul class="nav nav-sidebar">
                 <li class="btn-danger">
                     <a href="/Admin/Login/loginout">

@@ -22,7 +22,7 @@
 </ol>
 <div class="statecount page-header clearfix">
     <div class="col-lg-3 ">
-        <h4>订单列表</h4>
+        <h5>订单列表</h5>
     </div>
     <div class="col-lg-9 text-right">
             共<%=count%>单 |
@@ -37,8 +37,8 @@
     </div>
 </div>
 <div class="page-header ">
-    <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
-    <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button>
+    <!-- <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
+    <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button> -->
     <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-primary selectgroup">今日订单</button>
         <button type="button" class="btn btn-default selectgroup">成功订单</button>
@@ -138,7 +138,7 @@
   </div>
   全选
   <input type="checkbox">
-  <button type="button" class="btn btn-success" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
+  <button type="button" class="btn btn-primary" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
 </div>
 <nav class="page-selection-top"></nav>
 <div class="table-responsive">
@@ -179,9 +179,9 @@
             <td>{{time}}</td>
             <td>
                 <div class="btn-group">
-                    <button class="btn btn-default btn-xs dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    <a data-toggle="dropdown">
                         订单操作 <span class="caret"></span>
-                    </button>
+                    </a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
                         <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
@@ -243,7 +243,7 @@
                                     <td colspan="3">配送员</td>
                                     <td>没有参与活动</td>
                                     <td>单价：￥{{singleprice | formatPrice}}</td>
-                                    <td><h2 class="text-danger">￥{{productprice | formatPrice}}</h2></td>
+                                    <td><h2 class="text-primary">￥{{productprice | formatPrice}}</h2></td>
                                 </tr>
                                 <tr>
                                     <td colspan="6">活动相关</td>
@@ -296,11 +296,11 @@
                                     <td><h3>{{attachment.productTotal}}<small>份</small></h3></td>
                                     <td>运费：￥{{attachment.expressprice | formatPrice}}</td>
                                     <td colspan="3">{{attachment.ordertime}}</td>
-                                    <td><h2 class="text-danger">￥{{attachment.pricetotal | formatPrice}}</h2></td>
+                                    <td><h2 class="text-primary">￥{{attachment.pricetotal | formatPrice}}</h2></td>
                                 </tr>
-                                <tr class="active">
+                                <!-- <tr class="active">
                                     <td colspan="8">{{attachment.remark}}</td>
-                                </tr>
+                                </tr> -->
                                 <tr>
                                     <th colspan="8">配餐列表</th>
                                 </tr>
@@ -311,7 +311,7 @@
                                     <td><h4>无活动</h4></td>
                                     <td>{{time}}</td>
                                     <td>{{expresstime}} {{iscallmeup}}</td>
-                                    <td><h4 class="text-danger">￥{{singleprice | formatPrice}}</h4></td>
+                                    <td><h4 class="text-primary">￥{{singleprice | formatPrice}}</h4></td>
                                     <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
                                 </tr>
                                 </tbody>

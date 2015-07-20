@@ -7,7 +7,7 @@ var orderList = new Vue({
       },
       isAllocation:function(value){
         if(value!=''){
-          return "<span class='label label-success' data-toggle='tooltip' data-placement='top' title='订单已分配'><i class='glyphicon glyphicon-pushpin'></i></span> "+value;
+          return "<small class='label label-success' data-toggle='tooltip' data-placement='top' title='订单已分配'><i class='glyphicon glyphicon-pushpin'></i></small> "+value;
         }
       }
     }

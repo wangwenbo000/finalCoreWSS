@@ -20,7 +20,8 @@ body {
   padding-bottom: 10px;
   border-bottom: 1px solid #eee;
 }
-
+.form-control, input, select, .btn, .modal-content{border-radius: 0;}
+.btn-primary, .pagination > .active > a{background: #09c;border-color: #0087b4;}
 /*
  * Top navigation
  * Hide default border to remove 1px line.

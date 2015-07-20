@@ -16,7 +16,6 @@
 <!--二级标题 部分功能-->
 <div class="page-header clearfix">
         <a class="btn btn-primary" id="addActiveProduct" data-toggle="tooltip" data-placement="bottom" title="添加这类商品在活动商品列表出现" >增加活动商品</a>
-        <a class="btn btn-danger disabled">活动管理器［开发者模式］</a>
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
@@ -44,7 +43,7 @@
                     <td><img src="/resource/img/food/{{product.days}}.jpg" alt="..." width="66" ></td>
                     <td colspan="2">{{product.productName}}</td>
                     <td><h4>￥{{product.cost}}</h4></td>
-                    <td><h3 class="text-danger">￥{{product.price}}</h3></td>
+                    <td><h3 class="text-primary">￥{{product.price}}</h3></td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4><small>库存剩余:</small> {{product.repertory}} <small>份</small></h4></td>
@@ -52,7 +51,7 @@
                         <h5>活动促销A</h5>
                     </td>
                     <td>
-                        <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
+                        <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
                     </td>
                 </tr>
                 </tbody>
