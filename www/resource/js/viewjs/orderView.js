@@ -33,7 +33,7 @@ var expressAllocation = new Vue({
           type:'POST',
           data:{updateId:JSON.stringify(updateOrderIdArr),data:expressAllocation.$data.selected},
           success:function(data){
-            console.log(data);
+            $('#allocationSuccess').modal('show');
           }
         });
       }
@@ -202,6 +202,15 @@ $('#orderModel').on('show.bs.modal', function (event) {
         }
     });
 });
+    $("[name=checkorderAll]").click(function(){
+         $('[name=checkorder]').attr("checked", this.checked );
+     });
+
+    //  $('[name=checkorder]:checkbox').click(function(){
+    //      var $tmp=$('[name=checkorder]:checkbox');
+    //      $("[name=checkorderAll]").attr('checked', $tmp.length==$tmp.filter(':checked').length);
+    //  });
+
 $.cxSelect.defaults.url = '/resource/js/sendAddress.json';
 
 $('#chinaSel').cxSelect({
