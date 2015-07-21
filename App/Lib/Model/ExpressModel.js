@@ -26,7 +26,7 @@ module.exports = Model(function(){
           return addAndGetNewId;
         }),
         getExpressInfo:Q.async(function* (getId){
-          var getInfo = yield D('Express').where({id:getId}).field(['id','name','idcard','phonenum','address']).select();
+          var getInfo = yield D('Express').where({id:getId}).field(['id','name','idcard','phonenum','address','state','power']).select();
           return getInfo;
         })
     }

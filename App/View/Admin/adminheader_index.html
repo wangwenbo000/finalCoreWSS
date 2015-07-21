@@ -5,27 +5,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>
-    <%if(http.controller=='Index' ){%>控制台--早安早安管理中心<%}%>
+    <%if(http.controller=='Index'){%>控制台--早安早安管理中心<%}%>
     <%if(http.controller=='Product'){%>产品管理--早安早安管理中心<%}%>
     <%if(http.controller=='Order'){%>订单管理--早安早安管理中心<%}%>
-    <%if(http.controller=='Express' ){%>配送管理--早安早安管理中心<%}%>
-    <%if(http.controller=='User' ){%>用户管理--早安早安管理中心<%}%>
+    <%if(http.controller=='Express'){%>配送管理--早安早安管理中心<%}%>
+    <%if(http.controller=='User'){%>用户管理--早安早安管理中心<%}%>
   </title>
   <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
-  <!-- <link rel="stylesheet" href="/resource/css/todc-bootstrap.min.css" type="text/css"> -->
   <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
   <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css" type="text/css">
   <link rel="stylesheet" href="/resource/css/messenger.css" type="text/css">
-  <link rel="stylesheet" href="/resource/css/messenger-theme-flat.css" type="text/css">
   <script src="/resource/js/jquery-1.11.3.min.js"></script>
   <script src="/resource/js/vue.min.js"></script>
   <script src="/resource/js/bootstrap.min.js"></script>
   <script src="/resource/js/bootstrap-datetimepicker.min.js"></script>
-  <script src="/resource/js/bootstrap-datetimepicker.zh-CN.js"></script>
-
   <script src="/resource/js/messenger.min.js"></script>
-  <script src="/resource/js/messenger-theme-future.js"></script>
-  <script src="/resource/js/bootstrap-switch.min.js"></script>
   <script src="/resource/js/jquery.cxselect.min.js"></script>
   <script src="/resource/js/dmuploader.min.js"></script>
   <script src="/resource/js/jquery.bootpag.min.js"></script>
@@ -34,8 +28,7 @@
 <body>
   <script>
     $._messengerDefaults = {
-      extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right',
-      theme: 'flat'
+      extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right'
     };
     $(document).ready(function() {
       $('[data-toggle="tooltip"]').tooltip();

@@ -29,6 +29,13 @@ module.exports = Controller("Admin/BaseController", function(){
           var getId = parseInt(this.post('id'));
           var data = yield expressDataModel.where({id:getId}).delete();
           return this.success({info:data});
+        }),
+        getExpressRecordAction:Q.async(function* (){
+          var getId = parseInt(this.post('id'));
+          var data = yield D('Orderproductcopy').where({expresserid:getId}).order('ID DESC').countSelect();
+          staticFilter(data.data);
+          formatTime(data.data,'YYYY-MM-DD dddd','time')
+          return this.end(data);
         })
     };
 });
