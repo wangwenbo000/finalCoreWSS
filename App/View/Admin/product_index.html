@@ -1,7 +1,5 @@
 
 <%=include adminheader_index.html%>
-<!--头部标题-->
-<!--此处后期可做通用-->
 <script>
     var dataJSONdays =<%- JSON.stringify(productList) %>;
     var dataJSONactive =<%- JSON.stringify(activelist) %>;
@@ -15,7 +13,7 @@
 </ol>
 <!--二级标题 部分功能-->
 <div class="page-header clearfix">
-        <a class="btn btn-primary" id="addActiveProduct" data-toggle="tooltip" data-placement="bottom" title="添加这类商品在活动商品列表出现" >增加活动商品</a>
+        <a class="btn btn-primary" id="addActiveProduct" data-toggle="tooltip" data-placement="bottom" title="添加这类商品在活动商品列表出现" >增加单品</a>
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
@@ -25,7 +23,7 @@
 <!--产品列表-->
 <div class="row productliststyle">
     <!--一个三列删格-->
-    <div class="col-sm-3" id="productlist" v-repeat="product:products">
+    <div class="col-sm-3" id="productlist" v-repeat="product:products" v-cloak>
         <!-- 产品模版-->
         <div class="panel panel-default">
             <div class="panel-heading morningFoodDays"><h4>星期{{product.days}} <small>{{product.updatetime}}</small></h4></div>
@@ -48,7 +46,7 @@
                 <tr>
                     <td colspan="2"><h4><small>库存剩余:</small> {{product.repertory}} <small>份</small></h4></td>
                     <td colspan="2">
-                        <h5>活动促销A</h5>
+
                     </td>
                     <td>
                         <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
@@ -108,14 +106,6 @@
                                         <input type="text" class="form-control" id="recipient-name" v-model="repertory">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail2" class="control-label">活动</label>
-                                        <select class="form-control" v-model="sex" id="exampleInputEmail2">
-                                            <option value="*">性别</option>
-                                            <option value="1">boy</option>
-                                            <option value="0">girl</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
                                         <label for="message-text" class="control-label">Message:</label>
                                         <textarea class="form-control" id="message-text" v-model="describe" rows="10"></textarea>
                                         <input type="hidden" name="updatejson" value="{{$data | json 4}}">
@@ -136,7 +126,7 @@
                                     <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
                                 </blockquote>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-success btn-lg btn-block" name="uploadProductInfo">更新数据</button>
+                                    <button type="button" class="btn btn-primary btn-lg btn-block" name="uploadProductInfo">更新</button>
                                 </div>
                             </div>
                         </div>
@@ -194,7 +184,7 @@
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
-        <h4><i class="glyphicon glyphicon-yen"></i> 活动早餐列表</h4>
+        <h4><i class="glyphicon glyphicon-yen"></i> 单品早餐列表（未上线）</h4>
     </div>
     <div class="col-lg-9">
         <h4 class="text-right">
@@ -216,7 +206,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr id="activelist" v-repeat="active:actives">
+    <tr id="activelist" v-repeat="active:actives" v-cloak>
         <td>{{active.id}}</td>
         <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
         <td><h4>{{active.productName}}</h4></td>
@@ -224,9 +214,9 @@
         <td>￥{{active.price}}</td>
         <td>{{active.describe}}</td>
         <td>{{active.updatetime}}</td>
-        <td><a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a></td>
+        <td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a></td>
     </tr>
     </tbody>
 </table>
-<script src="/resource/js/viewjs/productView.js"></script>
+<script src="/resource/module/require.js" defer async="true" data-main="/resource/module/product/product"></script>
 <%=include adminfooter_index.html%>

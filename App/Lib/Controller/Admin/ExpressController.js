@@ -11,7 +11,7 @@ module.exports = Controller("Admin/BaseController", function(){
     var expressDataModel = D('Express');
     return {
         indexAction: Q.async(function* (){
-          var data = yield expressDataModel.getExpressList();
+          var data = yield expressDataModel.getExpressList(this.get('page'));
           this.assign({expresslist:data});
           return this.display();
         }),
@@ -32,10 +32,16 @@ module.exports = Controller("Admin/BaseController", function(){
         }),
         getExpressRecordAction:Q.async(function* (){
           var getId = parseInt(this.post('id'));
-          var data = yield D('Orderproductcopy').where({expresserid:getId}).order('ID DESC').countSelect();
+          var data = yield D('Orderproductcopy').where({expresserid:getId}).order('ID DESC').page(this.post('page'),10).countSelect();
           staticFilter(data.data);
           formatTime(data.data,'YYYY-MM-DD dddd','time')
           return this.end(data);
+        }),
+        filterAction:Q.async(function* (){
+          var getFilterDataNum = parseInt(this.post('pagenum'));
+          var getFilterDataJson = JSON.parse(this.post('fliterjson'));
+          var filterData = yield expressDataModel.expressFilter(getFilterDataJson,getFilterDataNum);
+          this.end(filterData);
         })
     };
 });

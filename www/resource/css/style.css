@@ -8,7 +8,7 @@
 body {
   padding-top: 76px;
 }
-
+[v-cloak]{display: none}
 /*
  * Global add-ons
  */

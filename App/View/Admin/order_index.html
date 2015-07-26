@@ -1,260 +1,347 @@
 <%=include adminheader_index.html%>
-<style>
-.allocation{margin-top: 10px;}
-.affix{top:50px;background: #fff;margin-top: 0;width: 100%;height: 46px;padding: 5px 0;z-index: 1040;border-bottom: 2px #008eb7 solid;left: 68px;right: 0;}
-</style>
-<script>
+  <style>
+    .allocation {
+      margin-top: 10px;
+    }
+
+    .affix {
+      top: 50px;
+      background: #fff;
+      margin-top: 0;
+      width: 100%;
+      height: 46px;
+      padding: 5px 0;
+      z-index: 1040;
+      border-bottom: 2px #008eb7 solid;
+      left: 68px;
+      right: 0;
+    }
+  </style>
+  <script>
     var listJSON = <%- JSON.stringify(listJSON)%>;
     var express = <%- JSON.stringify(express)%>;
     var yuntu = <%- JSON.stringify(yuntu)%>
     var total = <%- total%>;
-</script>
-<h4 class="page-header">
-    <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理 <small>默认今日订单［待开发］</small>
-</h4>
-<ol class="breadcrumb">
+  </script>
+  <h4 class="page-header">
+    <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理
+    <small>默认今日订单［待开发］</small>
+  </h4>
+  <ol class="breadcrumb">
     <li>
-        <a href="/Admin/">Admin</a>
+      <a href="/Admin/">Admin</a>
     </li>
     <li class="active">
-        <a href="/Admin/<%=http.controller%>"><%=http.controller%></a>
+      <a href="/Admin/<%=http.controller%>">
+        <%=http.controller%>
+      </a>
     </li>
-</ol>
-<div class="statecount page-header clearfix">
+  </ol>
+  <div class="statecount page-header clearfix">
     <div class="col-lg-3 ">
-        <h5>订单列表</h5>
+      <h5>订单列表</h5>
     </div>
     <div class="col-lg-9 text-right">
-            共<%=count%>单 |
-            已发货<%=stateCount.HAS_POST%>单 |
-            已成功<%=stateCount.HAS_SUCC%>单 |
-            待付款<%=stateCount.WAIT_PAY%>单 |
-            待发货<%=stateCount.WAIT_POST%>单 |
-            待退款<%=stateCount.WAIT_REFUND%>单 |
-            已退款<%=stateCount.HAS_REFUND%>单 |
-            已取消<%=stateCount.HAS_CANCEL%>单 |
-            异常<%=stateCount.ERROR%>单
+      共
+      <%=count%>单 | 已发货
+        <%=stateCount.HAS_POST%>单 | 已成功
+          <%=stateCount.HAS_SUCC%>单 | 待付款
+            <%=stateCount.WAIT_PAY%>单 | 待发货
+              <%=stateCount.WAIT_POST%>单 | 待退款
+                <%=stateCount.WAIT_REFUND%>单 | 已退款
+                  <%=stateCount.HAS_REFUND%>单 | 已取消
+                    <%=stateCount.HAS_CANCEL%>单 | 异常
+                      <%=stateCount.ERROR%>单
     </div>
-</div>
-<div class="page-header ">
+  </div>
+  <div class="page-header ">
     <!-- <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
     <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button> -->
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-primary selectgroup">今日订单</button>
-        <button type="button" class="btn btn-default selectgroup">成功订单</button>
-        <button type="button" class="btn btn-default selectgroup">待发货订单</button>
-        <button type="button" class="btn btn-default selectgroup">所有订单</button>
+      <button type="button" class="btn btn-primary selectgroup">今日订单</button>
+      <button type="button" class="btn btn-default selectgroup">成功订单</button>
+      <button type="button" class="btn btn-default selectgroup">待发货订单</button>
+      <button type="button" class="btn btn-default selectgroup">所有订单</button>
     </div>
-</div>
-<form id="formfliter">
-<div class="row">
-    <div class="col-lg-1">
+  </div>
+  <form id="formfliter">
+    <div class="row">
+      <div class="col-lg-1">
         <select class="form-control" v-model="searchC">
-            <option value="*">all</option>
-            <option value="id">id</option>
-            <option value="phonenum">手机号</option>
-            <option value="receiveuser">用户名</option>
-            <option value="ordernum">订单号</option>
+          <option value="*">all</option>
+          <option value="id">id</option>
+          <option value="phonenum">手机号</option>
+          <option value="receiveuser">用户名</option>
+          <option value="ordernum">订单号</option>
         </select>
-    </div>
-    <div class="col-lg-11">
+      </div>
+      <div class="col-lg-11">
         <div class="input-group">
-            <input type="text" class="form-control" aria-label="..." v-model="searchV">
-            <div class="input-group-btn">
-                <button type="button" class="btn btn-primary fliterBtn" data-loading-text="Loading..." autocomplete="off" >订单筛选</button>
-            </div>
+          <input type="text" class="form-control" v-model="searchV" placeholder="请输入筛选条件">
+          <div class="input-group-btn">
+            <button type="button" class="btn btn-primary fliterBtn" data-loading-text="Loading..." autocomplete="off">订单筛选</button>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-<div class="row orderfliter">
-    <div class="col-lg-1">
+    <div class="row orderfliter">
+      <div class="col-lg-1">
+        <label>订单状态</label>
         <select class="form-control" v-model="productstate">
-            <option value="*">all</option>
-            <option value="33">已发货</option>
-            <option value="55">已成功</option>
-            <option value="10">待付款</option>
-            <option value="30">待发货</option>
-            <option value="40">待退款</option>
-            <option value="44">已退款</option>
-            <option value="60">已取消</option>
-            <option value="err">异常</option>
+          <option value="*">all</option>
+          <option value="33">已发货</option>
+          <option value="55">已成功</option>
+          <option value="10">待付款</option>
+          <option value="30">待发货</option>
+          <option value="40">待退款</option>
+          <option value="44">已退款</option>
+          <option value="60">已取消</option>
+          <option value="err">异常</option>
         </select>
-    </div>
-    <div class="col-lg-1">
+      </div>
+      <div class="col-lg-1">
+        <label>送达时间</label>
         <select class="form-control" v-model="expresstime">
-            <option value="*">all</option>
-            <option>7:00-7:30</option>
-            <option>7:30-8:00</option>
-            <option>8:00-8:30</option>
-            <option>8:30-9:00</option>
-            <option>9:00-9:30</option>
-            <option>9:30-10:00</option>
+          <option value="*">all</option>
+          <option>7:00-7:30</option>
+          <option>7:30-8:00</option>
+          <option>8:00-8:30</option>
+          <option>8:30-9:00</option>
+          <option>9:00-9:30</option>
+          <option>9:30-10:00</option>
         </select>
-    </div>
-        <div class="col-lg-3">
-            <select class="form-control address" v-model="" options="address">
-            </select>
+      </div>
+      <div class="col-lg-3">
+        <label>配送范围</label>
+        <select class="form-control address" v-model="addressKey" options="address">
+        </select>
+      </div>
+      <div class="col-lg-2">
+        <label>订单时间</label>
+        <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
+          <input class="form-control" size="16" type="text" value="" readonly>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-remove"></span>
+          </span>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
         </div>
-    <div class="col-lg-2">
-            <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
-                <input class="form-control" size="16" type="text" value="" readonly>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
-                <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-            </div>
-            <input type="hidden" id="flitertime" value="" /><br/>
-    </div>
-    <div class="col-lg-1">
-        <div class="input-group">
-            <span class="input-group-addon">叫起</span>
-                <select class="form-control" v-model="iscallmeup">
-                    <option value="*">全部</option>
-                    <option value="1">是</option>
-                    <option value="0">否</option>
-                </select>
-            </div>
-    </div>
-    <div class="col-lg-2">
+        <input type="hidden" id="flitertime" value="" />
+        <br/>
+      </div>
+      <div class="col-lg-1">
+        <label>起床</label>
+        <select class="form-control" v-model="iscallmeup">
+          <option value="*">全部</option>
+          <option value="1">是</option>
+          <option value="0">否</option>
+        </select>
+      </div>
+      <div class="col-lg-2">
         <label class="radio-inline">
-            <input type="radio" name="_logic" v-model="logic" value="AND"> AND
+          <input type="radio" name="_logic" v-model="logic" value="AND"> AND
         </label>
         <label class="radio-inline">
-            <input type="radio" name="_logic" v-model="logic" value="OR"> OR
+          <input type="radio" name="_logic" v-model="logic" value="OR"> OR
         </label>
         <label class="radio-inline">
-            <input type="radio" name="_logic" v-model="logic" value="XOR"> XOR
+          <input type="radio" name="_logic" v-model="logic" value="XOR"> XOR
         </label>
-    </div>
-    <div class="col-lg-2">
+      </div>
+      <div class="col-lg-2">
         <button type="button" class="btn btn-primary btn-block">重置条件</button>
+      </div>
     </div>
-</div>
-</form>
+  </form>
 
-<div class="row allocation clearfix" id="expressAllocation" data-spy="affix" data-offset-top="360">
-
-  <div class="col-xs-3">
+  <div class="row allocation clearfix" id="expressAllocation" data-spy="affix" data-offset-top="360">
+    <div class="col-xs-3">
       <select class="form-control" name="expressData" v-model="selected" options='expressData'>
       </select>
+    </div>
+    全选
+    <input type="checkbox">
+    <button type="button" class="btn btn-primary" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
   </div>
-  全选
-  <input type="checkbox">
-  <button type="button" class="btn btn-primary" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
-</div>
-<nav class="page-selection-top"></nav>
-<div class="table-responsive">
+  <nav class="page-selection-top"></nav>
+  <div class="table-responsive">
     <table class="table table-striped table-hover">
-        <thead>
+      <thead>
         <tr>
-            <th>id</th>
-            <th><input type="checkbox" value="{{id}}" name='checkorderAll'></th>
-            <th>产品名称</th>
-            <th>数量</th>
-            <th>购买者</th>
-            <th>配送地址</th>
-            <th>单价</th>
-            <th>配送费</th>
-            <th><span class="glyphicon glyphicon-bell" aria-hidden="true"></span></th>
-            <th>配送时间</th>
-            <th>联系电话</th>
-            <th>订单号</th>
-            <th>下单时间</th>
-            <th>操作</th>
-            <th>订单状态</th>
+          <th>id</th>
+          <th>
+            <input type="checkbox" value="{{id}}" name='checkorderAll'>
+          </th>
+          <th>产品名称</th>
+          <th>数量</th>
+          <th>购买者</th>
+          <th>配送地址</th>
+          <th>单价</th>
+          <th>配送费</th>
+          <th>
+            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+          </th>
+          <th>配送时间</th>
+          <th>联系电话</th>
+          <th>订单号</th>
+          <th>下单时间</th>
+          <th>操作</th>
+          <th>订单状态</th>
         </tr>
-        </thead>
-        <tbody>
-        <tr id="orderlist" v-repeat="order" class="item-{{$index}}">
-            <td><h5>{{id}}</h5></td>
-            <td><input type="checkbox" value="{{id}}" name='checkorder'></td>
-            <td>{{productname}}</td>
-            <td>×{{productnum}}</td>
-            <td><h4>{{receiveuser}}</h4></td>
-            <td>{{{expresserid | isAllocation}}}{{expressaddress}}</td>
-            <td><h5>￥{{singleprice | formatPrice}}</h5></td>
-            <td><h5>{{expressprice | formatPrice}}</h5></td>
-            <td>{{iscallmeup}}</td>
-            <td>{{expresstime}}</td>
-            <td><h5><h4>{{phonenum}}</h4></h5></td>
-            <td><h5><small>{{ordernum}}<small></h5></td>
-            <td>{{time}}</td>
-            <td>
-                <div class="btn-group">
-                    <a data-toggle="dropdown">
+      </thead>
+      <tbody>
+        <tr id="orderlist" v-repeat="order" class="item-{{$index}}" v-cloak>
+          <td>
+            <h5>{{id}}</h5>
+          </td>
+          <td>
+            <small class='label label-success' data-toggle='tooltip' data-placement='top' title='订单已分配' v-attr="style:showAllocation">配</small>
+            <input type='checkbox' value={{id}} name='checkorder' v-attr="style:showCheckBox">
+          </td>
+          <td>{{productname}}</td>
+          <td>×{{productnum}}</td>
+          <td>
+            <h4>{{receiveuser}}</h4>
+          </td>
+          <td>
+           {{addressKey}} {{expressaddress}}
+          </td>
+          <td>
+            <h5>￥{{singleprice | formatPrice}}</h5>
+          </td>
+          <td>
+            <h5>{{expressprice | formatPrice}}</h5>
+          </td>
+          <td>{{iscallmeup}}</td>
+          <td>{{expresstime}}</td>
+          <td>
+            <h5>
+              <h4>{{phonenum}}</h4>
+            </h5>
+          </td>
+          <td>
+            <h5>
+              <small>{{ordernum}}
+                <small>
+            </h5>
+          </td>
+          <td>{{time}}</td>
+          <td>
+            <div class="btn-group">
+              <a data-toggle="dropdown">
                         订单操作 <span class="caret"></span>
                     </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment"><span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a></li>
-                        <li><a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo"><span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
-                        <li><a href="#"> 退款</a></li>
-                    </ul>
-                </div>
-            </td>
-            <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment">
+                    <span class="glyphicon glyphicon-paperclip" area-hidden="true"></span> 依附关系</a>
+                </li>
+                <li>
+                  <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo">
+                    <span class="glyphicon glyphicon-eye-open" area-hidden="true"></span> 订单详情</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
+                <li><a href="#"> 退款</a></li>
+              </ul>
+            </div>
+          </td>
+          <td>
+            <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
+          </td>
         </tr>
-        </tbody>
+      </tbody>
     </table>
-</div>
-<nav class="page-selection-bottom"></nav>
-<div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
+  </div>
+  <nav class="page-selection-bottom"></nav>
+  <%if(!listJSON.length){%>
+    <div class="alert alert-danger alert-dismissible" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>Warning!</strong> 没有搜索到相关匹配订单:(
+    </div>
+    <%}%>
+      <div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small></h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="exampleModalLabel">订单详情
+                <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small>
+              </h4>
             </div>
             <div class="modal-body">
-                <div role="tabpanel">
+              <div role="tabpanel">
 
-                    <!-- Nav tabs -->
-                    <ul class="nav nav-tabs" role="tablist" id="orderTab">
-                        <li role="presentation" class="active"><a href="#singleorderinfo" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
-                        <li role="presentation"><a href="#attachmentinfo" aria-controls="profile" role="tab" data-toggle="tab">依附关系</a></li>
-                        <li role="presentation"><a href="#editOrder" aria-controls="profile" role="tab" data-toggle="tab">编辑订单</a></li>
-                    </ul>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist" id="orderTab">
+                  <li role="presentation" class="active"><a href="#singleorderinfo" aria-controls="home" role="tab" data-toggle="tab">订单详情</a></li>
+                  <li role="presentation"><a href="#attachmentinfo" aria-controls="profile" role="tab" data-toggle="tab">依附关系</a></li>
+                  <li role="presentation"><a href="#editOrder" aria-controls="profile" role="tab" data-toggle="tab">编辑订单</a></li>
+                </ul>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <div role="tabpanel" class="tab-pane active" id="singleorderinfo">
-                            <br>
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <td><img src="/resource/img/food/{{foodimg}}" width="60"></td>
-                                    <td>DB_ID:{{id}}</td>
-                                    <td><h4>×{{productnum}}</h4></td>
-                                    <td><h4>{{receiveuser}}</h4></td>
-                                    <td><h4><kbd>{{ordernum}}<kbd></h4></td>
-                                    <td class="state{{productstatenum}}" align="center"><h3 style="color: #fff;">{{productstate}}</h3></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">{{addressKey}}</td>
-                                    <td colspan="2">{{expressaddress}}</td>
-                                    <td>配送费：￥{{expressprice | formatPrice}}</td>
-                                    <td><h4>{{phonenum}}</h4></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="2">配送时间:{{expresstime}}</td>
-                                    <td colspan="2">配送地点</td>
-                                    <td colspan="2">是否叫起服务:{{iscallmeup}}</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="3">配送员</td>
-                                    <td>没有参与活动</td>
-                                    <td>单价：￥{{singleprice | formatPrice}}</td>
-                                    <td><h2 class="text-primary">￥{{productprice | formatPrice}}</h2></td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">活动相关</td>
-                                </tr>
-                                <tr>
-                                    <td colspan="6">{{productdescribe}}</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                            <h3 class="page-header">订单配送纪录</h3>
-                            <!-- <dl class="dl-horizontal page-header">
+                <!-- Tab panes -->
+                <div class="tab-content">
+                  <div role="tabpanel" class="tab-pane active" id="singleorderinfo">
+                    <br>
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img v-attr="src:foodimg">
+                          </td>
+                          <td>DB_ID:{{id}}</td>
+                          <td>
+                            <h4>×{{productnum}}</h4>
+                          </td>
+                          <td>
+                            <h4>{{receiveuser}}</h4>
+                          </td>
+                          <td>
+                            <h4>
+                              <kbd>{{ordernum}}
+                                <kbd>
+                            </h4>
+                          </td>
+                          <td class="state{{productstatenum}}" align="center">
+                            <h3 style="color: #fff;">{{productstate}}</h3>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">{{addressKey}}</td>
+                          <td colspan="2">{{expressaddress}}</td>
+                          <td>配送费：￥{{expressprice | formatPrice}}</td>
+                          <td>
+                            <h4>{{phonenum}}</h4>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="2">配送时间:{{expresstime}}</td>
+                          <td colspan="2">配送地点</td>
+                          <td colspan="2">是否叫起服务:{{iscallmeup}}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="3">配送员</td>
+                          <td>没有参与活动</td>
+                          <td>单价：￥{{singleprice | formatPrice}}</td>
+                          <td>
+                            <h2 class="text-primary">￥{{productprice | formatPrice}}</h2>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colspan="6">活动相关</td>
+                        </tr>
+                        <tr>
+                          <td colspan="6">{{productdescribe}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <h3 class="page-header">订单配送纪录</h3>
+                    <!-- <dl class="dl-horizontal page-header">
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>商家已经确认早餐准备分配 您的早餐正在爱心制作 ❤️</dd>
                                 <div class="divider"></div>
@@ -277,84 +364,118 @@
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>数据库维护，您的订单已过期，无法进行操作</dd>
                             </dl> -->
-                                <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="attachmentinfo">
-                            <br>
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr class="active">
-                                    <td><img src="{{userInfo.face}}" width="60" class="img-circle"></td>
-                                    <td>{{attachment.id}}</td>
-                                    <td><h4>{{userInfo.username}}</h4><span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span></td>
-                                    <td colspan="4"><h5><span class="label label-success">地图获取地点</span></h5> {{attachment.address}}</td>
-                                    <td><h4><kbd>{{attachment.orderid}}</kbd></h4></td>
-                                </tr>
+                    <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="attachmentinfo">
+                    <br>
+                    <table class="table table-bordered">
+                      <tbody>
+                        <tr class="active">
+                          <td>
+                            <img v-attr="src:userInfo.face" width="60" class="img-circle">
+                          </td>
+                          <td>{{attachment.id}}</td>
+                          <td>
+                            <h4>{{userInfo.username}}</h4>
+                            <span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span>
+                          </td>
+                          <td colspan="4">
+                            <h5>
+                              <span class="label label-success">地图获取地点</span>
+                            </h5> {{attachment.address}}</td>
+                          <td>
+                            <h4>
+                              <kbd>{{attachment.orderid}}</kbd>
+                            </h4>
+                          </td>
+                        </tr>
 
-                                <tr class="active">
-                                    <td colspan="2"><h3>{{attachment.countDays}}<small>天</small></h3></td>
-                                    <td><h3>{{attachment.productTotal}}<small>份</small></h3></td>
-                                    <td>运费：￥{{attachment.expressprice | formatPrice}}</td>
-                                    <td colspan="3">{{attachment.ordertime}}</td>
-                                    <td><h2 class="text-primary">￥{{attachment.pricetotal | formatPrice}}</h2></td>
-                                </tr>
-                                <!-- <tr class="active">
+                        <tr class="active">
+                          <td colspan="2">
+                            <h3>{{attachment.countDays}}
+                              <small>天</small>
+                            </h3>
+                          </td>
+                          <td>
+                            <h3>{{attachment.productTotal}}
+                              <small>份</small>
+                            </h3>
+                          </td>
+                          <td>运费：￥{{attachment.expressprice | formatPrice}}</td>
+                          <td colspan="3">{{attachment.ordertime}}</td>
+                          <td>
+                            <h2 class="text-primary">￥{{attachment.pricetotal | formatPrice}}</h2>
+                          </td>
+                        </tr>
+                        <!-- <tr class="active">
                                     <td colspan="8">{{attachment.remark}}</td>
                                 </tr> -->
-                                <tr>
-                                    <th colspan="8">配餐列表</th>
-                                </tr>
-                                <tr v-repeat="attach" class="{{thisPoint}}">
-                                    <td><img src="/resource/img/food/{{foodimg}}" width="40" class="img-circle"></td>
-                                    <td><h4>{{orderid}}</h4></td>
-                                    <td><h4>×{{productnum}}</h4></td>
-                                    <td><h4>无活动</h4></td>
-                                    <td>{{time}}</td>
-                                    <td>{{expresstime}} {{iscallmeup}}</td>
-                                    <td><h4 class="text-primary">￥{{singleprice | formatPrice}}</h4></td>
-                                    <td><span class="label label-success state{{productstatenum}}">{{productstate}}</span></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div role="tabpanel" class="tab-pane" id="editOrder">
-                            暂时不允许修改订单
-                        </div>
-                    </div>
+                        <tr>
+                          <th colspan="8">配餐列表</th>
+                        </tr>
+                        <tr v-repeat="attach" class="{{thisPoint}}">
+                          <td>
+                            <img v-attr="src:foodimg" class="img-circle">
+                          </td>
+                          <td>
+                            <h4>{{orderid}}</h4>
+                          </td>
+                          <td>
+                            <h4>×{{productnum}}</h4>
+                          </td>
+                          <td>
+                            <h4>无活动</h4>
+                          </td>
+                          <td>{{time}}</td>
+                          <td>{{expresstime}} {{iscallmeup}}</td>
+                          <td>
+                            <h4 class="text-primary">￥{{singleprice | formatPrice}}</h4>
+                          </td>
+                          <td>
+                            <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div role="tabpanel" class="tab-pane" id="editOrder">
+                    暂时不允许修改订单
+                  </div>
                 </div>
+              </div>
 
             </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
-<!--确定模态-->
-<div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="allocationSuccess">
-    <div class="modal-dialog">
-        <div class="modal-content">
+      <!--确定模态-->
+      <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="allocationSuccess">
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-body">
-                <h3>配送员分配成功</h3>
+              <h3>配送员分配成功</h3>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
             </div>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
 
-<div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="checkmodal">
-    <div class="modal-dialog">
-        <div class="modal-content">
+      <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="checkmodal">
+        <div class="modal-dialog">
+          <div class="modal-content">
             <div class="modal-body">
-                <h3>确认取消订单？该操作不可逆</h3>
-                <footer>请确定与用户协商妥善</footer>
+              <h3>确认取消订单？该操作不可逆</h3>
+              <footer>请确定与用户协商妥善</footer>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-                <button type="button" class="btn btn-danger">确定取消</button>
+              <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+              <button type="button" class="btn btn-danger">确定取消</button>
             </div>
+          </div>
         </div>
-    </div>
-</div>
-<script src="/resource/js/viewjs/orderView.js"></script>
-<%=include adminfooter_index.html%>
+      </div>
+      <script src="/resource/module/require.js" defer async="true" data-main="/resource/module/order/order"></script>
+      <%=include adminfooter_index.html%>

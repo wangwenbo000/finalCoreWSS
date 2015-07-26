@@ -19,10 +19,10 @@
         </h4>
     </div>
 </div>
-<div class="page-header ">
+<!-- <div class="page-header "> -->
     <!-- <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出Excel</button>
     <button type="button" class="btn btn-success" disabled><i class="glyphicon glyphicon-list-alt"></i> 导出当前页Excel</button> -->
-    <div class="btn-group" role="group" aria-label="...">
+    <!-- <div class="btn-group" role="group" aria-label="...">
         <button type="button" class="btn btn-primary selectgroup">订阅用户</button>
         <button type="button" class="btn btn-default selectgroup">未订阅</button>
         <button type="button" class="btn btn-default selectgroup">有订单</button>
@@ -30,7 +30,7 @@
         <button type="button" class="btn btn-default selectgroup">boys</button>
         <button type="button" class="btn btn-default selectgroup">girls</button>
     </div>
-</div>
+</div> -->
 <form id="formfliter">
 <div class="row">
     <div class="col-lg-1">
@@ -112,10 +112,10 @@
         </tr>
         </thead>
         <tbody>
-        <tr id="userList" v-repeat="userlist">
+        <tr id="userList" v-repeat="userlist" v-cloak>
             <td>{{id}}</td>
             <td><img src="{{face}}46" width="46" class="img-circle"></td>
-            <td>{{username}} <span class="badge">× 2</span></td>
+            <td>{{username}}</td>
             <td>{{sex}}</td>
             <td>{{group}}</td>
             <td>{{language}}</td>
@@ -124,7 +124,7 @@
             <td>{{isSubscribe}}</td>
             <td>
                 <div class="btn-group">
-                    <a data-toggle="dropdown">
+                    <a data-toggle="dropdown" data-target="#">
                         订单操作 <span class="caret"></span>
                     </a>
                     <ul class="dropdown-menu" role="menu">
@@ -177,5 +177,5 @@
         </div>
     </div>
 </div>
-<script src="/resource/js/viewjs/userView.js"></script>
+<script src="/resource/module/require.js" defer async="true" data-main="/resource/module/users/users"></script>
 <%=include adminfooter_index.html%>

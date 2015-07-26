@@ -42,9 +42,19 @@ module.exports = Controller("Admin/BaseController", function(){
             for(var k in addressData.datas){
               var ExpressAddressJson = {};
               ExpressAddressJson['text'] = addressData['datas'][k]['_name'];
+              ExpressAddressJson['value'] = addressData['datas'][k]['_name'];
               ExpressAddressData.push(ExpressAddressJson);
             }
-
+            ExpressAddressData.unshift({'text':'请选择筛选配送区域','value':'*'});
+            for(var k in data.data){
+              if(isEmpty(data.data[k].expresserid)){
+                data.data[k].showAllocation = "display:none";
+                data.data[k].showCheckBox = '';
+              }else{
+                data.data[k].showAllocation = '';
+                data.data[k].showCheckBox = 'display:none';
+              }
+            }
             this.assign({'listJSON':data.data,'total':data.total,'count':data.count,'express':ExpressSelectData,'yuntu':ExpressAddressData});
 
             var stateJsonCase = {
@@ -76,10 +86,9 @@ module.exports = Controller("Admin/BaseController", function(){
         }),
         allocationAction:Q.async(function* (){
           var getUpdateId = JSON.parse(this.post('updateId'));
-          console.log(getUpdateId);
           var expresserid = parseInt(this.post('data'));
           var data = yield D('Orderproductcopy').where({id:['IN',getUpdateId]}).update({expresserid:expresserid});
-          return this.success({info:'ok'});
+          return this.success({info:data});
         }),
         filterAction:function(){
             var self = this;
@@ -88,6 +97,15 @@ module.exports = Controller("Admin/BaseController", function(){
             var orderModel = D('order');
             orderModel.orderfilter( JSON.parse(getJSON),parseInt(getPage)).then(function(data){
                 self.assign({'pagenum':data.page});
+                for(var k in data.data){
+                  if(isEmpty(data.data[k].expresserid)){
+                    data.data[k].showAllocation = "display:none";
+                    data.data[k].showCheckBox = '';
+                  }else{
+                    data.data[k].showAllocation = '';
+                    data.data[k].showCheckBox = 'display:none';
+                  }
+                }
                 return self.end(data);
             });
         },
