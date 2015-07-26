@@ -23,9 +23,7 @@ define(['vue', 'affix'], function(Vue) {
             data: expressAllocation.$data.selected
           },
           success: function(data) {
-            console.log(data);
             $('#allocationSuccess').modal('show');
-
           }
         });
       }
