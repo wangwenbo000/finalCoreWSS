@@ -3,9 +3,7 @@ define(['vue','jquery'],function(Vue,$){
       el:'#singleorderinfo',
       data:{},
       filters:{
-        formatPrice:function(value){
-          return parseInt(value).toFixed(2);
-        }
+
       }
   });
 
@@ -13,9 +11,7 @@ define(['vue','jquery'],function(Vue,$){
       el:'#attachmentinfo',
       data:{},
       filters:{
-        formatPrice:function(value){
-          return parseInt(value).toFixed(2);
-        }
+
       }
   });
 
@@ -23,9 +19,7 @@ define(['vue','jquery'],function(Vue,$){
       el:'#orderpayinfo',
       data:{},
       filters:{
-        formatPrice:function(value){
-          return parseInt(value).toFixed(2);
-        }
+        
       }
   });
 

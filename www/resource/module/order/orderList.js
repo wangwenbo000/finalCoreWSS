@@ -6,9 +6,7 @@ define(['vue', 'jquery', 'tooltip'], function(Vue, $, tooltip) {
       order: listJSON,
     },
     filters: {
-      formatPrice:function(value){
-        return parseInt(value).toFixed(2);
-      }
+      
     }
   });
   return {

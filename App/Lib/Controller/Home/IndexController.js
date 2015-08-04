@@ -93,7 +93,7 @@ module.exports = Controller("Home/BaseController", function(){
       var moment = require('moment');
       var self = this;
       var getUserId = self.post('userid');
-      var getPnum = self.post('productnum');
+      var getPnum = parseInt(self.post('productnum'));
       var getAddressinfo = JSON.parse(self.post('addressinfo'));
       var getExpressTime = self.post('expresstime');
       var getReceiveWay = self.post('receiveWay');
@@ -137,7 +137,7 @@ module.exports = Controller("Home/BaseController", function(){
           return D('Orderproductcopy').addAll(chooseFoodList).then(function(){
             self.success({
               ordernum:ordernum,
-              productprice:total,
+              productprice:total*getPnum,
               orderid:orderRowId
             });
           })
