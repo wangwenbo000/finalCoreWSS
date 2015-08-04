@@ -30,7 +30,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：{{orderid}}</td>
-                    <td class="text-danger">￥{{pricetotal}}</td>
+                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -58,7 +58,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：<kbd>{{orderid}}</kbd></td>
-                    <td class="text-danger">￥{{pricetotal}}</td>
+                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -86,7 +86,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：<kbd>{{orderid}}</kbd></td>
-                    <td class="text-danger">￥{{pricetotal}}</td>
+                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -120,6 +120,11 @@
             pc:orderlistJSON.progressCount,
             cc:orderlistJSON.cancelCount,
             tc:orderlistJSON.completeCount
+        },
+        filters:{
+            formatPrice:function(value){
+              return parseInt(value).toFixed(2);
+            }
         }
     });
 </script>

@@ -19,6 +19,16 @@ define(['vue','jquery'],function(Vue,$){
       }
   });
 
+  var payInfo = new Vue({
+      el:'#orderpayinfo',
+      data:{},
+      filters:{
+        formatPrice:function(value){
+          return parseInt(value).toFixed(2);
+        }
+      }
+  });
+
   //模态打开时的操作
   $('#orderModel').on('show.bs.modal', function (event) {
       var nowbotton = event.relatedTarget.className;
@@ -26,6 +36,8 @@ define(['vue','jquery'],function(Vue,$){
           $('#orderTab li:eq(1) a').tab('show');
       }else if(nowbotton=='orderInfo'){
           $('#orderTab a:first').tab('show');
+      }else if(nowbotton=='orderpayinfo'){
+          $('#orderTab a:last').tab('show');
       }
       var button = $(event.relatedTarget);
       var orderId = button.data('id');
@@ -48,6 +60,15 @@ define(['vue','jquery'],function(Vue,$){
           data:{'id':orderAttachmentId,'pointid':orderId},
           success:function(data){
               attachmentInfo.$data = JSON.parse(data);
+          }
+      });
+      // 加载支付信息
+      $.ajax({
+          url: '/Admin/order/getpayinfo',
+          type:'post',
+          data:{'id':orderAttachmentId},
+          success:function(data){
+            payInfo.$data = JSON.parse(data)[0];
           }
       });
   });

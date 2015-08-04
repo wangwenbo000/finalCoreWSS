@@ -1,4 +1,4 @@
-define(['vue','jquery','messenger'],function(Vue,$,Messenger){
+define(['vue','jquery'],function(Vue,$){
   var addProductInfo = new Vue({
       el:'#addFoodInfo',
       data:{isactive:'1'}
@@ -13,11 +13,12 @@ define(['vue','jquery','messenger'],function(Vue,$,Messenger){
       var addJSONStr = $('input[name=addjson]').attr('value');
       var addJSON = JSON.parse(addJSONStr);
 
-      Messenger().run({
-          successMessage: '数据添加成功',
-          errorMessage: 'Error saving data',
-          progressMessage: '正在更新数据',
-      },{
+      // Messenger().run({
+      //     successMessage: '数据添加成功',
+      //     errorMessage: 'Error saving data',
+      //     progressMessage: '正在更新数据',
+      // },{
+      $.ajax({
           url: '/Admin/Product/addNewDataForActive',
           type:'post',
           data:{'json':addJSONStr},

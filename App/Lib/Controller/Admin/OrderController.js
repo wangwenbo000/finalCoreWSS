@@ -14,7 +14,6 @@ module.exports = Controller("Admin/BaseController", function(){
             var baseUrl = "/Admin/order/index.html";
             var orderModel = D('Order');
             var data = yield orderModel.getorderlist(this.get('page'));
-            formatTime(data.data,'YYYY-MM-DD dddd','time');
 
             var expressData = yield D('Express').order('ID DESC').field(['name','id']).select();
             var ExpressSelectData = [];
@@ -57,32 +56,43 @@ module.exports = Controller("Admin/BaseController", function(){
             }
             this.assign({'listJSON':data.data,'total':data.total,'count':data.count,'express':ExpressSelectData,'yuntu':ExpressAddressData});
 
-            var stateJsonCase = {
-                "HAS_SUCC":'55',
-                "HAS_POST":'33',
-                "WAIT_PAY":'10',
-                "WAIT_POST":'30',
-                "WAIT_REFUND":'40',
-                "HAS_REFUND":'44',
-                "HAS_CANCEL":'60',
-                "ERROR":'err'
-            };
+            // 共<%=count%>单 | 已发货
+            // <%=stateCount.HAS_POST%>单 | 已成功
+            // <%=stateCount.HAS_SUCC%>单 | 待付款
+            // <%=stateCount.WAIT_PAY%>单 | 待发货
+            // <%=stateCount.WAIT_POST%>单 | 待退款
+            // <%=stateCount.WAIT_REFUND%>单 | 已退款
+            // <%=stateCount.HAS_REFUND%>单 | 已取消
+            // <%=stateCount.HAS_CANCEL%>单 | 异常
+            // <%=stateCount.ERROR%>单
 
-            var stateAssignJson = {}
-            var countData = null
-            for(var k in stateJsonCase){
-              switch (k) {
-                case "ERROR":
-                  countData = yield orderModel.getstatecount(stateJsonCase[k]);
-                  stateAssignJson[k]=countData.count;
-                  this.assign({stateCount:stateAssignJson});
-                  this.display();
-                  break;
-                default:
-                  countData = yield orderModel.getstatecount(stateJsonCase[k]);
-                  stateAssignJson[k]=countData.count;
-              }
-            }
+            // var stateJsonCase = {
+            //     "HAS_SUCC":'55',
+            //     "HAS_POST":'33',
+            //     "WAIT_PAY":'10',
+            //     "WAIT_POST":'30',
+            //     "WAIT_REFUND":'40',
+            //     "HAS_REFUND":'44',
+            //     "HAS_CANCEL":'60',
+            //     "ERROR":'err'
+            // };
+            //
+            // var stateAssignJson = {}
+            // var countData = null
+            // for(var k in stateJsonCase){
+            //   switch (k) {
+            //     case "ERROR":
+            //       countData = yield orderModel.getstatecount(stateJsonCase[k]);
+            //       stateAssignJson[k]=countData.count;
+            //       this.assign({stateCount:stateAssignJson});
+            //       this.display();
+            //       break;
+            //     default:
+            //       countData = yield orderModel.getstatecount(stateJsonCase[k]);
+            //       stateAssignJson[k]=countData.count;
+            //   }
+            // }
+            this.display();
         }),
         allocationAction:Q.async(function* (){
           var getUpdateId = JSON.parse(this.post('updateId'));
@@ -123,6 +133,12 @@ module.exports = Controller("Admin/BaseController", function(){
             var orderModel = D('order').getattachmentinfo(getSelectId,getPointId).then(function(data){
                 return self.end(data);
             })
-        }
+        },
+        getpayinfoAction:Q.async(function*(){
+          var getOrderId = parseInt(this.post('id'));
+          var getPayInfoById = yield D('payinfo').where({'attach':getOrderId}).select();
+          formatTime(getPayInfoById, 'llll', 'time_end');
+          return this.end(getPayInfoById);
+        })
     };
 });

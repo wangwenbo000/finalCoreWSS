@@ -57,11 +57,12 @@ define(['vue','jquery','dmuploader'],function(Vue,$,dmuploader){
   $('button[name=uploadProductInfo]').on('click',function(){
       var updateJSONStr = $('input[name=updatejson]').attr('value');
       var updateJSON = JSON.parse(updateJSONStr);
-      Messenger().run({
-          successMessage: '数据添加成功',
-          errorMessage: 'Error saving data',
-          progressMessage: '正在更新数据',
-      },{
+      // Messenger().run({
+      //     successMessage: '数据添加成功',
+      //     errorMessage: 'Error saving data',
+      //     progressMessage: '正在更新数据',
+      // },{
+      $.ajax({
           url: '/Admin/Product/updateinfobyid',
           type:'post',
           data:{'id':updateJSON.id,'json':updateJSONStr},

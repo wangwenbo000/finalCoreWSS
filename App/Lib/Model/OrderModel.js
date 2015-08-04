@@ -18,9 +18,10 @@ module.exports = Model(function() {
     getorderlist: function(getPage) {
       var moment = require('moment');
       return D('Orderproductcopy').where({
-        'time': moment().format('YYYY-MM-DD')
+        'time': moment().add(1,'days').format('YYYY-MM-DD')
       }).order('id DESC').page(getPage, 20).countSelect().then(function(data) {
         staticFilter(data.data);
+        formatTime(data.data,'YYYY-MM-DD dddd','time');
         return data;
       });
     },
@@ -104,6 +105,7 @@ module.exports = Model(function() {
       return D('Orderproductcopy').where(json).order('id DESC').page(getPage, 20).countSelect().then(function(data) {
         staticFilter(data.data);
         isCallMeUpFilter(data.data);
+        formatTime(data.data,'YYYY-MM-DD dddd','time');
         return data;
       });
     }

@@ -108,7 +108,6 @@
                     return false;
                   }
                 }
-                console.log('a');
                   if(!re_phone.test(updateInfo['phonenum'])){
                     showFormErr('手机号码格式不正确');
                     return false;
@@ -123,7 +122,6 @@
                     url:'/address/update',
                     data:{updateJson:JSON.stringify(updateInfo),id:updateId},
                     success:function(data){
-                      console.log('a');
                         window.location.href='/addresslist';
                     }
                 })
@@ -157,7 +155,7 @@
             addsuggess:function(suggess){
                 $('#searchAddress').modal('hide');
                 this.$data.addressById['addressKey']=suggess.su._name;
-                this.$data.addressById['address']=suggess.su._address;
+                // this.$data.addressById['address']=suggess.su._address;
             }
         }
     });

@@ -110,14 +110,20 @@ global.WX_createTimestamp = function () {
   return parseInt(new Date().getTime() / 1000) + '';
 }
 
-global.WX_raw = function (args) {
+global.WX_raw = function (args,upperorlower) {
   var keys = Object.keys(args);
   keys = keys.sort()
   var newArgs = {};
-  keys.forEach(function (key) {
-    newArgs[key.toLowerCase()] = args[key];
-  });
-
+  if(upperorlower=="lower"){
+    keys.forEach(function (key) {
+      newArgs[key.toLowerCase()] = args[key];
+    });
+  }
+  if(upperorlower=="normal"){
+    keys.forEach(function (key) {
+      newArgs[key] = args[key];
+    });
+  }
   var string = '';
   for (var k in newArgs) {
     string += '&' + k + '=' + newArgs[k];
@@ -135,19 +141,27 @@ global.WX_sign = function (jsapi_ticket, url) {
     timestamp: timestamp,
     url: url
   };
-  var string = WX_raw(ret);
+  var string = WX_raw(ret,"lower");
   var crypto=require('crypto');
   var hasher=crypto.createHash("sha1");
   hasher.update(string);
   var ret=hasher.digest('hex');
-  // return ret;
+
   var returnJSON = {
     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
     appId: 'wxde2277be54c81c1d', // 必填，公众号的唯一标识
     timestamp: timestamp, // 必填，生成签名的时间戳
     nonceStr: nonceStr, // 必填，生成签名的随机串
     signature: ret,// 必填，签名，见附录1
-    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','hideMenuItems','showMenuItems','chooseWXPay'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    jsApiList: ['onMenuShareTimeline','onMenuShareAppMessage','hideMenuItems','showMenuItems','chooseWXPay','hideOptionMenu'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
   };
   return returnJSON;
 };
+global.WX_PAY_sign = function(jsonRet,upperorlower){
+  var uorl = upperorlower;
+  var string = WX_raw(jsonRet,uorl);
+  var stringSignTemp = string+'&key=b0e6639a8565a55d0e67f7d4440621a0';
+  var toMd5=require('MD5');
+  var sign = toMd5(stringSignTemp);
+  return sign;
+}

@@ -31,6 +31,9 @@ module.exports = Controller("Home/BaseController", function(){
         });
       }
 
+      // yield this.session("userInfo",[{openid:"o510Kj_ydZPIMQdl1jww5w9MecQk",id:12}]);
+      // console.log(yield this.session("userInfo"));
+
       var userInfoData = yield this.session('userInfo');
       var addressListData = yield D('Addresslist').where({'userid':userInfoData[0].id}).order('id DESC').select();
       this.assign({'addresslist':addressListData,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'WxUserInfo':userInfoData[0]});
@@ -95,7 +98,7 @@ module.exports = Controller("Home/BaseController", function(){
       var getExpressTime = self.post('expresstime');
       var getReceiveWay = self.post('receiveWay');
       var chooseFoodList = JSON.parse(self.post('chooselist'));
-      var orderid = moment().format('YYYYMMDDHHmmss')+""+moment().millisecond();
+      var ordernum = moment().format('YYYYMMDDHHmmss')+""+moment().millisecond();
 
       var total = 0;
       for(var k in chooseFoodList){
@@ -103,7 +106,7 @@ module.exports = Controller("Home/BaseController", function(){
       }
 
         return D('Order').add({
-          orderid:orderid,
+          orderid:ordernum,
           ordertime:moment().format('YYYY-MM-DD HH:mm:ss'),
           address:getAddressinfo['address'],
           addressKey:getAddressinfo['addressKey'],
@@ -124,12 +127,19 @@ module.exports = Controller("Home/BaseController", function(){
             chooseFoodList[k]['productstate']=10;
             chooseFoodList[k]['expresstime']=getExpressTime;
             chooseFoodList[k]['userid']=getUserId;
-            chooseFoodList[k]['ordernum']=orderid;
+            chooseFoodList[k]['ordernum']=ordernum;
             chooseFoodList[k]['foodimg']='';
+            chooseFoodList[k]['receiveway'] = getReceiveWay;
           }
-        }).then(function(){
+          return rowId;
+        }).then(function(data){
+          var orderRowId = data;
           return D('Orderproductcopy').addAll(chooseFoodList).then(function(){
-            self.end('ok');
+            self.success({
+              ordernum:ordernum,
+              productprice:total,
+              orderid:orderRowId
+            });
           })
         })
     },

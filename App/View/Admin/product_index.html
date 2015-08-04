@@ -40,8 +40,8 @@
                 <tr>
                     <td><img src="/resource/img/food/{{product.days}}.jpg" alt="..." width="66" ></td>
                     <td colspan="2">{{product.productName}}</td>
-                    <td><h4>￥{{product.cost}}</h4></td>
-                    <td><h3 class="text-primary">￥{{product.price}}</h3></td>
+                    <td><h4>￥{{product.cost | formatPrice}}</h4></td>
+                    <td><h3 class="text-primary">￥{{product.price | formatPrice}}</h3></td>
                 </tr>
                 <tr>
                     <td colspan="2"><h4><small>库存剩余:</small> {{product.repertory}} <small>份</small></h4></td>
@@ -210,8 +210,8 @@
         <td>{{active.id}}</td>
         <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
         <td><h4>{{active.productName}}</h4></td>
-        <td>￥{{active.cost}}</td>
-        <td>￥{{active.price}}</td>
+        <td>￥{{active.cost | formatPrice}}</td>
+        <td>￥{{active.price | formatPrice}}</td>
         <td>{{active.describe}}</td>
         <td>{{active.updatetime}}</td>
         <td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a></td>

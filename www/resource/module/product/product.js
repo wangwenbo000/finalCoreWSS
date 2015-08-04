@@ -12,8 +12,7 @@ require.config({　　　　
     // products
     "productList":"product/productList",
     "productActive":"product/productActive",
-    "productAddActive":"product/productAddActive",
-    "productInfo":"product/productInfo",
+    "productAddactive":"product/productAddactive",
     "productUpdate":"product/productUpdate",
     // bootstrap
     "dropdown": "lib/bootstrap/dropdown",
@@ -52,8 +51,7 @@ var orderModule = [
   'tab',
   'productList',
   'productActive',
-  'productAddActive',
-  'productInfo',
+  'productAddactive',
   'productUpdate'
 ];
 // 使用

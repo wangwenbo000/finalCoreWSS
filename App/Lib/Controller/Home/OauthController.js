@@ -20,8 +20,8 @@ module.exports = Controller(function(){
 
       var step2_option = {
         url:'https://api.weixin.qq.com/sns/oauth2/access_token',
-        qs:{appid:'wxde2277be54c81c1d',
-            secret:'5cdd015be8db790c01b98d7a980397b6',
+        qs:{appid:appid,
+            secret:secret,
             code:getCode,
             grant_type:'authorization_code'
           },

@@ -8,7 +8,7 @@ require.config({　　　　
     "bootpag": "lib/jquery.bootpag.min",
     "datetimepicker": "lib/bootstrap-datetimepicker.min",
     // orders
-    "orderList": "order/orderlist",
+    "orderList": "order/orderList",
     "orderAllocation": "order/orderAllocation",
     "orderDatetimepicker": "order/orderDatetimepicker",
     "orderFilter": "order/orderFilter",
