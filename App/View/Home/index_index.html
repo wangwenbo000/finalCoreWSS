@@ -2,84 +2,15 @@
   <script>
     var addresslistJson = <%- JSON.stringify(addresslist)%>;
     var calendarArr = <%-JSON.stringify(calendarArr)%>;
+    // jsapi
+    configWxJsapi();
   </script>
-  <style>
-    .calendar>tbody>tr>th,
-    .calendar>tbody>tr>td {
-      background: #fff;
-      text-align: center;
-    }
-
-    .calTitle {
-      margin: 0;
-    }
-
-    .paybtn {
-      display: block;
-      height: 49px;
-      width: 120px;
-      background: #f40;
-      float: right;
-      line-height: 49px;
-      color: #fff;
-      padding: 0;
-      border-radius: 0;
-      font-size: 16px;
-    }
-
-    .paybtn:hover {
-      color: #fff;
-    }
-
-    .countP {
-      height: 49px;
-      line-height: 49px;
-      margin-bottom: 0;
-      padding-left: 15px;
-    }
-
-    .countP span:nth-child(2) {
-      font-size: 18px;
-      color: #f40;
-    }
-
-    .hidechoosefood {
-      display: none;
-    }
-
-    table {
-      background: #fff;
-    }
-
-    .table {
-      margin-bottom: 10px;
-    }
-
-    .formErr {
-      position: fixed;
-      width: 200px;
-      height: 60px;
-      font-size: 16px;
-      background: rgba(0, 0, 0, 0.9);
-      top: 50%;
-      left: 50%;
-      margin-left: -100px;
-      margin-top: -30px;
-      border-radius: 6px;
-      z-index: 10000;
-      color: #fff;
-      text-align: center;
-      line-height: 60px;
-      display: none;
-    }
-    [v-cloak]{display: none}
-  </style>
   <div id="indexPostOrder" v-cloak>
     <nav class="navbar navbar-default navbar-fixed-bottom ">
       <a href="javascript:;" class="btn paybtn" v-on="click:pay" data-loading-text="订单正在生成">确认订单</a>
       <p class="countP">
         <span>总价:</span>
-        <span> ￥{{total | formatPrice}}</span>
+        <span>{{total | currency '¥'}}</span>
       </p>
     </nav>
     <div class="jumbotron">
@@ -92,44 +23,38 @@
       <table id="showP" class="table table-bordered calendar">
         <tr>
           <td colspan="7">
-            <h3 class="calTitle">
-              <%=date%>月
-                <small>一周早餐</small>
-            </h3>
+            <h3 class="calTitle"><%=date%>月<small>一周早餐</small></h3>
           </td>
         </tr>
         <tr>
           <th v-repeat="calendar">{{week}}</th>
         </tr>
         <tr>
-          <td v-repeat="calendar" v-on="click:chooseDay(this)" class="{{choose}}">
-            <h4>{{{days | repertoryIsEmpty}}}</h4>
+          <td v-repeat="cal in calendar" v-on="click:chooseDay(cal)" v-class="success:cal.done">
+            <h4><u>{{{cal.days | repertoryIsEmpty}}}</u></h4>
           </td>
         </tr>
       </table>
       <table class="table table-condensed">
-        <tr v-repeat="calendar" class="{{chooseFoodList}}">
+        <tr v-repeat="cal in calendar" v-show="cal.done">
           <td>
-            <img src="/resource/img/food/{{productInfo.days}}.jpg" width="40">
+            <img v-attr="src:'/resource/img/food/'+cal.productInfo.days+'.jpg'" width="40">
           </td>
           <td>
-            <h5>{{productInfo.productName}}
-              <small> ×{{everyDayNum}}</small>
-            </h5>
+            <h5>{{cal.productInfo.productName}}<small> ×{{cal.everyDayNum}}</small></h5>
             <span class="text-muted">{{date}}</span>
           </td>
-          <td class="text-danger">￥{{productInfo.price | formatPrice}}</td>
+          <td class="text-danger">{{cal.productInfo.price | currency '¥'}}</td>
           <td>
-            <span class="label label-warning">周{{week}}</span>
+            <span class="label label-warning">周{{cal.week}}</span>
           </td>
         </tr>
       </table>
       <div class="alert alert-warning" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
+        <button type="button" class="close" data-dismiss="alert">
+          <span>&times;</span>
         </button>
-        每天
-        <span class="label label-warning">22:00</span> 前可预订明日早餐 🌞
+        每天<span class="label label-warning">22:00</span> 前可预订明日早餐 🌞
       </div>
     </div>
     <div class="container-fluid">
@@ -137,18 +62,14 @@
         <div class="col-xs-12">
           <div class="input-group">
             <div class="input-group-btn">
-              <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" v-on="click:everyDayNumBtn('a')">
-                —
-              </button>
+              <button type="button" class="btn btn-success" v-on="click:everyDayNum--">—</button>
             </div>
             <span class="input-group-addon">每天</span>
-            <input type="text" class="form-control" aria-label="..." v-model="everyDayNum | numNotZreo">
+            <input type="text" class="form-control" v-model="everyDayNum | numNotZreo">
             <span class="input-group-addon">份</span>
 
             <div class="input-group-btn">
-              <button type="button" class="btn btn-success" data-loading-text="Loading..." autocomplete="off" v-on="click:everyDayNumBtn('b')">
-                +
-              </button>
+              <button type="button" class="btn btn-success" v-on="click:everyDayNum++">+</button>
             </div>
           </div>
         </div>
@@ -174,29 +95,25 @@
           </select>
         </div>
       </div>
-
       <div class="row">
         <div class="col-xs-12">
-          <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#chooseAddress" id="chooseAddressBtn"><i class="glyphicon glyphicon-plus-sign"></i> 选择配送地址
+          <button type="submit" class="btn btn-default btn-block btn-lg" data-toggle="modal" data-target="#chooseAddress" id="chooseAddressBtn" v-html="initAddressBtn"><i class="glyphicon glyphicon-plus-sign"></i> 选择配送地址
           </button>
         </div>
       </div>
     </div>
-    <div class="modal fade" id="chooseAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="chooseAddress" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
+            <button type="button" class="close" data-dismiss="modal"><i class="glyphicon glyphicon-remove-circle"></i></button>
             <h4 class="modal-title">选择一个收货地址</h4>
           </div>
           <div class="modal-body address-body">
             <table class="table">
-              <tr v-repeat="addresslist" data-index={{$index}}>
-                <td v-on="click:chooseAddress(this)">
-                  <h4>{{receiveuser}}
-                    <small> {{phonenum}}</small>
-                  </h4>
-                  {{address}}
+              <tr v-repeat="al in addresslist" data-index={{$index}} v-on="click:chooseAddress(al)">
+                <td>
+                  <h4>{{al.receiveuser}}<small> {{al.phonenum}}</small></h4>{{al.address}}
                 </td>
                 <td v-on="click:editAddress(this)">
                   <a href="#" data-toggle="modal" data-target="#addressForm">
@@ -207,78 +124,14 @@
             </table>
           </div>
           <div class="modal-footer">
-            <button type="submit" class="btn btn-success btn-block btn-lg" data-toggle="modal" data-target="#addressForm" v-on="click:addNewAddress">添加新的订餐地址
-            </button>
+            <!-- addNewaddress FN -->
+            <a href="Home/address?back=Home" class="btn btn-success btn-block btn-lg">添加新的订餐地址</a>
           </div>
         </div>
       </div>
-    </div>
-    <div class="modal fade" id="addressForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
-            <h4 class="modal-title">添加新的地址</h4>
-          </div>
-          <div class="modal-body addAddress-body">
-            <form>
-              <div class="form-group">
-                <label for="exampleInputEmail1">联系人</label>
-                <input type="email" name="addAddressForm" class="form-control input-lg" id="exampleInputEmail1" placeholder="你的姓名" v-model="updateForm.receiveuser">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">联系电话</label>
-                <input type="tel" name="addAddressForm" class="form-control input-lg" id="exampleInputPassword1" placeholder="你的手机号" v-model="updateForm.phonenum">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputPassword1">送餐地址</label>
-                <input type="address" name="addAddressForm" class="form-control input-lg" id="exampleInputPassword1" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" v-model="updateForm.addressKey" readonly>
-              </div>
-              <input type="address" name="addAddressForm" class="form-control input-lg" id="exampleInputPassword1" placeholder="详细地址（如门牌号等）" v-model="updateForm.address">
-            </form>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-success btn-block btn-lg" v-ok="addresslist : updateForm" v-on="click:update(this)">确定</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggestText">
-          </div>
-          <div class="modal-body searchAddress-body">
-            <table class="table">
-              <tr v-repeat="su:suggess">
-                <td v-on="click:addsuggess(this)">
-                  <h4>{{su._name}}
-                    <small>{{su._address}}</small>
-                  </h4>
-                </td>
-              </tr>
-            </table>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="glyphicon glyphicon-remove-circle"></i></button>
-            <span class="pull-left ">输入地区关键字</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="formErr">
-      错误
     </div>
   </div>
-
   <script>
-    Array.prototype.remove = function(dx) {
-      if (isNaN(dx) || dx > this.length) {
-        return false;
-      }
-      this.splice(dx, 1);
-    }
     var sendOrder = new Vue({
       el: '#indexPostOrder',
       data: {
@@ -287,185 +140,47 @@
         everyDayNum: 1,
         addresslist: addresslistJson,
         calendar: calendarArr,
-        suggestText: '',
         total: 0,
-        totalcopy: 0,
-        updateForm: {
-          userid: '<%- WxUserInfo.id%>',
-          receiveuser: '',
-          address: '',
-          addressKey: '',
-          phonenum: '',
-          aindex: ''
-        },
-        suggess: [],
-        chooseaddressinfo: null
+        initAddressBtn:$.cookie('newAddressVal'),
+        chooseaddressinfo:[]
       },
       filters: {
-        formatPrice: function(value) {
-          return value.toFixed(2);
-        },
         repertoryIsEmpty: function(value) {
           if (value == "罄") {
-            return "<i class='glyphicon glyphicon-ban-circle text-danger'></i>"
-          } else {
+            return "<img src=resource/img/indexImg/foodempty.svg width='20'>"
+          }else{
             return value;
           }
         },
-        numNotZreo: function(value) {
-          if (value <= 0) {
-            return 1;
-          } else {
-            return value;
-          }
+        numNotZreo: function(val) {
+          return val<=0 ? this.everyDayNum=1 : val;
         }
       },
       methods: {
-        editAddress: function(p) {
-          var _this = this;
-          $.ajax({
-            url: 'Home/Index/select',
-            type: 'POST',
-            data: {
-              id: p.id
-            },
-            success: function(data) {
-              _this.$data.updateForm = JSON.parse(data)[0];
-              _this.$data.updateForm.aindex = p.$index;
-            }
-          });
-        },
-        addNewAddress: function() {
-          this.$data.updateForm = {
-            userid: '<%- WxUserInfo.id%>',
-            receiveuser: '',
-            address: '',
-            addressKey: '',
-            phonenum: '',
-          }
-        },
-        everyDayNumBtn: function(action) {
-          if (action == 'a') {
-            if (this.$data.everyDayNum <= 1) {
-              this.$data.everyDayNum = 1;
-              return false;
-            } else {
-              this.$data.everyDayNum--;
-              this.$data.total = total(this) * this.$data.everyDayNum;
-            }
-          } else {
-            this.$data.everyDayNum++;
-            this.$data.total = total(this) * this.$data.everyDayNum;
-          }
-        },
-        update: function(p) {
-          var updateInfo = this.$data.updateForm;
-          var re = /^1\d{10}$/;
-          for (var k in updateInfo) {
-            if (updateInfo[k] == "") {
-              switch (k) {
-                case 'receiveuser':
-                  showFormErr('请填写收货人姓名');
-                  break;
-                case 'phonenum':
-                  showFormErr('请填写联系电话');
-                  break;
-                case 'address':
-                  showFormErr('请填写收货人地址');
-                  break;
-                case 'addressKey':
-                  showFormErr('请填写收货人详细地址');
-                  break;
-              }
-              return false;
-            }
-            if (!re.test(updateInfo['phonenum'])) {
-              showFormErr('手机号码格式不正确');
-              return false;
-            }
-          }
-          var _this = this;
-          $.ajax({
-            url: 'Home/Index/update',
-            type: 'POST',
-            data: {
-              info: JSON.stringify(updateInfo)
-            },
-            success: function(data) {
-              if (data == 'update') {
-                addresslistJson[updateInfo.aindex]['receiveuser'] = updateInfo.receiveuser;
-                addresslistJson[updateInfo.aindex]['phonenum'] = updateInfo.phonenum;
-                addresslistJson[updateInfo.aindex]['address'] = updateInfo.address;
-                addresslistJson[updateInfo.aindex]['addressKey'] = updateInfo.addressKey;
-                $('#addressForm').modal('hide');
-              } else if (data == 'add') {
-                addresslistJson.unshift(updateInfo);
-                $('#addressForm').modal('hide');
-              }
-
-            }
-          })
-        },
-        chooseAddress: function(p) {
-          this.$data.chooseaddressinfo = addresslistJson[p.$index];
+        chooseAddress: function(thisAddress) {
+          this.chooseaddressinfo = thisAddress;
           $('#chooseAddress').modal('hide');
-          $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> " + p.address).attr('class', 'btn btn-success btn-block btn-lg');
+          $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> " + thisAddress.address).attr('class', 'btn btn-success btn-block btn-lg');
         },
-        getsuggest: function() {
-          var tableid = '5588fe0be4b062df8bcd62da';
-          var city = '北京市';
-          var keywords = this.$data.suggestText;
-          var filter = ' ';
-          var limit = 10;
-          var page = 1;
-          var key = '4af78342937c8140440f75c9809063c5';
-          var that = this;
-
-          $.ajax({
-            type: "get",
-            url: "http://yuntuapi.amap.com/datasearch/local?tableid=" + tableid + "&city=" + city + "&keywords=" + keywords + "&key=" + key,
-            dataType: "jsonp",
-            jsonp: "callback",
-            jsonpCallback: "jsonpCallback",
-            success: function(json) {
-              var arr = [];
-              arr.push(json);
-              that.$data.suggess = arr[0].datas;
-            },
-            error: function() {
-              console.log('fail');
-            }
-          });
-        },
-        addsuggess: function(suggess) {
-          $('#searchAddress').modal('hide');
-          this.$data.updateForm['addressKey'] = suggess.su._name;
-          // this.$data.updateForm['address'] = suggess.su._address;
-        },
-        chooseDay: function(p) {
-          if (p.productInfo.repertory <= 0) {
+        chooseDay: function(cal) {
+          if (cal.productInfo.repertory <= 0) {
             return false;
           } else {
-            if (p.done) {
-              p.choose = 'success';
-              p.chooseFoodList = '';
-              this.$data.total = total(this) * this.$data.everyDayNum;
+            cal.done = !cal.done;
+            if (cal.done) {
+              this.total = total(this) * this.everyDayNum;
             } else {
-              p.choose = '';
-              p.chooseFoodList = 'hidechoosefood';
-              this.$data.total = total(this) * this.$data.everyDayNum;
+              this.total = total(this) * this.everyDayNum;
             }
-            p.done = !p.done;
           }
-
         },
         pay: function() {
           var paybtn = $('.paybtn').button('loading');
           var chooseProductJson_res = [];
-          var chooseProductJson = this.$data.calendar;
+          var chooseProductJson = this.calendar;
           for (var k in chooseProductJson) {
-            switch (chooseProductJson[k]['choose']) {
-              case 'success':
+            switch (chooseProductJson[k]['done']) {
+              case true:
                 chooseProductJson_res.push({
                   productName: chooseProductJson[k].productInfo['productName'],
                   time: chooseProductJson[k]['date'],
@@ -474,28 +189,28 @@
                 break;
             }
           }
-          if (chooseProductJson_res.length == 0) {
+          if (!chooseProductJson_res.length) {
             showFormErr('没有选择早餐 ☀️');
             paybtn.button('reset');
             return false;
           }
-          if (this.$data.receiveWay == 0) {
-            showFormErr('请选择接收方式 📮');
+          if (!this.expressTime) {
+            showFormErr('还没有选择配送时间');
             paybtn.button('reset');
             return false;
           }
-          if (this.$data.expressTime == 0) {
-            showFormErr('还没有选择配送时间 🕗');
+          if (!this.receiveWay) {
+            showFormErr('请选择接收方式');
             paybtn.button('reset');
             return false;
           }
-          if (this.$data.chooseaddressinfo == null) {
+          if (!this.chooseaddressinfo) {
             showFormErr('请选择配送地址');
             paybtn.button('reset');
             return false;
           }
-          if (this.$data.everyDayNum < 1) {
-            showFormErr('每天至少一份早餐 🍔');
+          if (this.everyDayNum < 1) {
+            showFormErr('每天至少一份早餐');
             paybtn.button('reset');
             return false;
           }
@@ -504,18 +219,15 @@
             type: 'POST',
             data: {
               userid: '<%- WxUserInfo.id%>',
-              productnum: this.$data.everyDayNum,
-              receiveWay: this.$data.receiveWay,
+              productnum: this.everyDayNum,
+              receiveWay: this.receiveWay,
               chooselist: JSON.stringify(chooseProductJson_res),
-              addressinfo: JSON.stringify(this.$data.chooseaddressinfo),
-              expresstime: this.$data.expressTime
+              addressinfo: JSON.stringify(this.chooseaddressinfo),
+              expresstime: this.expressTime
             },
             success: function(data) {
-              if (data.errno == 0) {
-                // paybtn.button('reset');
-                unifiedorderFn(data.data);
+              data.errno || unifiedorderFn(data.data);
               }
-            }
           });
         }
       }
@@ -549,69 +261,17 @@
             }
           });
       }
-
-      function showFormErr(value) {
-        $('.formErr').css({
-          'display': 'block'
-        }).html('<i class="glyphicon glyphicon-exclamation-sign"></i> ' + value);
-        setTimeout(function() {
-          $('.formErr').css({
-            'display': 'none'
-          }).html('');
-        }, 1200);
-      };
-
       function total(_this) {
-        _this.$data.total = 0;
-        var chooseProductJson = _this.$data.calendar;
+        _this.total = 0;
+        var chooseProductJson = _this.calendar;
         for (var k in chooseProductJson) {
-          switch (chooseProductJson[k]['choose']) {
-            case 'success':
-              _this.$data.total += chooseProductJson[k]['productInfo']['price'];
+          switch (chooseProductJson[k]['done']) {
+            case true:
+              _this.total += chooseProductJson[k]['productInfo']['price'];
               break;
           }
         }
-        return _this.$data.total;
-      }
-
-      configWxJsapi();
-
-      function configWxJsapi() {
-        var url = window.location.href;
-        $.ajax({
-          url: 'Admin/Wx/jsapicofig',
-          type: 'POST',
-          data: {
-            url: url
-          },
-          success: function(json) {
-            var configJson = JSON.parse(json);
-            wx.config(configJson);
-
-            wx.ready(function() {
-              wx.onMenuShareAppMessage({
-                title: '早安早安', // 分享标题
-                desc: '幸福正能量', // 分享描述
-                link: 'http://www.izaoan.cn?showwxpaytitle=1', // 分享链接
-                imgUrl: 'http://www.izaoan.cn/resource/img/indexImg/wxiconnew.png', // 分享图标
-                type: '', // 分享类型,music、video或link，不填默认为link
-                dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-                success: function() {
-                  // 用户确认分享后执行的回调函数
-                },
-                cancel: function() {
-                  // 用户取消分享后执行的回调函数
-                }
-              });
-              wx.hideMenuItems({
-                menuList: ["menuItem:share:facebook", "menuItem:copyUrl", "menuItem:originPage", "menuItem:readMode", "menuItem:openWithQQBrowser", "menuItem:openWithSafari", "menuItem:share:email"] // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
-              });
-            });
-            wx.error(function(res) {
-              alert('微信jssdk接入失败');
-            });
-          }
-        });
+        return _this.total;
       }
   </script>
   </body>

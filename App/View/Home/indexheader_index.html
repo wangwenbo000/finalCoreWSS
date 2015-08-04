@@ -7,43 +7,72 @@
     <title> 早安!早安!</title>
     <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
     <script src="/resource/js/jquery-1.11.3.min.js"></script>
+    <script src="/resource/js/jquery.cookie.js"></script>
     <script src="/resource/js/bootstrap.min.js"></script>
-    <script src="/resource/js/vue.min.js"></script>
+    <script src="/resource/js/vue.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-        if (/iP(hone|od|ad)/.test(navigator.userAgent)) {
-            var v = (navigator.appVersion).match(/OS (\d+)_(\d+)_?(\d+)?/),
-            version = parseInt(v[1], 10);
-            console.log(version);
-        if(version >= 8){
-            document.documentElement.classList.add('hairlines');
-            }
-        }
-    </script>
 </head>
 <style>
-    body{padding: 0 0 72px 0;background: #EBEEE6;}
-    html{-webkit-user-select: none;}
-    .row{margin-bottom: 10px;}
-    .panel{margin-bottom: 0;}
-    .jumbotron{background: url("/resource/img/indexImg/bg.jpg") no-repeat center top;margin-bottom: 10px;padding-bottom: 10px;}
-    .datetimepicker table ,.datetimepicker-inline{width: 100%;}
-    #logo{width: 180px;}
-    #face{width: 58px;}
-    .modal-body{overflow: auto;}
-    .modal-header,.modal-footer{padding: 8px 15px;}
-    .media{border-bottom: 1px solid #efefef;}
-    input{-webkit-appearance:none;border: none;}
-    .addAddress-body ,.address-body ,.searchAddress-body{height:300px;}
-    .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
-        vertical-align:middle;
-    }
-    .hairlines input,
-    .hairlines a,
-    .hairlines span,
-    .hairlines button,
-    .hairlines select,
-    .hairlines table
-    {border-width:0.5px;}
+    body{padding:0 0 72px;background:#ebeee6}html{-webkit-user-select:none}.row{margin-bottom:10px}.panel{margin-bottom:0}.jumbotron{margin-bottom:10px;padding-bottom:10px;background:url(/resource/img/indexImg/bg.jpg) no-repeat center top}.datetimepicker table,.datetimepicker-inline{width:100%}#logo{width:180px}#face{width:58px}.modal-body{overflow:auto}.modal-footer,.modal-header{padding:8px 15px}.media{border-bottom:1px solid #efefef}input{border:none;-webkit-appearance:none}.addAddress-body,.address-body,.searchAddress-body{height:300px}.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{vertical-align:middle}
+    /*index*/
+    .calendar>tbody>tr>td,.calendar>tbody>tr>th{background:#fff;text-align:center}.calTitle{margin:0}.paybtn{float:right;display:block;padding:0;width:90pt;height:49px;border-radius:0;background:#f40;font-size:1pc;line-height:49px}.paybtn,.paybtn:hover{color:#fff}.countP{margin-bottom:0;padding-left:15px;height:49px;line-height:49px}.countP span:nth-child(2){color:#f40;font-size:18px}.hidechoosefood{display:none}table{background:#fff}.table{margin-bottom:10px}.formErr{position:fixed;top:50%;left:50%;z-index:10000;display:none;margin-top:-30px;margin-left:-75pt;width:200px;height:60px;border-radius:6px;background:rgba(0,0,0,.9);color:#fff;text-align:center;font-size:1pc;line-height:60px}
+    [v-cloak]{display: none}
+    /*address*/
+    .formdiv{padding:15px;background:#fff}.formErr{position:absolute;top:50%;left:50%;z-index:10000;display:none;margin-top:-30px;margin-left:-75pt;width:200px;height:60px;border-radius:6px;background:rgba(0,0,0,.9);color:#fff;text-align:center;font-size:1pc;line-height:60px}
 </style>
+<script>
+function showFormErr(value){
+  $('.formErr').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
+  setTimeout(function(){
+    $('.formErr').css({'display':'none'}).html('');
+  },1200);
+}
+// 微信jsapi接入
+function configWxJsapi(){
+  var url = window.location.href;
+  $.ajax({
+    url: 'Admin/Wx/jsapicofig',
+    type: 'POST',
+    data: {
+      url: url
+    },
+    success: function(json) {
+      var configJson = JSON.parse(json);
+      wx.config(configJson);
+
+      wx.ready(function() {
+        wx.onMenuShareAppMessage({
+          title: '早安早安',
+          desc: '幸福正能量',
+          link: 'http://www.izaoan.cn?showwxpaytitle=1',
+          imgUrl: 'http://www.izaoan.cn/resource/img/indexImg/wxiconnew.png',
+          type: 'link',
+          dataUrl: '',
+          success: function() {
+            // 用户确认分享后执行的回调函数
+          },
+          cancel: function() {
+            // 用户取消分享后执行的回调函数
+          }
+        });
+        wx.hideMenuItems({
+          menuList: [
+          "menuItem:share:facebook",
+          "menuItem:copyUrl",
+          "menuItem:originPage",
+          "menuItem:readMode",
+          "menuItem:openWithQQBrowser",
+          "menuItem:openWithSafari",
+          "menuItem:share:email"
+        ]
+        });
+      });
+      wx.error(function(res) {
+        console.log('微信jssdk接入失败');
+      });
+    }
+  });
+}
+</script>
 <body>
+<div class="formErr">错误</div>

@@ -4,57 +4,46 @@
  */
 module.exports = Controller("Home/BaseController", function(){
     "use strict";
+    var Q = require('q');
+    var addresslistModel = D('Addresslist');
     return {
-        indexAction: function(){
-            var self=this;
-            var isEdit = self.get('id')||null;
-            if(isEdit){
-                self.session('userInfo').then(function(data){
-                    return D('Addresslist').where({'id':isEdit,'userid':data[0].id}).field(['id','userid','address','addressKey','phonenum','receiveuser']).select().then(function(data){
-                        self.assign('address',data);
-                        self.display();
-                    })
-                });
-            }else{
-                return self.session('userInfo').then(function(data){
-                    var defaultData = [];
-                    defaultData[0]={
-                        userid:data[0].id,
-                        receiveuser:'',
-                        phonenum:'',
-                        address:'',
-                        addressKey:'',
-                    };
-                    self.assign('address',defaultData);
-                    self.display();
-                });
-            }
-        },
-        updateAction:function(){
-            var self=this;
-            var getUpdateJson = JSON.parse(self.post('updateJson'));
-            var getId = parseInt(self.post('id'));
-            if(!isNaN(getId)){
-                D('Addresslist').where({id:getId}).update({
-                    receiveuser:getUpdateJson['receiveuser'],
-                    phonenum:getUpdateJson['phonenum'],
-                    addressKey:getUpdateJson['addressKey'],
-                    address:getUpdateJson['address']
-                }).then(function(rows){
-                    return self.end(rows);
-                })
-            }else{
-                self.session('userInfo').then(function(data){
-                    var moment = require('moment');
-                    //getUpdateJson['userid']=data.id;
-                    getUpdateJson['time']=moment().format('YYYY-MM-DD HH:mm:ss');
-                    D('Addresslist').add(getUpdateJson).then(function(InsertId){
-                        return self.end(InsertId);
-                    });
-                });
-            }
-
-
-        }
+        indexAction: Q.async(function* (){
+          var isEdit = this.get('id');
+          if(isEmpty(isEdit)){
+            // 添加新地址
+            var userInfoData = yield this.session('userInfo');
+            var initData = [];
+            initData.push({userid:userInfoData[0].id,receiveuser:'',phonenum:'',address:'',addressKey:'',});
+            this.assign('initData',initData);
+            this.display();
+          }else {
+            // 更新地址
+            var fieldArr = ['id','userid','address','addressKey','phonenum','receiveuser'];
+            var initData = addresslistModel.where({id:isEdit}).field(fieldArr).select();
+            this.assign('initData',initData);
+            this.display();
+          }
+        }),
+        updateAction:Q.async(function* (){
+          var getUpdateJson = JSON.parse(this.post('updateJson'));
+          var getAddressId = parseInt(this.post('id'));
+          if(!isNaN(getAddressId)){
+            // 更新数据
+            var updataRow = yield addresslistModel.where({id:getAddressId}).update({
+                receiveuser:getUpdateJson['receiveuser'],
+                phonenum:getUpdateJson['phonenum'],
+                addressKey:getUpdateJson['addressKey'],
+                address:getUpdateJson['address']
+            });
+            return this.success({updateRow:updataRow});
+          }else{
+            // 添加新数据
+            var userInfoData = yield this.session('userInfo');
+            var moment = require('moment');
+            getUpdateJson['time']=moment().format('YYYY-MM-DD HH:mm:ss');
+            var addId = yield addresslistModel.add(getUpdateJson);
+            return this.success({addId:addId,address:getUpdateJson['address']});
+          }
+        })
     };
 });

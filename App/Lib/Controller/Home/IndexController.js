@@ -25,14 +25,13 @@ module.exports = Controller("Home/BaseController", function(){
           week:moment().add(d,'days').locale('zh-cn').format('dd'),
           weeknum:moment().add(d,'days').locale('zh-cn').format('d'),
           date:moment().add(d,'days').locale('zh-cn').format('l'),
-          choose:'',
           chooseFoodList:'hidechoosefood',
-          done:true
+          done:false
         });
       }
 
-      // yield this.session("userInfo",[{openid:"o510Kj_ydZPIMQdl1jww5w9MecQk",id:12}]);
-      // console.log(yield this.session("userInfo"));
+      yield this.session("userInfo",[{openid:"o510Kj_ydZPIMQdl1jww5w9MecQk",id:12}]);
+      console.log(yield this.session("userInfo"));
 
       var userInfoData = yield this.session('userInfo');
       var addressListData = yield D('Addresslist').where({'userid':userInfoData[0].id}).order('id DESC').select();
