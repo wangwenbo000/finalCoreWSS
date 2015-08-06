@@ -21,6 +21,14 @@
     .formdiv{padding:15px;background:#fff}.formErr{position:absolute;top:50%;left:50%;z-index:10000;display:none;margin-top:-30px;margin-left:-75pt;width:200px;height:60px;border-radius:6px;background:rgba(0,0,0,.9);color:#fff;text-align:center;font-size:1pc;line-height:60px}
 </style>
 <script>
+//百度统计
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?a627bc90b74b6547b8bd2183ef9a5c6b";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
 function showFormErr(value){
   $('.formErr').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
   setTimeout(function(){
