@@ -42,7 +42,13 @@ module.exports = Controller("Home/BaseController", function(){
             var moment = require('moment');
             getUpdateJson['time']=moment().format('YYYY-MM-DD HH:mm:ss');
             var addId = yield addresslistModel.add(getUpdateJson);
-            return this.success({addId:addId,address:getUpdateJson['address']});
+            return this.success({
+              addId:addId,
+              receiveuser:getUpdateJson['receiveuser'],
+              phonenum:getUpdateJson['phonenum'],
+              addressKey:getUpdateJson['addressKey'],
+              address:getUpdateJson['address']
+            });
           }
         })
     };

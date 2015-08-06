@@ -28,7 +28,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="keyup:getsuggest" v-model="suggestText">
+                <input type="text" class="form-control input-lg" id="exampleInputAmount" placeholder="小区/写字楼/学校等" v-on="input:getsuggest" v-model="suggestText">
             </div>
             <div class="modal-body searchAddress-body">
                 <table class="table">
@@ -69,7 +69,6 @@
 
               for(var k in updateInfo){
                 if(updateInfo[k]=="" || updateInfo[k]==null){
-                  console.log(updateInfo[k]);
                   switch(k){
                     case 'receiveuser':
                       showFormErr('请填写收货人姓名');
@@ -101,9 +100,12 @@
                   url:'/address/update',
                   data:{updateJson:JSON.stringify(updateInfo),id:updateId},
                   success:function(data){
-                    console.log(data);
-                    $.cookie('newAddressId', data.data.addId);
-                    $.cookie('newAddressVal', data.data.address);
+                    $.cookie('addId', data.data.addId);
+                    $.cookie('address', data.data.address);
+                    $.cookie('addressKey',data.data.addressKey);
+                    $.cookie('receiveuser',data.data.receiveuser);
+                    $.cookie('phonenum',data.data.phonenum);
+                    
                     window.location.href='/'+backURL;
                   }
               });
@@ -129,7 +131,7 @@
                     console.log(json.datas);
                   },
                   error: function(){
-                      console.log('fail');
+                    console.log('fail');
                   }
               });
           },
