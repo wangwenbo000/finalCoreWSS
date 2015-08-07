@@ -50,7 +50,7 @@ module.exports = Controller(function(){
 
       var session_userinfo = yield this.session('userInfo');
       if(isEmpty(session_userinfo)){
-        // yield this.redirect(url);
+        yield this.redirect(url);
       }
     })
   }

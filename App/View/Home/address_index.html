@@ -3,11 +3,6 @@
     var initData = <%- JSON.stringify(initData[0])%>;
 </script>
 <form id="form">
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <button type="button" class="btn btn-success navbar-btn btn-block btn-lg" v-on="click:update">确定</button>
-    </div>
-</nav>
 <div class="formdiv">
         <div class="form-group">
             <label for="receiveUser">联系人</label>
@@ -22,6 +17,9 @@
             <input type="address" class="form-control input-lg" id="addressKey" placeholder="小区/写字楼/学校等" data-toggle="modal" data-target="#searchAddress" v-model="initData.addressKey" readonly >
         </div>
         <input type="address" class="form-control input-lg" id="address" placeholder="详细地址（如门牌号等）" v-model="initData.address">
+</div>
+<div class="container-fluid">
+    <button type="button" class="btn btn-success navbar-btn btn-block btn-lg" id="addnewaddress" data-loading-text="正在跳转，请稍候..." v-on="click:update">确定</button>
 </div>
 <!-- {{$data | json 4}} -->
 <div class="modal fade" id="searchAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -53,7 +51,7 @@
 </div>
 </form>
 <script>
-    var backURL = getQueryString('back')
+    var backURL = getQueryString('back');
     var addressManage = new Vue({
       el: '#form',
       data: {
@@ -66,6 +64,8 @@
               var updateInfo = this.initData;
               var re_phone = /^1\d{10}$/;
               var re_str = /[@<>#\$%\^&\*]+/g;
+
+              var paybtn = $('#addnewaddress').button('loading');
 
               for(var k in updateInfo){
                 if(updateInfo[k]=="" || updateInfo[k]==null){
@@ -83,6 +83,7 @@
                       showFormErr('请填写收货人详细地址');
                       break;
                   }
+                  var paybtn = $('#addnewaddress').button('reset');
                   return false;
                 }
               }
@@ -105,7 +106,7 @@
                     $.cookie('addressKey',data.data.addressKey);
                     $.cookie('receiveuser',data.data.receiveuser);
                     $.cookie('phonenum',data.data.phonenum);
-                    
+
                     window.location.href='/'+backURL;
                   }
               });

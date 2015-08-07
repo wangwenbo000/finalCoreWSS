@@ -1,47 +1,37 @@
 <%=include indexheader_index.html%>
 <style>
-    table {
-        background: #fff;
-    }
-
-    .table {
-        margin-bottom: 0;
-    }
-
-    .formdiv {
-        background: #fff;
-        padding: 15px;
-    }
+    table{background:#fff}.table{margin-bottom:0}.formdiv{padding:15px;background:#fff}
 </style>
 <script>
     var addresslistJSON =<%-JSON.stringify(addresslist)%>;
+    configWxJsapi();
 </script>
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <div class="container-fluid">
-        <a href="/address" class="btn btn-success navbar-btn btn-block btn-lg">添加新地址</a>
+        <a href="/address?back=addresslist" class="btn btn-success navbar-btn btn-block btn-lg">添加新地址</a>
     </div>
 </nav>
 <div id="addresslist">
 <div class="formdiv">
     <table class="table">
-        <tr v-repeat="list" class="{{$index}}">
+        <tr v-repeat="list in list" v-on="click:deldata(list)" v-cloak>
             <td>
-                <h4>{{receiveuser}}
-                    <small>{{phonenum}}</small>
+                <h4>{{list.receiveuser}}
+                    <small>{{list.phonenum}}</small>
                 </h4>
-                {{addressKey}} {{address}}
+                {{list.addressKey}} {{list.address}}
             </td>
             <td>
-                <a href="#" data-toggle="modal" data-target="#delAddress" v-on="click:delid(this)"><h4><i
+                <a href="#" data-toggle="modal" data-target="#delAddress"><h4><i
                         class="glyphicon glyphicon-trash"></i></h4></a>
             </td>
             <td>
-                <a href="address/index/id/{{id}}"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
+                <a href="address/index/id/{{list.id}}?back=addresslist"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
             </td>
         </tr>
     </table>
 </div>
-<div class="modal fade" id="delAddress" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade" id="delAddress" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -53,7 +43,7 @@
                         </button>
                     </div>
                     <div class="col-xs-6">
-                        <button type="button" class="btn btn-danger btn-block btn-lg" v-on="click:del">确定删除</button>
+                        <button type="button" class="btn btn-danger btn-block btn-lg" v-on="click:del(list.index)">确定删除</button>
                     </div>
             </div>
         </div>
@@ -61,30 +51,23 @@
 </div>
 </div>
 <script>
-    Array.prototype.remove = function(dx)
-    {
-        if(isNaN(dx)||dx>this.length){return false;}
-        this.splice(dx,1);
-    }
     var addresslist = new Vue({
         el: '#addresslist',
         data: {list: addresslistJSON},
         methods:{
-            delid:function(p){
-                console.log(p.id);
-                this.$data.delid= p.id;
-                this.$data.delindex = parseInt(p.$el.className);
+            deldata:function(data){
+                this.delindex = data;
             },
-            del:function(){
-                var _this = this;
+            del:function(del){
+                var self = this;
                 $.ajax({
                     url:'/addresslist/del',
                     type:'POST',
-                    data:{id:this.$data.delid},
+                    data:{id:this.delindex.id},
                     success:function(data){
-                        console.log(data);
                         $('#delAddress').modal('hide');
-                        addresslistJSON.remove(_this.$data.delindex);
+                        showFormErr("地址删除成功");
+                        addresslistJSON.$remove(self.delindex);
                     }
                 });
             }
