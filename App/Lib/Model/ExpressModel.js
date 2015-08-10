@@ -17,13 +17,13 @@ module.exports = Model(function() {
         getData.time = moment().format('YYYY-MM-DD');
         getData.eid = WX_createNonceStr();
         var addAndGetNewId = yield D('Express').add(getData);
+        return {action:"add"};
       } else {
-        // getData.birth = moment(getData.birth).format('YYYY-MM-DD');
-        // getData.time = moment(getData.time).format('YYYY-MM-DD');
         var addAndGetNewId = yield D('Express').update(getData);
+        return {action:"edit"};
       }
 
-      return addAndGetNewId;
+
     }),
     getExpressInfo: Q.async(function*(getId) {
       var getInfo = yield D('Express').where({

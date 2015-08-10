@@ -51,7 +51,7 @@
       <table class="table table-condensed">
         <tr v-repeat="cal in calendar" v-show="cal.done">
           <td>
-            <img v-attr="src:'/resource/img/food/'+cal.productInfo.days+'.jpg'" width="40">
+            <img v-attr="src:'/resource/img/food/'+cal.productInfo.foodimg" width="40">
           </td>
           <td>
             <h5>{{cal.productInfo.productName}}<small> ×{{everyDayNum}}</small></h5>
@@ -214,9 +214,11 @@
             switch (chooseProductJson[k]['done']) {
               case true:
                 chooseProductJson_res.push({
-                  productName: chooseProductJson[k].productInfo['productName'],
-                  time: chooseProductJson[k]['date'],
-                  singleprice: chooseProductJson[k].productInfo['price']
+                  productName:chooseProductJson[k].productInfo['productName'],
+                  time:chooseProductJson[k]['date'],
+                  singleprice:chooseProductJson[k].productInfo['price'],
+                  days:chooseProductJson[k].productInfo['days'],
+                  foodimg:chooseProductJson[k].productInfo['foodimg']
                 });
                 break;
             }

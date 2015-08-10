@@ -13,6 +13,8 @@ module.exports = Controller("Admin/BaseController", function(){
             var rp = require('request-promise');
             var baseUrl = "/Admin/order/index.html";
             var orderModel = D('Order');
+            var moment = require('moment');
+            var nextDay = moment().add(1,'days').format('YYYY-MM-DD');
             var data = yield orderModel.getorderlist(this.get('page'));
 
             var expressData = yield D('Express').order('ID DESC').field(['name','id']).select();
@@ -24,37 +26,39 @@ module.exports = Controller("Admin/BaseController", function(){
               ExpressSelectData.push(ExpressSelectJson);
             }
 
-            var yuntu = {
-              url:'http://yuntuapi.amap.com/datasearch/local',
-              qs:{key:'4af78342937c8140440f75c9809063c5',
-                  tableid:'5588fe0be4b062df8bcd62da',
-                  keywords:' ',
-                  grant_type:'authorization_code',
-                  city:'北京市'
-                },
-              method:'GET'
-            }
-            var addressData = yield rp(yuntu);
-            addressData = JSON.parse(addressData);
+            // var yuntu = {
+            //   url:'http://yuntuapi.amap.com/datasearch/local',
+            //   qs:{key:'4af78342937c8140440f75c9809063c5',
+            //       tableid:'5588fe0be4b062df8bcd62da',
+            //       keywords:' ',
+            //       grant_type:'authorization_code',
+            //       city:'北京市'
+            //     },
+            //   method:'GET'
+            // }
+            // var addressData = yield rp(yuntu);
+            // addressData = JSON.parse(addressData);
+            //
+            // var ExpressAddressData = [];
+            // for(var k in addressData.datas){
+            //   var ExpressAddressJson = {};
+            //   ExpressAddressJson['text'] = addressData['datas'][k]['_name'];
+            //   ExpressAddressJson['value'] = addressData['datas'][k]['_name'];
+            //   ExpressAddressData.push(ExpressAddressJson);
+            // }
+            // ExpressAddressData.unshift({'text':'请选择筛选配送区域','value':'*'});
+            // for(var k in data.data){
+            //   if(isEmpty(data.data[k].expresserid)){
+            //     data.data[k].showAllocation = "display:none";
+            //     data.data[k].showCheckBox = '';
+            //   }else{
+            //     data.data[k].showAllocation = '';
+            //     data.data[k].showCheckBox = 'display:none';
+            //   }
+            // }
 
-            var ExpressAddressData = [];
-            for(var k in addressData.datas){
-              var ExpressAddressJson = {};
-              ExpressAddressJson['text'] = addressData['datas'][k]['_name'];
-              ExpressAddressJson['value'] = addressData['datas'][k]['_name'];
-              ExpressAddressData.push(ExpressAddressJson);
-            }
-            ExpressAddressData.unshift({'text':'请选择筛选配送区域','value':'*'});
-            for(var k in data.data){
-              if(isEmpty(data.data[k].expresserid)){
-                data.data[k].showAllocation = "display:none";
-                data.data[k].showCheckBox = '';
-              }else{
-                data.data[k].showAllocation = '';
-                data.data[k].showCheckBox = 'display:none';
-              }
-            }
-            this.assign({'listJSON':data.data,'total':data.total,'count':data.count,'express':ExpressSelectData,'yuntu':ExpressAddressData});
+            var expressAddress = yield orderModel.expressAddress();
+            this.assign({'listJSON':data.data,'total':data.total,'count':data.count,'express':ExpressSelectData,'expressAddress':expressAddress,"nextday":nextDay});
 
             // 共<%=count%>单 | 已发货
             // <%=stateCount.HAS_POST%>单 | 已成功
@@ -105,17 +109,17 @@ module.exports = Controller("Admin/BaseController", function(){
             var getJSON = self.post('fliterjson');
             var getPage = self.post('pagenum');
             var orderModel = D('order');
-            orderModel.orderfilter( JSON.parse(getJSON),parseInt(getPage)).then(function(data){
-                self.assign({'pagenum':data.page});
-                for(var k in data.data){
-                  if(isEmpty(data.data[k].expresserid)){
-                    data.data[k].showAllocation = "display:none";
-                    data.data[k].showCheckBox = '';
-                  }else{
-                    data.data[k].showAllocation = '';
-                    data.data[k].showCheckBox = 'display:none';
-                  }
-                }
+            orderModel.orderfilter(JSON.parse(getJSON),parseInt(getPage)).then(function(data){
+                // self.assign({'pagenum':data.page});
+                // for(var k in data.data){
+                //   if(isEmpty(data.data[k].expresserid)){
+                //     data.data[k].showAllocation = "display:none";
+                //     data.data[k].showCheckBox = '';
+                //   }else{
+                //     data.data[k].showAllocation = '';
+                //     data.data[k].showCheckBox = 'display:none';
+                //   }
+                // }
                 return self.end(data);
             });
         },

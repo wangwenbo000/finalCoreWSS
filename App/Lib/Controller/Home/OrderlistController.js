@@ -4,19 +4,14 @@
  */
 module.exports = Controller("Home/BaseController", function(){
     "use strict";
+    var Q = require('q');
     return {
-        indexAction: function(){
-            //render View/Home/index_index.html file
-            var self = this;
-            self.session('userInfo').then(function(data){
-                var orderListModel = D('Orderlist');
-                console.log(orderListModel);
-                orderListModel.getUserOrderList(data[0].id).then(function(data){
-                    self.assign({orderlist:data});
-                    self.display();
-                });
-            });
-
-        }
+        indexAction: Q.async(function* (){
+            var userInfoData = yield this.session('userInfo');
+            var orderListModel = D('Orderlist');
+            var orderListInfo = yield orderListModel.getUserOrderList(userInfoData[0].id);
+            this.assign({orderlist:orderListInfo});
+            this.display();
+        })
     };
 });

@@ -36,7 +36,7 @@ module.exports = Controller("Home/BaseController", function(){
       var userInfoData = yield this.session('userInfo');
       var addressListData = yield D('Addresslist').where({'userid':userInfoData[0].id}).order('id DESC').select();
       this.assign({'addresslist':addressListData,calendarArr:calendarArr,date:moment().format('YYYY/MM'),'WxUserInfo':userInfoData[0]});
-      var productsData = yield D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory').select();
+      var productsData = yield D('Products').where({'isactive':'0'}).order('id DESC').field('id, days, price, productName, repertory,foodimg').select();
       for(var k in calendarArr){
         var Arr = calendarArr[k]
         for(var kk in productsData){
@@ -99,6 +99,7 @@ module.exports = Controller("Home/BaseController", function(){
       var chooseFoodList = JSON.parse(self.post('chooselist'));
       var ordernum = moment().format('YYYYMMDDHHmmss')+""+moment().millisecond();
 
+
       var total = 0;
       for(var k in chooseFoodList){
         total+=chooseFoodList[k]['singleprice'];
@@ -107,9 +108,10 @@ module.exports = Controller("Home/BaseController", function(){
         return D('Order').add({
           orderid:ordernum,
           ordertime:moment().format('YYYY-MM-DD HH:mm:ss'),
+          receiveuser:getAddressinfo['receiveuser'],
           address:getAddressinfo['address'],
           addressKey:getAddressinfo['addressKey'],
-          pricetotal:total,
+          pricetotal:total*getPnum,
           orderfrom:1,
           userid:getUserId,
           nowstate:chooseFoodList.length
@@ -127,8 +129,9 @@ module.exports = Controller("Home/BaseController", function(){
             chooseFoodList[k]['expresstime']=getExpressTime;
             chooseFoodList[k]['userid']=getUserId;
             chooseFoodList[k]['ordernum']=ordernum;
-            chooseFoodList[k]['foodimg']='';
+            chooseFoodList[k]['foodimg']=chooseFoodList[k]['foodimg'];
             chooseFoodList[k]['receiveway'] = getReceiveWay;
+            delete chooseFoodList[k]['days'];
           }
           return rowId;
         }).then(function(data){

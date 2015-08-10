@@ -3,18 +3,10 @@
     var orderlistJSON = <%- JSON.stringify(orderlist)%>;
 </script>
 <style>
-    table{background: #fff;}
-    p{margin: 0;}
-    .nav-pills{border: none;}
-    .nav-pills>li{width: 33.3333%;font-size: 16px;}
-    .nav-pills>li>a{text-align: center;padding:14px 15px;border-radius:0;margin-right:0; }
-    .nav-pills>li+li{margin-left: 0;}
-    .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{border: none;background-color:#449d44;color: #fff;}
-    .list-group-item.active>.badge, .nav-pills>.active>a>.badge{color:#449d44;}
-    .badge{background: #f60;}
+    table{background:#fff}p{margin:0}.nav-pills{border:none}.nav-pills>li{width:33.3333%;font-size:1pc}.nav-pills>li>a{margin-right:0;padding:14px 15px;border-radius:0;text-align:center}.nav-pills>li+li{margin-left:0}.nav-pills>li.active>a,.nav-pills>li.active>a:focus,.nav-pills>li.active>a:hover{border:none;background-color:#449d44;color:#fff}.list-group-item.active>.badge,.nav-pills>.active>a>.badge{color:#449d44}.badge{background:#f60}
 </style>
-    <br>
-<div id="Order">
+<br>
+<div id="Order" v-cloak>
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane fade in active" id="progressOrder">
             <% if(orderlist.progressCount==""){ %>
@@ -30,7 +22,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：{{orderid}}</td>
-                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
+                    <td class="text-danger">{{pricetotal | currency '¥'}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -58,7 +50,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：<kbd>{{orderid}}</kbd></td>
-                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
+                    <td class="text-danger">￥{{pricetotal | currency '¥'}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -86,7 +78,7 @@
                 <tbody>
                 <tr>
                     <td colspan="2">订单号：<kbd>{{orderid}}</kbd></td>
-                    <td class="text-danger">￥{{pricetotal | formatPrice}}</td>
+                    <td class="text-danger">￥{{pricetotal | currency '¥'}}</td>
                 </tr>
                 <tr>
                     <td colspan="2" class="text-muted">下单时间：{{ordertime}}</td>
@@ -105,8 +97,8 @@
 <nav class="navbar navbar-default navbar-fixed-bottom">
     <ul class="nav nav-pills" role="tablist">
         <li role="presentation" class="active"><a href="#progressOrder" role="tab" data-toggle="tab">进行中 <span class="badge">{{pc}}</span></a></li>
-        <li role="presentation"><a href="#cancelOrder" role="tab" data-toggle="tab">待处理</a></li>
         <li role="presentation"><a href="#completeOrder" aria-controls="messages" role="tab" data-toggle="tab">已完成</a></li>
+        <li role="presentation"><a href="#cancelOrder" role="tab" data-toggle="tab">失效单</a></li>
     </ul>
 </nav>
 </div>
@@ -120,11 +112,6 @@
             pc:orderlistJSON.progressCount,
             cc:orderlistJSON.cancelCount,
             tc:orderlistJSON.completeCount
-        },
-        filters:{
-            formatPrice:function(value){
-              return parseInt(value).toFixed(2);
-            }
         }
     });
 </script>

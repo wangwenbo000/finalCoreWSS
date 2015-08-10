@@ -1,18 +1,13 @@
 module.exports = Model(function(){
+    var Q = require('q');
     return {
-        //获取用户列表
-        getuserorderlistinfo: function(id){
-            return D('Order').where({id:id}).order('id DESC').select().then(function(data){
-                formatTime(data,'llll','ordertime');
-                return data;
-            }).then(function(data){
-                var orderData = data;
-                return D('Orderproductcopy').where({orderid:data[0].id}).order('id DESC').countSelect().then(function(data){
-                    staticFilter(data.data);
-                    formatTime(data.data,'YYYY-MM-DD dddd','time');
-;                    return {orderdata:orderData,listdata:data.data,listcount:data.count}
-                })
-            })
-        }
+        getuserorderlistinfo: Q.async(function* (id){
+          var orderData = yield D('Order').where({id:id}).order('id DESC').select();
+          formatTime(orderData,'llll','ordertime');
+          var orderlist = yield D('Orderproductcopy').where({orderid:id}).order('id DESC').countSelect();;
+          staticFilter(orderlist.data);
+          formatTime(orderlist.data,'YYYY-MM-DD dddd','time');
+          return {orderdata:orderData,listdata:orderlist.data,listcount:orderlist.count}
+        })
     }
 })

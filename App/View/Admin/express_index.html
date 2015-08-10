@@ -15,6 +15,7 @@
       </a>
     </li>
   </ol>
+  <div id="expresslist">
   <div class="staticcount page-header clearfix">
     <div class="col-lg-2 ">
       <a class="btn btn-primary btn-block" id="addActiveProduct" data-toggle="modal" data-target=".bs-example-modal-lg" data-action='add'>
@@ -44,7 +45,6 @@
     <thead>
       <tr>
         <th>id</th>
-        <th>图片</th>
         <th>姓名</th>
         <th>身份证号</th>
         <th>性别</th>
@@ -60,35 +60,34 @@
       </tr>
     </thead>
     <tbody>
-      <tr id="expresslist" v-repeat="express" class="item-{{$index}}" v-cloak>
-        <td>{{id}}</td>
-        <td></td>
+      <tr v-repeat="express in express" class="item-{{$index}}" v-cloak>
+        <td>{{express.id}}</td>
         <td>
-          <h4>{{name}}</h4>
+          <h4>{{express.name}}</h4>
         </td>
-        <td>{{idcard}}</td>
-        <td>{{sex}}</td>
-        <td>{{birth}}</td>
-        <td>{{phonenum}}</td>
+        <td>{{express.idcard}}</td>
+        <td>{{express.sex | sex}}</td>
+        <td>{{express.birth}}</td>
+        <td>{{express.phonenum}}</td>
         <td>
-          <kbd>{{eid}}</kbd>
+          <small>{{express.eid}}</small>
         </td>
-        <td>{{address}}</td>
-        <td>{{age}}</td>
-        <td>{{power | power2show}}</td>
-        <td>{{state | state2show}}</td>
-        <td>{{time}}</td>
+        <td>{{express.address}}</td>
+        <td>{{express.age}}</td>
+        <td>{{express.power | power2show}}</td>
+        <td>{{express.state | state2show}}</td>
+        <td>{{express.time}}</td>
         <td>
           <div class="btn-group">
             <a data-toggle="dropdown">
                   管理操作 <span class="caret"></span>
               </a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="#" data-toggle="modal" data-target="#expressOrder" data-id="{{id}}">配送纪录</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#expressOrder" v-on="click:expressRecord(express.id)">配送纪录</a></li>
               <li class="divider"></li>
-              <li><a href="#" data-toggle="modal" data-target="#formInfo" data-id="{{id}}" data-action='edit'>编辑信息</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#formInfo"v-on="click:expressInfo(express,$index)">编辑信息</a></li>
               <li class="divider"></li>
-              <li><a href="#" data-toggle="modal" data-target="#delExpress" data-id="{{id}}">删除</a></li>
+              <li><a href="#" data-toggle="modal" v-on="click:chooseDel(express.id,$index)" data-target="#delExpress">删除</a></li>
             </ul>
           </div>
         </td>
@@ -152,24 +151,24 @@
               <form>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label"><i class="glyphicon glyphicon-user"></i> 姓名:</label>
-                  <input type="text" class="form-control" id="recipient-name" v-model="name ">
+                  <input type="text" class="form-control" id="recipient-name" v-model="forms.name ">
                 </div>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">身份证号</label>
-                  <input type="text" class="form-control" id="recipient-name" v-model="idcard">
+                  <input type="text" class="form-control" id="recipient-name" v-model="forms.idcard">
                 </div>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">手机号</label>
-                  <input type="text" class="form-control" id="recipient-name" v-model="phonenum">
+                  <input type="text" class="form-control" id="recipient-name" v-model="forms.phonenum">
                 </div>
                 <div class="form-group">
                   <label for="recipient-name" class="control-label">联系地址</label>
-                  <input type="text" class="form-control" id="recipient-name" v-model="address">
+                  <input type="text" class="form-control" id="recipient-name" v-model="forms.address">
                 </div>
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">权级</label>
-                    <select class="form-control" v-model="power">
+                    <select class="form-control" v-model="forms.power">
                       <option value="1">组长</option>
                       <option value="0">职员</option>
                     </select>
@@ -178,7 +177,7 @@
                 <div class="col-sm-6">
                   <div class="form-group">
                     <label for="recipient-name" class="control-label">状态</label>
-                    <select class="form-control" v-model="state">
+                    <select class="form-control" v-model="forms.state">
                       <option value="1">在职</option>
                       <option value="0">离职</option>
                     </select>
@@ -220,5 +219,6 @@
       </div>
     </div>
   </div>
-  <script src="/resource/module/require.js" defer async="true" data-main="/resource/module/express/express"></script>
+</div>
+  <script src="/resource/dist/express.min.js"></script>
   <%=include adminfooter_index.html%>

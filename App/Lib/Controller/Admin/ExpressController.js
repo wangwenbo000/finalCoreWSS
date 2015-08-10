@@ -18,7 +18,7 @@ module.exports = Controller("Admin/BaseController", function(){
         addnewexpressAction:Q.async(function* (){
           var getData = JSON.parse(this.post('data'));
           var data = yield expressDataModel.addExpress(getData);
-          return this.success({rowId:data});
+          return this.success(data);
         }),
         editexpressAction:Q.async(function* (){
           var getId = this.post('id');

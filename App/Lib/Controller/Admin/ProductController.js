@@ -49,17 +49,24 @@ module.exports = Controller("Admin/BaseController", function(){
         uploadAction:function(){
             var fs = require('fs');
             var self = this;
-            var uploadInfo = self.file('file');
-            var getDay = self.post('name');
-            var newFileName = getDay+".jpg";//+uploadInfo.headers['content-type'].split('/')[1];
+            var uploadInfo = self.file('productimg');
+            var getId = self.post('id');
+            console.log(getId);
+            var newFileName = moment().format('YYYYMMDDHHmmss')+".jpg";//+uploadInfo.headers['content-type'].split('/')[1];
             var oldPath = uploadInfo.path;
-            var newPath = RESOURCE_PATH+'/resource/img/food/';
+            var newPath = RESOURCE_PATH+'/resource/img/food/'+moment().format('YYYYMM')+'/';
+            fs.existsSync(newPath)||fs.mkdirSync(newPath);
+            var newImgName = moment().format('YYYYMM')+'/'+newFileName;
             fs.rename(oldPath,newPath+newFileName,function(err){
                 if(err){
                     console.error(err);
+                }else{
+                  D('Products').where({id:getId}).update({
+                    foodimg:newImgName
+                  })
                 }
             });
-            return self.end(newFileName);
+            return self.end({append:true,filename:newImgName});
         }
     };
 });

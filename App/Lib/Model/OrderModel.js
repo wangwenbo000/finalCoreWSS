@@ -1,30 +1,19 @@
 module.exports = Model(function() {
-  function isCallMeUpFilter(data) {
-    for (var k in data) {
-      switch (data[k].iscallmeup) {
-        case '1':
-          data[k].iscallmeup = '是';
-          break;
-        case '0':
-          data[k].iscallmeup = '否';
-          break;
-        default:
-          data[k].iscallmeup = "异常!"
-      }
-    }
-  }
+  var Q = require("q");
+  var moment = require('moment');
+  var nextDay = moment().add(1,'days').format('YYYY-MM-DD');
   return {
     //获取用户列表
     getorderlist: function(getPage) {
-      var moment = require('moment');
-      return D('Orderproductcopy').where({
-        'time': moment().add(1,'days').format('YYYY-MM-DD')
-      }).order('id DESC').page(getPage, 20).countSelect().then(function(data) {
+      return D('Orderproductcopy').where({'time': nextDay}).order('id DESC').page(getPage, 20).countSelect().then(function(data) {
         staticFilter(data.data);
         formatTime(data.data,'YYYY-MM-DD dddd','time');
         return data;
       });
     },
+    expressAddress: Q.async(function* (){
+      return yield D('Orderproductcopy').where({'time':nextDay}).distinct('addressKey').select();
+    }),
     getstatecount: function(data) {
       return D('Orderproductcopy').where({
         'productstate': ['=', data]
@@ -37,7 +26,6 @@ module.exports = Model(function() {
         'id': id
       }).select().then(function(data) {
         staticFilter(data);
-        isCallMeUpFilter(data);
         return data;
       })
     },
@@ -75,7 +63,6 @@ module.exports = Model(function() {
           'orderid': data.json[0].id
         }).select().then(function(data) {
           staticFilter(data);
-          isCallMeUpFilter(data);
           for (var k in data) {
             Ptotal += data[k].productnum;
             switch (data[k].id) {
@@ -103,8 +90,8 @@ module.exports = Model(function() {
     },
     orderfilter: function(json, getPage) {
       return D('Orderproductcopy').where(json).order('id DESC').page(getPage, 20).countSelect().then(function(data) {
+        // console.log(data);
         staticFilter(data.data);
-        isCallMeUpFilter(data.data);
         formatTime(data.data,'YYYY-MM-DD dddd','time');
         return data;
       });

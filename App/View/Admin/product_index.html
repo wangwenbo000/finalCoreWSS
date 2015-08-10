@@ -1,5 +1,6 @@
 
 <%=include adminheader_index.html%>
+<link rel="stylesheet" href="/resource/css/fileinput.min.css" type="text/css">
 <script>
     var dataJSONdays =<%- JSON.stringify(productList) %>;
     var dataJSONactive =<%- JSON.stringify(activelist) %>;
@@ -12,8 +13,9 @@
     <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
 </ol>
 <!--二级标题 部分功能-->
+<div id="productlist">
 <div class="page-header clearfix">
-        <a class="btn btn-primary" id="addActiveProduct" data-toggle="tooltip" data-placement="bottom" title="添加这类商品在活动商品列表出现" >增加单品</a>
+        <a class="btn btn-primary" id="addActiveProduct" v-on="click:addAdtive" title="添加这类商品在活动商品列表出现" disabled>增加单品</a>
 </div>
 <div class="staticcount page-header clearfix">
     <div class="col-lg-3 ">
@@ -23,10 +25,10 @@
 <!--产品列表-->
 <div class="row productliststyle">
     <!--一个三列删格-->
-    <div class="col-sm-3" id="productlist" v-repeat="product:products" v-cloak>
+    <div class="col-sm-3" v-repeat="product in products" v-cloak>
         <!-- 产品模版-->
         <div class="panel panel-default">
-            <div class="panel-heading morningFoodDays"><h4>星期{{product.days}} <small>{{product.updatetime}}</small></h4></div>
+            <div class="panel-heading morningFoodDays"><h4>星期{{product.days | weekInZH}} <small>{{product.updatetime}}</small></h4></div>
             <table class="table table-bordered">
                 <thead>
                 <tr>
@@ -38,18 +40,15 @@
                 </thead>
                 <tbody>
                 <tr>
-                    <td><img src="/resource/img/food/{{product.days}}.jpg" alt="..." width="66" ></td>
-                    <td colspan="2">{{product.productName}}</td>
-                    <td><h4>￥{{product.cost | formatPrice}}</h4></td>
-                    <td><h3 class="text-primary">￥{{product.price | formatPrice}}</h3></td>
+                    <td width='86'><img v-attr="src:'/resource/img/food/'+product.foodimg" src="" width="86" ></td>
+                    <td colspan="2"><h4><small>库存:</small> {{product.repertory}} <small>份</small></h4></td>
+                    <td><h4>{{product.cost | currency '¥'}}</h4></td>
+                    <td><h3 class="text-primary">{{product.price | currency '¥'}}</h3></td>
                 </tr>
                 <tr>
-                    <td colspan="2"><h4><small>库存剩余:</small> {{product.repertory}} <small>份</small></h4></td>
-                    <td colspan="2">
-
-                    </td>
+                    <td colspan="4">{{product.productName}}</td>
                     <td>
-                        <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" role="button">更新</a>
+                        <a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="{{product.days}}" data-id="{{product.id}}" v-on="click:editInfo(product,$index)" role="button" v-on="click:editActiveBtn">更新</a>
                     </td>
                 </tr>
                 </tbody>
@@ -87,33 +86,34 @@
                     <!-- 选项卡面板 -->
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active clearfix" id="home">
-                            <div class="col-sm-8 col-lg-8">
-                                <form id="updateFoodInfo">
+                            <div class="col-sm-8 col-lg-6">
+                                <form>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">早餐名:</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="productName ">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="forms.productName ">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">成本</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="forms.cost">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">单价</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="price">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="forms.price">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">库存</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="repertory">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="forms.repertory">
                                     </div>
                                     <div class="form-group">
                                         <label for="message-text" class="control-label">Message:</label>
-                                        <textarea class="form-control" id="message-text" v-model="describe" rows="10"></textarea>
-                                        <input type="hidden" name="updatejson" value="{{$data | json 4}}">
+                                        <textarea class="form-control" id="message-text" v-model="forms.describe" rows="8"></textarea>
                                     </div>
+                                    <input type="hidden" v-model="forms.id">
                                 </form>
                             </div>
-                            <div class="col-sm-6 col-lg-4" id="dragUpload">
-                                <a href="#" class="thumbnail" data-toggle="tooltip" data-placement="top" title="图片拖拽至此上传并覆盖原文件">
+                            <div class="col-sm-6 col-lg-6" id="dragUpload">
+                              <input id="productimg" name="productimg" type="file" multiple class="file-loading">
+                                <!-- <a href="#" class="thumbnail" data-toggle="tooltip" data-placement="top" title="图片拖拽至此上传并覆盖原文件">
                                     <img src="/resource/img/adminImg/drag.jpg" alt="..." class="uploadimgag">
                                 </a>
                                 <div class="progress">
@@ -124,9 +124,10 @@
                                 <blockquote>
                                     <p>Image Size : 300×300</p>
                                     <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
-                                </blockquote>
+                                </blockquote> -->
+                                <br>
                                 <div class="form-group">
-                                    <button type="button" class="btn btn-primary btn-lg btn-block" name="uploadProductInfo">更新</button>
+                                    <button type="button" class="btn btn-primary btn-lg btn-block" v-on="click:editBtn" name="uploadProductInfo">更新</button>
                                 </div>
                             </div>
                         </div>
@@ -136,15 +137,15 @@
                                 <form id="addFoodInfo">
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">早餐名:</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="productName">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="aforms.productName">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">成本</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="cost">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="aforms.cost">
                                     </div>
                                     <div class="form-group">
                                         <label for="recipient-name" class="control-label">单价</label>
-                                        <input type="text" class="form-control" id="recipient-name" v-model="price">
+                                        <input type="text" class="form-control" id="recipient-name" v-model="aforms.price">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail2" class="control-label">活动</label>
@@ -162,18 +163,18 @@
                                 </form>
                             </div>
                             <div class="col-lg-4">
-                                <a href="#" class="thumbnail">
+                                <!-- <a href="#" class="thumbnail">
                                     <img src="/resource/img/food/b0.jpg" alt="...">
                                 </a>
                                 <div class="alert alert-warning" role="alert"><b>拖拽</b>图片上传</div>
                                 <blockquote>
                                     <p>Image Size : 300X300</p>
                                     <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
-                                </blockquote>
+                                </blockquote> -->
 
                             </div>
                             <div class="form-group">
-                                <button type="button" class="btn btn-success btn-lg btn-block" name="addProductInfo">添加活动早餐</button>
+                                <button type="button" class="btn btn-success btn-lg btn-block" v-on="click:addBtn" name="addProductInfo">添加活动早餐</button>
                             </div>
                         </div>
                     </div>
@@ -206,17 +207,18 @@
     </tr>
     </thead>
     <tbody>
-    <tr id="activelist" v-repeat="active:actives" v-cloak>
+    <tr v-repeat="active in actives" v-cloak>
         <td>{{active.id}}</td>
         <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
         <td><h4>{{active.productName}}</h4></td>
-        <td>￥{{active.cost | formatPrice}}</td>
-        <td>￥{{active.price | formatPrice}}</td>
+        <td>{{active.cost | currency '¥'}}</td>
+        <td>{{active.price | currency '¥'}}</td>
         <td>{{active.describe}}</td>
         <td>{{active.updatetime}}</td>
-        <td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button">更新</a></td>
+        <td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button" disabled>更新</a></td>
     </tr>
     </tbody>
 </table>
-<script src="/resource/module/require.js" defer async="true" data-main="/resource/module/product/product"></script>
+</div>
+<script src="/resource/dist/product.min.js"></script>
 <%=include adminfooter_index.html%>

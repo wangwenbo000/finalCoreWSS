@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head lang="en">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -18,22 +17,12 @@
   </title>
   <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
   <link rel="stylesheet" href="/resource/css/style.css" type="text/css">
-  <link rel="stylesheet" href="/resource/css/bootstrap-datetimepicker.min.css" type="text/css">
-  <link rel="stylesheet" href="/resource/css/messenger.css" type="text/css">
+  <script src="/resource/js/jquery-1.11.3.min.js"></script>
+  <script src="/resource/js/bootstrap.min.js"></script>
+  <script src="/resource/js/jquery.bootpag.min.js"></script>
+  <script src="/resource/js/vue.min.js"></script>
 </head>
-
 <body>
-  <script>
-    // $._messengerDefaults = {
-    //   extraClasses: 'messenger-fixed messenger-on-bottom messenger-on-right'
-    // };
-    // require缓存
-    var require = {
-    //  urlArgs: "bust=" +  (new Date()).getTime()
-    urlArgs: "bust=2015-08-05"
-    };
-  </script>
-
   <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -51,11 +40,11 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
           <li><a href="#">管理控制台</a></li>
-          <li><a href="#">快速通道</a></li>
+          <!-- <li><a href="#">快速通道</a></li> -->
         </ul>
         <ul class="nav navbar-nav navbar-right">
-          <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li>
-          <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li>
+          <!-- <li><a href=""><i class="glyphicon glyphicon-cog"></i> 系统设置</a></li> -->
+          <!-- <li><a href=""><i class="glyphicon glyphicon-grain"></i> 管理员管理</a></li> -->
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
               <%=userInfo.username%>
@@ -111,7 +100,7 @@
                 <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
               </a>
           </li>
-          <!--<li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-flash" aria-hidden="true"></span><br>日志</a></li>-->
+          <li <%if(http.controller=='Log'){%>class="active"<%}%>><a href="/Admin/User"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></a></li>
         </ul>
         <!-- <ul class="nav nav-sidebar">
           <li <%if(http.controller=='Activity' ){%>class="active"
