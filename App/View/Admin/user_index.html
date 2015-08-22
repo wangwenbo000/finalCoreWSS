@@ -19,7 +19,8 @@
         </h4>
     </div>
 </div>
-<form id="formfliter">
+<div id="users">
+<form class="page-header">
 <div class="row">
     <div class="col-lg-1">
         <select class="form-control" v-model="searchC">
@@ -31,9 +32,10 @@
     </div>
     <div class="col-lg-11">
         <div class="input-group">
-            <input type="text" class="form-control" aria-label="..." v-model="searchV | changedata" lazy>
+            <input type="text" class="form-control" aria-label="..." v-model="searchV">
             <div class="input-group-btn">
                 <button type="button" class="btn btn-primary" id="searchUsers" >搜索用户</button>
+                <button type="button" class="btn btn-success" v-on="click:reset"><i class="glyphicon glyphicon-remove"></i></button>
             </div>
         </div>
     </div>
@@ -76,14 +78,8 @@
             <input type="radio" name="_logic" v-model="logic" value="XOR"> XOR
         </label>
     </div>
-    <div class="col-lg-2">
-        <button type="button" class="btn btn-primary btn-block">重置条件</button>
-    </div>
 </div>
-    <input type="hidden" id="fliterjson" value="{{$data | json}}" />
 </form>
-<nav class="page-selection-top"></nav>
-<div class="table-responsive">
     <table class="table table-striped table-hover">
         <thead>
         <tr>
@@ -91,7 +87,6 @@
             <th>头像</th>
             <th>用户</th>
             <th>性别</th>
-            <th>分组</th>
             <th>语言</th>
             <th>localhost</th>
             <th>openID</th>
@@ -100,12 +95,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr id="userList" v-repeat="user in userlist" v-cloak>
-            <td>{{user.id}}</td>
-            <td><img v-attr="src:user.face+46" width="46" class="img-circle"></td>
-            <td>{{user.username}}</td>
+        <tr v-repeat="user in userlist" v-cloak>
+            <td width="10">{{user.id}}</td>
+            <td width="50"><img v-attr="src:user.face+46" width="46" class="img-circle"></td>
+            <td><h4>{{user.username}}</h4></td>
             <td>{{user.sex}}</td>
-            <td>{{user.group}}</td>
             <td>{{user.language}}</td>
             <td>{{user.location}}</td>
             <td><small>{{user.openid}}</small></td>
@@ -124,14 +118,13 @@
         </tr>
         </tbody>
     </table>
-    <nav class="page-selection-bottom"></nav>
-</div>
+<nav class="pull-right page-selection-bottom"></nav>
 <div class="modal fade bs-example-modal-lg" id="usermodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">订单详情 <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small></h4>
+                <h4 class="modal-title" id="exampleModalLabel">地址列表</h4>
             </div>
             <div class="modal-body" id="address">
                 <h3 class="page-header">王文博 地址列表 ×{{addressListCount}}</h3>
@@ -140,22 +133,18 @@
                     <tr>
                         <th>ID</th>
                         <th>姓名</th>
+                        <th>配送区域</th>
                         <th>地址</th>
                         <th>电话</th>
-                        <th>区</th>
-                        <th>分类</th>
-                        <th>分类下属</th>
                         <th>时间</th>
                         <th>使用次数</th>
                     </tr>
                     <tr v-repeat="addressList">
                         <td>{{id}}</td>
                         <td>{{receiveuser}}</td>
+                        <td>{{addressKey}}</td>
                         <td>{{address}}</td>
                         <td>{{phonenum}}</td>
-                        <td>望京</td>
-                        <td>小区</td>
-                        <td>望京西园4区</td>
                         <td>{{time}}</td>
                         <td>{{usecount}}</td>
                     </tr>
@@ -164,6 +153,7 @@
             </div>
         </div>
     </div>
+</div>
 </div>
 <script src="/resource/dist/users.min.js"></script>
 <%=include adminfooter_index.html%>

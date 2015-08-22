@@ -5,6 +5,13 @@
       checked:false,
       order: listJSON,
     },
+    ready:function(){
+      $('.page-selection-top').bootpag({
+        total:total,
+        page: 1,
+        maxVisible: 20,
+      })
+    },
     filters:{
       cut:function(val){
         return val.substr(0,14)+"...";
@@ -59,7 +66,9 @@
             orderList.order = filterData.data;
             btnstatic.button('reset');
             //绑定翻页
-            bindPager(filterJsonStr, filterData.total);
+            // bindPager(filterJsonStr, filterData.total);
+            // {pagenum, filterjson}
+            createPager(filterJsonStr,filterData.total);
           })
         },
         reset:function(){
@@ -79,7 +88,7 @@
             success:function(data){
               var filterData = JSON.parse(data);
               orderList.order = filterData.data;
-              bindPager(filterJsonStr, filterData.total);
+              createPager(filterJsonStr,filterData.total)
             }
           })
         }
@@ -102,7 +111,11 @@
           }).done(function(data){
             var filterData = JSON.parse(data);
             orderList.order = filterData.data;
+            createPager(filterJsonStr,filterData.total);
           });
+        },
+        reset:function(){
+          formfliter.reset();
         }
       }
     });
@@ -115,7 +128,6 @@
       },
       methods: {
         allocation: function() {
-
           var checkOrder = $('input[name=checkorder]');
           var updateOrderIdArr = [];
           checkOrder.each(function() {
@@ -132,7 +144,6 @@
               data: expressAllocation.$data.selected
             },
             success: function(data) {
-              console.log(data);
               $('#allocationSuccess').modal('show');
             }
           });
@@ -140,24 +151,25 @@
       }
     });
 
-// 绑定翻页初始化
-function pageAjax(json){
-    $.ajax({
-        url: '/Admin/Order/filter',
-        type:'post',
-        data:json,
-        success:function(data){
-            orderList.order = JSON.parse(data).data;
-        }
-    })
-}
-function bindPager(json,total){
-    $('.page-selection-top, .page-selection-bottom').bootpag({
-        total:total,
+    function createPager(json,_total){
+      $('.page-selection-top').bootpag({
+        total:_total,
         page: 1,
-        maxVisible: 30,
-    }).on("page",function(event,num){
-        pageAjax({pagenum:num,fliterjson:json});
-    });
-}
-bindPager('{}',total);
+        maxVisible: 20,
+      }).on('page',function(event,num){
+        var self = $(this);
+        $.ajax({
+          url: '/Admin/Order/filter',
+          type:'post',
+          data:{pagenum:num,fliterjson:json},
+          success:function(data){
+              orderList.order = JSON.parse(data).data;
+              self.bootpag({
+                total:JSON.parse(data).total,
+                page:num,
+                maxVisible:30
+              });
+          }
+        })
+      })
+    }

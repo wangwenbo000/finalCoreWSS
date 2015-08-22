@@ -1,10 +1,41 @@
   var userList = new Vue({
-      el:"#userList",
+      el:"#users",
       data:{
-        userlist:userJSON
+        userlist:userJSON,
+        searchC:'*',
+        sex:'*',
+        isSubscribe:'*',
+        province:'0',
+        city:'0',
+        logic:'AND',
+        addressList:null,
+        addressListCount:''
+      },
+      ready:function(){
+        $('.page-selection-bottom').bootpag({
+          total:total,
+          page: 1,
+          maxVisible: 20,
+        }).on('page',function(event,num){
+          var self = $(this);
+          $.ajax({
+            url: '/Admin/User/getfliterusersdatalist',
+            type:'post',
+            data:{pagenum:num,fliterjson:'{}'},
+            success:function(data){
+                userList.userlist = JSON.parse(data).data;
+                self.bootpag({
+                  total:JSON.parse(data).total,
+                  page:num,
+                  maxVisible:30
+                });
+            }
+          })
+        });
       },
       methods:{
         getAddress:function(id){
+          console.log(id);
           var self = this;
           $.ajax({
               url: '/Admin/user/getuseraddresslist',
@@ -19,24 +50,25 @@
       }
   });
 
-  // 绑定翻页初始化
-  function pageAjax(json){
+  function createPager(json,_total){
+    $('.page-selection-top').bootpag({
+      total:_total,
+      page: 1,
+      maxVisible: 20,
+    }).on('page',function(event,num){
+      var self = $(this);
       $.ajax({
-          url: '/Admin/User/getfliterusersdatalist',
-          type:'post',
-          data:json,
-          success:function(data){
-              userList.userlist = JSON.parse(data).data;
-          }
+        url: '/Admin/Order/filter',
+        type:'post',
+        data:{pagenum:num,fliterjson:json},
+        success:function(data){
+            orderList.order = JSON.parse(data).data;
+            self.bootpag({
+              total:JSON.parse(data).total,
+              page:num,
+              maxVisible:30
+            });
+        }
       })
+    })
   }
-  function bindPager(json,total){
-      $('.page-selection-top, .page-selection-bottom').bootpag({
-          total:total,
-          page: 1,
-          maxVisible: 30,
-      }).on("page",function(event,num){
-          pageAjax({pagenum:num,fliterjson:json});
-      });
-  }
-  bindPager('{}',total);

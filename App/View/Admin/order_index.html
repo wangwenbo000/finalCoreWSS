@@ -8,13 +8,16 @@
       top: 50px;
       background: #fff;
       margin-top: 0;
-      width: 100%;
       height: 46px;
-      padding: 5px 0;
+      padding: 5px 20px;
       z-index: 1040;
       border-bottom: 2px #008eb7 solid;
       left: 68px;
       right: 0;
+    }
+    .pagination{
+      margin: 0;
+      float: right;
     }
     /*.badge{
       background-color: #5cb85c;
@@ -125,17 +128,22 @@
     明日配送区域 | <i class="glyphicon glyphicon-calendar"></i> {{nextday}}:
     <div class="btn-group" role="group" aria-label="...">
     <button type="button" class="btn btn-default btn-xs" v-repeat="todayAddress" v-on="click:addressKeyFilter(addressKey)">{{addressKey}}</button>
-    <button type="button" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-remove"></i></button>
+    <button type="button" class="btn btn-success btn-xs" v-on="click:reset"><i class="glyphicon glyphicon-remove"></i></button>
     </div>
   </div>
   <div class="row allocation clearfix" id="expressAllocation" data-spy="affix" data-offset-top="360">
-    <div class="col-xs-3">
+    <div class="col-xs-2">
       <select class="form-control" name="expressData" v-model="selected" options='expressData'>
       </select>
     </div>
-    <button type="button" class="btn btn-primary" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
+    <div class="col-xs-2">
+      <button type="button" class="btn btn-primary" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
+    </div>
+    <div class="col-xs-8">
+      <nav class="page-selection-top"></nav>
+    </div>
   </div>
-  <nav class="page-selection-top"></nav>
+
     <table class="table table-striped table-hover" id="orderlist">
       <thead>
         <tr>
@@ -173,7 +181,7 @@
            {{addressKey}} {{expressaddress}}
           </td>
           <td>
-            <h5 class="text-success">{{productprice | currency '¥'}}</h5>
+            <h5 class="text-danger">{{productprice | currency '¥'}}</h5>
           </td>
           <td>{{expresstime}}</td>
           <td>
@@ -213,13 +221,12 @@
             </div>
           </td>
           <td>
-            <span class="badge">{{{expresserid | allocation}}}{{expresserid}}</span>
+            <span class="badge">{{{expresserid | allocation}}}</span>
             <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
           </td>
         </tr>
       </tbody>
     </table>
-  <nav class="page-selection-bottom"></nav>
       <div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
