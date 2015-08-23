@@ -67,6 +67,11 @@
                     success:function(data){
                         $('#delAddress').modal('hide');
                         showFormErr("地址删除成功");
+                        $.cookie('addId', null);
+                        $.cookie('address', null);
+                        $.cookie('addressKey',null);
+                        $.cookie('receiveuser',null);
+                        $.cookie('phonenum',null);
                         addresslistJSON.$remove(self.delindex);
                     }
                 });
