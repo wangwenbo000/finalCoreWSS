@@ -8,10 +8,6 @@
 <h4 class="page-header">
     <span class="glyphicon glyphicon-qrcode" aria-hidden="true"></span> 产品管理 <small>一周早餐管理</small>
 </h4>
-<ol class="breadcrumb">
-    <li><a href="/Admin/">Admin</a></li>
-    <li class="active"><a href="/Admin/<%=http.controller%>"><%=http.controller%></a></li>
-</ol>
 <!--二级标题 部分功能-->
 <div id="productlist">
 <div class="page-header clearfix">
@@ -113,18 +109,6 @@
                             </div>
                             <div class="col-sm-6 col-lg-6" id="dragUpload">
                               <input id="productimg" name="productimg" type="file" multiple class="file-loading">
-                                <!-- <a href="#" class="thumbnail" data-toggle="tooltip" data-placement="top" title="图片拖拽至此上传并覆盖原文件">
-                                    <img src="/resource/img/adminImg/drag.jpg" alt="..." class="uploadimgag">
-                                </a>
-                                <div class="progress">
-                                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                                        <span class="sr-only">45% Complete</span>
-                                    </div>
-                                </div>
-                                <blockquote>
-                                    <p>Image Size : 300×300</p>
-                                    <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
-                                </blockquote> -->
                                 <br>
                                 <div class="form-group">
                                     <button type="button" class="btn btn-primary btn-lg btn-block" v-on="click:editBtn" name="uploadProductInfo">更新</button>
@@ -161,17 +145,6 @@
                                     </div>
                                     <input type="hidden" name="addjson" value="{{$data | json 2}}">
                                 </form>
-                            </div>
-                            <div class="col-lg-4">
-                                <!-- <a href="#" class="thumbnail">
-                                    <img src="/resource/img/food/b0.jpg" alt="...">
-                                </a>
-                                <div class="alert alert-warning" role="alert"><b>拖拽</b>图片上传</div>
-                                <blockquote>
-                                    <p>Image Size : 300X300</p>
-                                    <footer>图片无需删除，从新拖拽上传即可覆盖当前图片</footer>
-                                </blockquote> -->
-
                             </div>
                             <div class="form-group">
                                 <button type="button" class="btn btn-success btn-lg btn-block" v-on="click:addBtn" name="addProductInfo">添加活动早餐</button>

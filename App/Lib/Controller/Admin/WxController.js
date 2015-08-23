@@ -11,7 +11,20 @@ module.exports = Controller("Admin/BaseController", function(){
     var Q = require('q');
     return {
         indexAction: function(){
+          var xml2js = require('xml2js');
+          var json2XML = new xml2js.Builder();
+          var xml2JSON = new xml2js.Parser({explicitArray:false});
+          var getWxMsg = this.post();
+          var json = null;
 
+          for(var k in getWxMsg){
+            console.log(k);
+            xml2JSON.parseString(k,function (err,result){
+              json = result;
+            });
+          }
+
+          console.log(json);
         },
         jsapicofigAction:Q.async(function* (){
           var getURL = this.post('url');

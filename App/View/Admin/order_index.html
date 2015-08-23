@@ -19,9 +19,6 @@
       margin: 0;
       float: right;
     }
-    /*.badge{
-      background-color: #5cb85c;
-    }*/
   </style>
   <script>
     var listJSON = <%- JSON.stringify(listJSON)%>;
@@ -34,16 +31,6 @@
     <span class="glyphicon glyphicon-gift" aria-hidden="true"></span> 订单管理
     <small>默认今日订单［待开发］</small>
   </h4>
-  <ol class="breadcrumb">
-    <li>
-      <a href="/Admin/">Admin</a>
-    </li>
-    <li class="active">
-      <a href="/Admin/<%=http.controller%>">
-        <%=http.controller%>
-      </a>
-    </li>
-  </ol>
   <div class="statecount page-header clearfix">
     <div class="col-lg-3 ">
       <h5>订单列表</h5>

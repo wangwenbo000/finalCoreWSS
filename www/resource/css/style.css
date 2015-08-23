@@ -8,51 +8,19 @@
 body {
   padding-top: 76px;
 }
-[v-cloak]{display: none}
-/*
- * Global add-ons
- */
-.navbar-inverse{
-  background-color: #09c;
+[v-cloak] {
+  display: none
 }
-.navbar-inverse .navbar-nav > li > a{color: #fff;border-left: 1px #0087b4 solid;}
-.sub-header {
-  padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
-}
-.form-control, input, select, .btn, .modal-content{border-radius: 0;}
-.btn-primary, .pagination > .active > a{background: #09c;border-color: #0087b4;}
-/*
- * Top navigation
- * Hide default border to remove 1px line.
- */
-
-.navbar-fixed-top {
-  border: 0;
-}
-.table{margin-bottom: 0;}
-/*
- * Sidebar
- */
-
-
-/* Hide for mobile, show later */
-
 .sidebar {
-  display: none;
-}
-@media (min-width: 768px) {
-  .sidebar {
-    position: fixed;
-    width: 53px;
-    top: 44px;
-    bottom: 0;
-    left: 0;
-    z-index: 1000;
-    display: block;
-    padding-top: 20px;
-    background-color: #2b2d38;
-  }
+  position: fixed;
+  width: 53px;
+  top: 44px;
+  bottom: 0;
+  left: 0;
+  z-index: 1000;
+  display: block;
+  padding-top: 20px;
+  background-color: #2b2d38;
 }
 
 /* Sidebar navigation */
@@ -60,8 +28,6 @@ body {
 .nav-sidebar > li > a {
   text-align: center;
   color: #aeb9c2;
-}
-.nav-sidebar > li > a > span {
   font-size: 16px;
 }
 .nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
@@ -71,179 +37,28 @@ body {
 .nav-sidebar>li>a:focus, .nav-sidebar>li>a:hover {
   background-color: #171923;
 }
-.navbar-inverse .navbar-brand{color: #fff;background: #0087b4;width: 53px;}
+.navbar-inverse .navbar-brand {
+  background: #0087b4;
+  width: 53px;
+  padding: 15px;
+}
 
 /*
  * Main content
  */
 
 .main {
-  /*padding: 20px;*/
-}
-@media (min-width: 768px) {
-  .main {
-    padding-right: 40px;
-    padding-left: 40px;
-    margin-left: 47px;
-  }
+  padding-right: 40px;
+  padding-left: 40px;
+  margin-left: 47px;
 }
 .main .page-header {
   margin-top: 0;
 }
-
-/*
- * Placeholder dashboard ideas
- */
-
-.placeholders {
-  margin-bottom: 30px;
-  text-align: center;
-}
-.placeholders h4 {
-  margin-bottom: 0;
-}
-.placeholder {
-  margin-bottom: 20px;
-}
-.placeholder img {
-  display: inline-block;
-  border-radius: 50%;
-}
 .orderfliter {
   margin-top: 10px;
 }
-.orderfliter .col-lg-2 {
-  height: 30px;
-}
-.statecount h3 {
-  margin-top: 0;
-}
-.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
-  vertical-align: middle;
-}
 
-/*loading[pace.js]*/
-
-.pace {
-  -webkit-pointer-events: none;
-  pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-.pace-inactive {
-  display: none;
-}
-.pace .pace-progress {
-  background: #00ff00;
-  position: fixed;
-  z-index: 2000;
-  top: 0;
-  right: 100%;
-  width: 100%;
-  height: 2px;
-}
-.pace .pace-progress-inner {
-  display: block;
-  position: absolute;
-  right: 0px;
-  width: 100px;
-  height: 100%;
-  box-shadow: 0 0 10px #0f0, 0 0 5px #0f0;
-  opacity: 1.0;
-  -webkit-transform: rotate(3deg) translate(0px, -4px);
-  -moz-transform: rotate(3deg) translate(0px, -4px);
-  -ms-transform: rotate(3deg) translate(0px, -4px);
-  -o-transform: rotate(3deg) translate(0px, -4px);
-  transform: rotate(3deg) translate(0px, -4px);
-}
-.pace .pace-activity {
-  display: block;
-  position: fixed;
-  z-index: 2000;
-  top: 15px;
-  right: 15px;
-  width: 14px;
-  height: 14px;
-  border: solid 2px transparent;
-  border-top-color: #0f0;
-  border-left-color: #0f0;
-  border-radius: 10px;
-  -webkit-animation: pace-spinner 400ms linear infinite;
-  -moz-animation: pace-spinner 400ms linear infinite;
-  -ms-animation: pace-spinner 400ms linear infinite;
-  -o-animation: pace-spinner 400ms linear infinite;
-  animation: pace-spinner 400ms linear infinite;
-}
-@-webkit-keyframes pace-spinner {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-moz-keyframes pace-spinner {
-  0% {
-    -moz-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -moz-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes pace-spinner {
-  0% {
-    -o-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -o-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@-ms-keyframes pace-spinner {
-  0% {
-    -ms-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -ms-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes pace-spinner {
-  0% {
-    transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-.morningFoodDays h3 {
-  margin: 0;
-}
-.navbar-masthead .navbar-brand {
-  padding: 0;
-  height: 44px;
-  width: 47px;
-  line-height: 56px;
-  text-align: center；
-}
-.panel-default>.panel-heading {
-  border-color: #ddd;
-}
-.panel-heading {
-  padding: 5px 10px;
-}
-.productliststyle {
-  margin-top: 20px;
-}
 .state33 {
   background: #428bca;
 }
