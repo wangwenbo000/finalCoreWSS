@@ -18,7 +18,7 @@ module.exports = Controller("Admin/BaseController", function(){
           var json = null;
 
           for(var k in getWxMsg){
-            console.log(k);
+            console.log(k,getWxMsg);
             xml2JSON.parseString(k,function (err,result){
               json = result;
             });
