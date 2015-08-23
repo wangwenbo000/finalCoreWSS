@@ -15,16 +15,32 @@ module.exports = Controller("Admin/BaseController", function(){
           var json2XML = new xml2js.Builder();
           var xml2JSON = new xml2js.Parser({explicitArray:false});
           var getWxMsg = this.post();
+          JSON.stringify(getWxMsg);
           var json = null;
 
           for(var k in getWxMsg){
-            console.log(k,getWxMsg);
-            xml2JSON.parseString(k,function (err,result){
-              json = result;
-            });
+            var xml = k+getWxMsg[k];
           }
-
-          console.log(json);
+          xml2JSON.parseString(xml,function (err,result){
+            json = result.xml;
+          });
+          var normalContent = "谢谢你能来\ue057 \n"+
+                              "早安早安专心从事早餐配送到家的服务\n"+
+                              "<a href='http://izaoan.cn/Home?showwxpaytitle=1'>\ue231 预定早餐</a>\n"+
+                              "了解更多详情请查看子目录\n"+
+                              "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd'>\ue231 早安图鉴</a>\n"+
+                              "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=3&sn=954571e16c3347702141b5090b8875a1#rd'>\ue231 配送方式</a>\n"+
+                              "期待与您一起吃早餐\ue057 \n"+
+                              "更多服务、评价、唠嗑请直接编辑回复内容～\n"+
+                              "早安早安，为您每日早安🌞";
+          var xmlStr = ""+"<xml>"+
+                    "<ToUserName><![CDATA["+json.FromUserName+"]]></ToUserName>"+
+                    "<FromUserName><![CDATA["+json.ToUserName+"]]></FromUserName>"+
+                    "<CreateTime>"+WX_createTimestamp()+"</CreateTime>"+
+                    "<MsgType><![CDATA[text]]></MsgType>"+
+                    "<Content><![CDATA["+normalContent+"]]></Content>"+
+                    "</xml>";
+          this.end(xmlStr);
         },
         jsapicofigAction:Q.async(function* (){
           var getURL = this.post('url');
