@@ -4,6 +4,7 @@
       margin-top: 10px;
       margin-bottom: 20px;
     }
+
     .affix {
       top: 50px;
       background: #fff;
@@ -15,7 +16,8 @@
       left: 68px;
       right: 0;
     }
-    .pagination{
+
+    .pagination {
       margin: 0;
       float: right;
     }
@@ -84,12 +86,12 @@
       </div>
       <div class="col-lg-2">
         <div class="input-group date form_date" data-date="" data-date-format="dd MM yyyy" data-link-field="flitertime" data-link-format="yyyy-mm-dd">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
           <input class="form-control" size="16" type="text" value="" readonly>
           <span class="input-group-addon">
             <span class="glyphicon glyphicon-remove"></span>
-          </span>
-          <span class="input-group-addon">
-            <span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
         <input type="hidden" id="flitertime" value="" />
@@ -114,8 +116,8 @@
   <div class="page-header" id="expressAddress" v-cloak>
     明日配送区域 | <i class="glyphicon glyphicon-calendar"></i> {{nextday}}:
     <div class="btn-group" role="group" aria-label="...">
-    <button type="button" class="btn btn-default btn-xs" v-repeat="todayAddress" v-on="click:addressKeyFilter(addressKey)">{{addressKey}}</button>
-    <button type="button" class="btn btn-success btn-xs" v-on="click:reset"><i class="glyphicon glyphicon-remove"></i></button>
+      <button type="button" class="btn btn-default btn-xs" v-repeat="todayAddress" v-on="click:addressKeyFilter(addressKey)">{{addressKey}}</button>
+      <button type="button" class="btn btn-success btn-xs" v-on="click:reset"><i class="glyphicon glyphicon-remove"></i></button>
     </div>
   </div>
   <div class="row allocation clearfix" id="expressAllocation" data-spy="affix" data-offset-top="360">
@@ -131,157 +133,159 @@
     </div>
   </div>
 
-    <table class="table table-striped table-hover" id="orderlist">
-      <thead>
-        <tr>
-          <th>id</th>
-          <th>
-            <input type="checkbox" value="{{id}}" name='checkorderAll' v-model="checked">
-          </th>
-          <th>产品名称</th>
-          <th>数量</th>
-          <th>购买者</th>
-          <th>配送地址</th>
-          <th>价格</th>
-          <th>时间区间</th>
-          <th>联系电话</th>
-          <th>订单号</th>
-          <th>配送时间</th>
-          <th>操作</th>
-          <th>订单状态</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr  v-repeat="order" class="item-{{$index}}" v-cloak>
-          <td>
-            <h5>{{id}}</h5>
-          </td>
-          <td>
-            <input type='checkbox' value={{id}} name='checkorder' v-model="checked">
-          </td>
-          <td>{{productname | cut}}</td>
-          <td>×{{productnum}}</td>
-          <td>
-            <h4>{{receiveuser}}</h4>
-          </td>
-          <td>
-           {{addressKey}} {{expressaddress}}
-          </td>
-          <td>
-            <h5 class="text-danger">{{productprice | currency '¥'}}</h5>
-          </td>
-          <td>{{expresstime}}</td>
-          <td>
-            <h5>
-              <h4>{{phonenum}}</h4>
-            </h5>
-          </td>
-          <td>
-            <h5>
-              <small>{{ordernum}}
-                <small>
-            </h5>
-          </td>
-          <td>{{time}}</td>
-          <td>
-            <div class="btn-group">
-              <a data-toggle="dropdown">
-                        订单操作 <span class="caret"></span>
-                    </a>
-              <ul class="dropdown-menu" role="menu">
-                <li>
-                  <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment">
-                    <span class="glyphicon glyphicon-paperclip"></span> 依附关系</a>
-                </li>
-                <li>
-                  <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo">
-                    <span class="glyphicon glyphicon-eye-open"></span> 订单详情</a>
-                </li>
-                <li>
-                  <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderpayinfo">
-                    <span class="glyphicon glyphicon-eye-open"></span> 支付信息</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
-                <li><a href="#"> 退款</a></li>
-              </ul>
-            </div>
-          </td>
-          <td>
-            <span class="badge">{{{expresserid | allocation}}}</span>
-            <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-      <div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title" id="exampleModalLabel">订单详情
-                <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small>
-              </h4>
-            </div>
-            <div class="modal-body">
-              <div role="tabpanel">
-                <!-- Nav tabs -->
-                <ul class="nav nav-tabs" role="tablist" id="orderTab">
-                  <li role="presentation" class="active"><a href="#singleorderinfo" role="tab" data-toggle="tab">订单详情</a></li>
-                  <li role="presentation"><a href="#attachmentinfo" role="tab" data-toggle="tab">依附关系</a></li>
-                  <li role="presentation"><a href="#orderpayinfo" role="tab" data-toggle="tab">订单支付信息</a></li>
-                </ul>
-                <!-- Tab panes -->
-                <div class="tab-content">
-                  <div role="tabpanel" class="tab-pane active" id="singleorderinfo">
-                    <br>
-                    <table class="table table-bordered">
-                      <tbody>
-                        <tr>
-                          <td width="60">
-                            <img v-attr="src:'/resource/img/food/'+foodimg" width="60">
-                          </td>
-                          <td>DB_ID:{{id}}</td>
-                          <td>
-                            <h4>×{{productnum}}</h4>
-                          </td>
-                          <td>
-                            <h4>{{receiveuser}}</h4>
-                          </td>
-                          <td>
-                              <kbd>{{ordernum}}<kbd>
-                          </td>
-                          <td class="state{{productstatenum}}" align="center">
-                            <h3 style="color: #fff;">{{productstate}}</h3>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="2">{{addressKey}}</td>
-                          <td colspan="2">{{expressaddress}}</td>
-                          <td>配送费：{{expressprice | currency '¥'}}</td>
-                          <td>
-                            <h4>{{phonenum}}</h4>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td colspan="2">配送时间:{{expresstime}}</td>
-                          <td colspan="2">配送地点</td>
-                          <td colspan="2">是否叫起服务:{{iscallmeup}}</td>
-                        </tr>
-                        <tr>
-                          <td colspan="3">配送员</td>
-                          <td>{{receiveway}}</td>
-                          <td>单价：{{singleprice | currency '¥'}}</td>
-                          <td>
-                            <h2 class="text-primary">{{productprice | currency '¥'}}</h2>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <h3 class="page-header">订单配送纪录</h3>
-                    <!-- <dl class="dl-horizontal page-header">
+  <table class="table table-striped table-hover" id="orderlist">
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>
+          <input type="checkbox" value="{{id}}" name='checkorderAll' v-model="checked">
+        </th>
+        <th>产品名称</th>
+        <th>数量</th>
+        <th>购买者</th>
+        <th>配送地址</th>
+        <th>价格</th>
+        <th>时间区间</th>
+        <th>联系电话</th>
+        <th>订单号</th>
+        <th>配送时间</th>
+        <th>操作</th>
+        <th>订单状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-repeat="order" class="item-{{$index}}" v-cloak>
+        <td>
+          <h5>{{id}}</h5>
+        </td>
+        <td>
+          <input type='checkbox' value={{id}} name='checkorder' v-model="checked">
+        </td>
+        <td>{{productname | cut}}</td>
+        <td>×{{productnum}}</td>
+        <td>
+          <h4>{{receiveuser}}</h4>
+        </td>
+        <td>
+          {{addressKey}} {{expressaddress}}
+        </td>
+        <td>
+          <h5 class="text-danger">{{productprice | currency '¥'}}</h5>
+        </td>
+        <td>{{expresstime}}</td>
+        <td>
+          <h5>
+            <h4>{{phonenum}}</h4>
+          </h5>
+        </td>
+        <td>
+          <h5>
+            <small>{{ordernum}}
+              <small>
+          </h5>
+        </td>
+        <td>{{time}}</td>
+        <td>
+          <div class="btn-group">
+            <button type="button" data-toggle="dropdown">
+              订单操作
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderAttachment">
+                  <span class="glyphicon glyphicon-paperclip"></span> 依附关系</a>
+              </li>
+              <li>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderInfo">
+                  <span class="glyphicon glyphicon-eye-open"></span> 订单详情</a>
+              </li>
+              <li>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{id}}" data-orderid="{{ordernum}}" data-select="{{orderid}}" class="orderpayinfo">
+                  <span class="glyphicon glyphicon-eye-open"></span> 支付信息</a>
+              </li>
+              <li class="divider"></li>
+              <li><a href="#" data-toggle="modal" data-target="#checkmodal"> 取消订单</a></li>
+              <li><a href="#"> 退款</a></li>
+            </ul>
+          </div>
+        </td>
+        <td>
+          <span class="badge">{{{expresserid | allocation}}}</span>
+          <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="modal fade bs-example-modal-lg" id="orderModel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title" id="exampleModalLabel">订单详情
+            <small>谨慎操作，该操作会造成用户数据不符。请确定提前与用户进行过沟通</small>
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="orderTab">
+              <li role="presentation" class="active"><a href="#singleorderinfo" role="tab" data-toggle="tab">订单详情</a></li>
+              <li role="presentation"><a href="#attachmentinfo" role="tab" data-toggle="tab">依附关系</a></li>
+              <li role="presentation"><a href="#orderpayinfo" role="tab" data-toggle="tab">订单支付信息</a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+              <div role="tabpanel" class="tab-pane active" id="singleorderinfo">
+                <br>
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr>
+                      <td width="60">
+                        <img v-attr="src:'/resource/img/food/'+foodimg" width="60">
+                      </td>
+                      <td>DB_ID:{{id}}</td>
+                      <td>
+                        <h4>×{{productnum}}</h4>
+                      </td>
+                      <td>
+                        <h4>{{receiveuser}}</h4>
+                      </td>
+                      <td>
+                        <kbd>{{ordernum}}
+                          <kbd>
+                      </td>
+                      <td class="state{{productstatenum}}" align="center">
+                        <h3 style="color: #fff;">{{productstate}}</h3>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">{{addressKey}}</td>
+                      <td colspan="2">{{expressaddress}}</td>
+                      <td>配送费：{{expressprice | currency '¥'}}</td>
+                      <td>
+                        <h4>{{phonenum}}</h4>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">配送时间:{{expresstime}}</td>
+                      <td colspan="2">配送地点</td>
+                      <td colspan="2">是否叫起服务:{{iscallmeup}}</td>
+                    </tr>
+                    <tr>
+                      <td colspan="3">配送员</td>
+                      <td>{{receiveway}}</td>
+                      <td>单价：{{singleprice | currency '¥'}}</td>
+                      <td>
+                        <h2 class="text-primary">{{productprice | currency '¥'}}</h2>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h3 class="page-header">订单配送纪录</h3>
+                <!-- <dl class="dl-horizontal page-header">
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>商家已经确认早餐准备分配 您的早餐正在爱心制作 ❤️</dd>
                                 <div class="divider"></div>
@@ -304,156 +308,166 @@
                                 <dt>2015-05-10T16:00:00.000Z</dt>
                                 <dd>数据库维护，您的订单已过期，无法进行操作</dd>
                             </dl> -->
-                    <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
-                  </div>
-                  <div role="tabpanel" class="tab-pane" id="attachmentinfo">
-                    <br>
-                    <table class="table table-bordered">
-                      <tbody>
-                        <tr class="active">
-                          <td>
-                            <img v-attr="src:userInfo.face" width="60" class="img-circle">
-                          </td>
-                          <td>{{attachment.id}}</td>
-                          <td>
-                            <h4>{{userInfo.username}}</h4>
-                            <span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span>
-                          </td>
-                          <td colspan="4">
-                            <h5>
-                              <span class="label label-success">地图获取地点</span>
-                            </h5> {{attachment.address}}</td>
-                          <td>
-                              <kbd>{{attachment.orderid}}</kbd>
-                          </td>
-                        </tr>
+                <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
+              </div>
+              <div role="tabpanel" class="tab-pane" id="attachmentinfo">
+                <br>
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr class="active">
+                      <td>
+                        <img v-attr="src:userInfo.face" width="60" class="img-circle">
+                      </td>
+                      <td>{{attachment.id}}</td>
+                      <td>
+                        <h4>{{userInfo.username}}</h4>
+                        <span class="label label-{{attachment.orderstate}}">{{attachment.orderfrom}}</span>
+                      </td>
+                      <td colspan="4">
+                        <h5>
+                          <span class="label label-success">地图获取地点</span>
+                        </h5> {{attachment.address}}</td>
+                      <td>
+                        <kbd>{{attachment.orderid}}</kbd>
+                      </td>
+                    </tr>
 
-                        <tr class="active">
-                          <td colspan="2">
-                            <h3>{{attachment.countDays}}
-                              <small>天</small>
-                            </h3>
-                          </td>
-                          <td>
-                            <h3>{{attachment.productTotal}}
-                              <small>份</small>
-                            </h3>
-                          </td>
-                          <td>运费：{{attachment.expressprice | currency '¥'}}</td>
-                          <td colspan="3">{{attachment.ordertime}}</td>
-                          <td>
-                            <h2 class="text-primary">{{attachment.pricetotal | currency '¥'}}</h2>
-                          </td>
-                        </tr>
-                        <!-- <tr class="active">
+                    <tr class="active">
+                      <td colspan="2">
+                        <h3>{{attachment.countDays}}
+                          <small>天</small>
+                        </h3>
+                      </td>
+                      <td>
+                        <h3>{{attachment.productTotal}}
+                          <small>份</small>
+                        </h3>
+                      </td>
+                      <td>运费：{{attachment.expressprice | currency '¥'}}</td>
+                      <td colspan="3">{{attachment.ordertime}}</td>
+                      <td>
+                        <h2 class="text-primary">{{attachment.pricetotal | currency '¥'}}</h2>
+                      </td>
+                    </tr>
+                    <!-- <tr class="active">
                                     <td colspan="8">{{attachment.remark}}</td>
                                 </tr> -->
-                        <tr>
-                          <th colspan="8">配餐列表</th>
-                        </tr>
-                        <tr v-repeat="attach" class="{{thisPoint}}">
-                          <td>
-                            <img v-attr="src:'/resource/img/food/'+foodimg" width="60" class="img-circle">
-                          </td>
-                          <td>
-                            <h4>{{orderid}}</h4>
-                          </td>
-                          <td>
-                            <h4>×{{productnum}}</h4>
-                          </td>
-                          <td>
-                            <h4>{{receiveway}}</h4>
-                          </td>
-                          <td>{{time}}</td>
-                          <td>{{expresstime}} {{iscallmeup}}</td>
-                          <td>
-                            <h4 class="text-primary">{{singleprice | currency '¥'}}</h4>
-                          </td>
-                          <td>
-                            <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                  <div role="tabpanel" class="tab-pane" id="orderpayinfo">
-                    <br>
-                    <table class="table table-bordered">
-                      <tbody>
-                        <tr class="active">
-                          <th>openid</th>
-                          <th>支付银行</th>
-                          <th>现金金额</th>
-                          <th>总金额</th>
-                        </tr>
-                        <tr>
-                          <td>{{openid}}</td>
-                          <td>{{bank_type}}</td>
-                          <td><h3>{{cash_fee/100 | currency '¥'}}<small> 元</small></h3></td>
-                          <td><h3>{{total_fee/100 | currency '¥'}}<small> 元</small></h3></td>
-                        </tr>
-                        <tr class="active">
-                          <th>微信订单号</th>
-                          <th>系统订单号</th>
-                          <th>returnCode</th>
-                          <th>resultCode</th>
-                        </tr>
-                        <tr>
-                          <td>{{transaction_id}}</td>
-                          <td><kbd>{{out_trade_no}}</kbd></td>
-                          <td>{{return_code}}</td>
-                          <td>{{result_code}}</td>
-                        </tr>
-                        <tr class="active">
-                          <th>订单结束时间</th>
-                          <th></th>
-                          <th></th>
-                          <th></th>
-                        </tr>
-                        <tr>
-                          <td>{{time_end}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                    <tr>
+                      <th colspan="8">配餐列表</th>
+                    </tr>
+                    <tr v-repeat="attach" class="{{thisPoint}}">
+                      <td>
+                        <img v-attr="src:'/resource/img/food/'+foodimg" width="60" class="img-circle">
+                      </td>
+                      <td>
+                        <h4>{{orderid}}</h4>
+                      </td>
+                      <td>
+                        <h4>×{{productnum}}</h4>
+                      </td>
+                      <td>
+                        <h4>{{receiveway}}</h4>
+                      </td>
+                      <td>{{time}}</td>
+                      <td>{{expresstime}} {{iscallmeup}}</td>
+                      <td>
+                        <h4 class="text-primary">{{singleprice | currency '¥'}}</h4>
+                      </td>
+                      <td>
+                        <span class="label label-success state{{productstatenum}}">{{productstate}}</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
-
+              <div role="tabpanel" class="tab-pane" id="orderpayinfo">
+                <br>
+                <table class="table table-bordered">
+                  <tbody>
+                    <tr class="active">
+                      <th>openid</th>
+                      <th>支付银行</th>
+                      <th>现金金额</th>
+                      <th>总金额</th>
+                    </tr>
+                    <tr>
+                      <td>{{openid}}</td>
+                      <td>{{bank_type}}</td>
+                      <td>
+                        <h3>{{cash_fee/100 | currency '¥'}}
+                          <small> 元</small>
+                        </h3>
+                      </td>
+                      <td>
+                        <h3>{{total_fee/100 | currency '¥'}}
+                          <small> 元</small>
+                        </h3>
+                      </td>
+                    </tr>
+                    <tr class="active">
+                      <th>微信订单号</th>
+                      <th>系统订单号</th>
+                      <th>returnCode</th>
+                      <th>resultCode</th>
+                    </tr>
+                    <tr>
+                      <td>{{transaction_id}}</td>
+                      <td>
+                        <kbd>{{out_trade_no}}</kbd>
+                      </td>
+                      <td>{{return_code}}</td>
+                      <td>{{result_code}}</td>
+                    </tr>
+                    <tr class="active">
+                      <th>订单结束时间</th>
+                      <th></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <td>{{time_end}}</td>
+                      <td></td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!--确定模态-->
-      <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="allocationSuccess">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <h3>配送员分配成功</h3>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
-            </div>
-          </div>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="checkmodal">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-body">
-              <h3>确认取消订单？该操作不可逆</h3>
-              <footer>请确定与用户协商妥善</footer>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
-              <button type="button" class="btn btn-danger">确定取消</button>
-            </div>
-          </div>
+  <!--确定模态-->
+  <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="allocationSuccess">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h3>配送员分配成功</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
         </div>
       </div>
-      <script src="/resource/dist/order.min.js"></script>
-      <%=include adminfooter_index.html%>
+    </div>
+  </div>
+
+  <div class="modal fade" role="dialog" aria-labelledby="gridSystemModalLabel" aria-hidden="true" id="checkmodal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <h3>确认取消订单？该操作不可逆</h3>
+          <footer>请确定与用户协商妥善</footer>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+          <button type="button" class="btn btn-danger">确定取消</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="/resource/dist/order.min.js"></script>
+  <%=include adminfooter_index.html%>
