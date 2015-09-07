@@ -1,14 +1,19 @@
 <%=include indexheader_index.html%>
-<style>
-  body{padding-top: 20px;}
-</style>
-<div class="container">
-  <div class="page-header">
-    <h2 class="text-center">订单成功!</h2>
+<div class="grid-warp success">
+  <div class="grid">
+    <div class="col-12">
+      <img src="/resource/img/indexImg/success.jpg">
+      <div class="notice" style="display:none;">
+        <i class="iconfont">&#xe602;</i> 恭喜您获得精美早安书签！
+      </div>
+      <a href="javascript:;">查看订单</a>
+      <a href="javascript:;">返回首页</a>
+    </div>
   </div>
-  <a href="/Home" class="btn btn-success btn-block btn-lg">返回订餐页</a>
-  <a href="/Home/orderlist" class="btn btn-info btn-block btn-lg">查看订单</a>
 </div>
+<div class="footerlogo"></div>
+</body>
+</html>
 <script>
 configWxJsapi();
 

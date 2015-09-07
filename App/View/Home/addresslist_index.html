@@ -1,55 +1,53 @@
 <%=include indexheader_index.html%>
-<style>
-    table{background:#fff}.table{margin-bottom:0}.formdiv{padding:15px;background:#fff}
-</style>
-<script>
-    var addresslistJSON =<%-JSON.stringify(addresslist)%>;
-    configWxJsapi();
-</script>
-<nav class="navbar navbar-default navbar-fixed-bottom">
-    <div class="container-fluid">
-        <a href="/address?back=addresslist" class="btn btn-success navbar-btn btn-block btn-lg">添加新地址</a>
-    </div>
-</nav>
-<div id="addresslist">
-<div class="formdiv">
-    <table class="table">
-        <tr v-repeat="list in list" v-on="click:deldata(list)" v-cloak>
-            <td>
-                <h4>{{list.receiveuser}}
-                    <small>{{list.phonenum}}</small>
-                </h4>
-                {{list.addressKey}} {{list.address}}
-            </td>
-            <td>
-                <a href="#" data-toggle="modal" data-target="#delAddress"><h4><i
-                        class="glyphicon glyphicon-trash"></i></h4></a>
-            </td>
-            <td>
-                <a href="address/index/id/{{list.id}}?back=addresslist"><h4><i class="glyphicon glyphicon-pencil"></i></h4></a>
-            </td>
+<div class="grid-warp">
+    <div class="grid">
+      <table class="col-12 addresslist">
+        <tbody>
+          <tr></tr>
+        <tr>
+          <td colspan="3">
+            <p>王文博 15117909848</p>
+            <p>中央美术学院 设计大楼地下一层</p>
+          </td>
         </tr>
-    </table>
-</div>
-<div class="modal fade" id="delAddress" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body">
-                <h4 class="text-center">确定删除地址？</h4>
-            </div>
-            <div class="modal-footer">
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-default btn-block btn-lg" data-dismiss="modal">放弃操作
-                        </button>
-                    </div>
-                    <div class="col-xs-6">
-                        <button type="button" class="btn btn-danger btn-block btn-lg" v-on="click:del(list.index)">确定删除</button>
-                    </div>
-            </div>
-        </div>
+        <tr>
+          <td><span><i class="iconfont">&#xe60e;</i></span> 设为默认</td>
+          <td><i class="iconfont">&#xe60c;</i> 编辑</td>
+          <td><i class="iconfont">&#xe610;</i> 删除</td>
+        </tr>
+      </tbody>
+
+      <tbody>
+        <tr></tr>
+      <tr>
+        <td colspan="3">
+          <p>王文博 15117909848</p>
+          <p>中央美术学院 设计大楼地下一层</p>
+        </td>
+      </tr>
+      <tr>
+        <td><span></span>设为默认</td>
+        <td>编辑</td>
+        <td>删除</td>
+      </tr>
+    </tbody>
+      </table>
     </div>
-</div>
-</div>
+  </div>
+  <div class="grid-warp emptyOrder">
+    <div class="grid">
+      <div class="col-12">
+        <i class="iconfont">&#xe612;</i> 您还没有地址:-(
+        <a href="javascript:;">现在去订餐</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footerlogo"></div>
+
+  <div class="footer">
+    <a href="javascript:;" class="addNewAddress"><i class="iconfont">&#xe605;</i>添加新地址</a>
+  </div>
 <script>
     var addresslist = new Vue({
         el: '#addresslist',

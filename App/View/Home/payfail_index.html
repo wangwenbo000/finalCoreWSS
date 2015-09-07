@@ -1,13 +1,16 @@
 <%=include indexheader_index.html%>
-<style>
-  body{padding-top: 20px;}
-</style>
-<div class="container">
-  <div class="page-header">
-    <h2 class="text-center">订单失败!</h2>
+<div class="grid-warp fail">
+  <div class="grid">
+    <div class="col-12">
+      <img src="/resource/img/indexImg/fail.jpg">
+      <a href="javascript:;">查看订单</a>
+      <a href="javascript:;">返回首页</a>
+    </div>
   </div>
-  <a href="/Home/orderlist" class="btn btn-success btn-block btn-lg">处理未完成订单</a>
 </div>
+<div class="footerlogo"></div>
+</body>
+</html>
 <script>
 configWxJsapi();
 

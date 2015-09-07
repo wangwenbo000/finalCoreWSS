@@ -1,86 +1,98 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta content="telephone=no" name="format-detection">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title> 早安!早安!</title>
-    <link rel="stylesheet" href="/resource/css/bootstrap.min.css" type="text/css">
-    <script src="/resource/js/jquery-1.11.3.min.js"></script>
-    <script src="/resource/js/jquery.cookie.js"></script>
-    <script src="/resource/js/bootstrap.min.js"></script>
-    <script src="/resource/js/vue.min.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-</head>
-<style>
-    body{padding:0 0 72px;background:#ebeee6}html{-webkit-user-select:none}.row{margin-bottom:10px}.panel{margin-bottom:0}.jumbotron{margin-bottom:10px;padding-bottom:10px;background:url(/resource/img/indexImg/bg.jpg) no-repeat center top}.datetimepicker table,.datetimepicker-inline{width:100%}#logo{width:180px}#face{width:58px}.modal-body{overflow:auto}.modal-footer,.modal-header{padding:8px 15px}.media{border-bottom:1px solid #efefef}input{border:none;-webkit-appearance:none}.addAddress-body,.address-body,.searchAddress-body{height:300px}.table>tbody>tr>td,.table>tbody>tr>th,.table>tfoot>tr>td,.table>tfoot>tr>th,.table>thead>tr>td,.table>thead>tr>th{vertical-align:middle}
-    /*index*/
-    .calendar>tbody>tr>td,.calendar>tbody>tr>th{background:#fff;text-align:center}.calTitle{margin:0}.paybtn{float:right;display:block;padding:0;width:90pt;height:49px;border-radius:0;background:#f40;font-size:1pc;line-height:49px}.paybtn,.paybtn:hover{color:#fff}.countP{margin-bottom:0;padding-left:15px;height:49px;line-height:49px}.countP span:nth-child(2){color:#f40;font-size:18px}.hidechoosefood{display:none}table{background:#fff}.table{margin-bottom:10px}.formErr{position:fixed;top:50%;left:50%;z-index:10000;display:none;margin-top:-30px;margin-left:-75pt;width:200px;height:60px;border-radius:6px;background:rgba(0,0,0,.9);color:#fff;text-align:center;font-size:1pc;line-height:60px}
-    [v-cloak]{display: none}
-    /*address*/
-    .formdiv{padding:15px;background:#fff}.formErr{position:absolute;top:50%;left:50%;z-index:10000;display:none;margin-top:-30px;margin-left:-75pt;width:200px;height:60px;border-radius:6px;background:rgba(0,0,0,.9);color:#fff;text-align:center;font-size:1pc;line-height:60px}
-</style>
-<script>
-//百度统计
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "//hm.baidu.com/hm.js?a627bc90b74b6547b8bd2183ef9a5c6b";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-function showFormErr(value){
-  $('.formErr').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
-  setTimeout(function(){
-    $('.formErr').css({'display':'none'}).html('');
-  },1200);
-}
-// 微信jsapi接入
-function configWxJsapi(){
-  var url = window.location.href;
-  $.ajax({
-    url: 'Admin/Wx/jsapicofig',
-    type: 'POST',
-    data: {
-      url: url
-    },
-    success: function(json) {
-      var configJson = JSON.parse(json);
-      wx.config(configJson);
+  <meta charset="utf-8">
+  <meta content="modeName=640-12" name="grid" />
+  <meta content="telephone=no" name="format-detection">
+  <meta name = "apple-mobile-web-app-capable" content = "yes" >
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.2/??flexible_css.js,flexible.js"></script>
+  <script src="http://g.tbcdn.cn/mtb/lib-flexible/0.3.2/makegrid.js"></script>
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script src="/resource/js/jquery-1.11.3.min.js"></script>
+  <script src="/resource/js/jquery.cookie.js"></script>
+  <script src="/resource/js/vue.min.js"></script>
+  <script src="/resource/js/fastclick.js"></script>
+  <link href="/resource/css/index.css" rel="stylesheet" type="text/css" />
+  <title>早安早安</title>
+  <script>
+  lib.flexible.makeGrid({
+    designWidth:640, // 设计稿宽度
+    designUnit:4, // 设计稿最小单位a（以px为单位）
+    columnCount:12, // 栅格列数
+    columnXUnit:12, // 栅格列宽（以a为单位）
+    gutterXUnit:1, // 栅格间距（以a为单位）
+    edgeXUnit:2.5, // 页面左右边距（以a为单位）
+  });
+    window.onload = function(){
+      document.body.addEventListener('touchstart', function () { });
+    };
+    // fastClick
+    if ('addEventListener' in document) {
+    document.addEventListener('DOMContentLoaded', function() {
+        FastClick.attach(document.body);
+    }, false);
+    }
+    //百度统计
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?a627bc90b74b6547b8bd2183ef9a5c6b";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+    function showFormErr(value){
+      $('.alert').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
+      setTimeout(function(){
+        $('.formErr').css({'display':'none'}).html('');
+      },1200);
+    }
+    // 微信jsapi接入
+    function configWxJsapi(){
+      var url = window.location.href;
+      $.ajax({
+        url: 'Admin/Wx/jsapicofig',
+        type: 'POST',
+        data: {
+          url: url
+        },
+        success: function(json) {
+          var configJson = JSON.parse(json);
+          wx.config(configJson);
 
-      wx.ready(function() {
-        wx.onMenuShareAppMessage({
-          title: '早安早安',
-          desc: '幸福正能量',
-          link: 'http://www.izaoan.cn?showwxpaytitle=1',
-          imgUrl: 'http://www.izaoan.cn/resource/img/indexImg/wxiconnew.png',
-          type: 'link',
-          dataUrl: '',
-          success: function() {
-            // 用户确认分享后执行的回调函数
-          },
-          cancel: function() {
-            // 用户取消分享后执行的回调函数
-          }
-        });
-        wx.hideMenuItems({
-          menuList: [
-          "menuItem:share:facebook",
-          "menuItem:copyUrl",
-          "menuItem:originPage",
-          "menuItem:readMode",
-          "menuItem:openWithQQBrowser",
-          "menuItem:openWithSafari",
-          "menuItem:share:email"
-        ]
-        });
-      });
-      wx.error(function(res) {
-        console.log('微信jssdk接入失败');
+          wx.ready(function() {
+            wx.onMenuShareAppMessage({
+              title: '早安早安',
+              desc: '幸福正能量',
+              link: 'http://www.izaoan.cn?showwxpaytitle=1',
+              imgUrl: 'http://www.izaoan.cn/resource/img/indexImg/wxiconnew.png',
+              type: 'link',
+              dataUrl: '',
+              success: function() {
+                // 用户确认分享后执行的回调函数
+              },
+              cancel: function() {
+                // 用户取消分享后执行的回调函数
+              }
+            });
+            wx.hideMenuItems({
+              menuList: [
+              "menuItem:share:facebook",
+              "menuItem:copyUrl",
+              "menuItem:originPage",
+              "menuItem:readMode",
+              "menuItem:openWithQQBrowser",
+              "menuItem:openWithSafari",
+              "menuItem:share:email"
+            ]
+            });
+          });
+          wx.error(function(res) {
+            console.log('微信jssdk接入失败');
+          });
+        }
       });
     }
-  });
-}
-</script>
+  </script>
 <body>
-<div class="formErr">错误</div>
+</head>
+<!-- <div class="formErr">错误</div> -->

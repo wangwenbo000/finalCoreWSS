@@ -1,71 +1,122 @@
 <%=include indexheader_index.html%>
-<script>
-    var orderlistinfoJSON = <%- JSON.stringify(orderlistinfo)%>;
-</script>
-<style>
-    table{background: #fff;}
-    p{margin: 0;}
-    .nav-tabs{border: none;}
-    .nav-tabs>li{width: 33.3333%;font-size: 16px;}
-    .nav-tabs>li>a{text-align: center;padding:14px 15px;border-radius:0;margin-right:0; }
-    .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover{border: none;background-color:#449d44;color: #fff;}
-    .state33{background: #428bca;}
-    .state55{background: #5cb85c;}
-    .state10{background: #5bc0de;}
-    .state30{background: #f0ad4e;}
-    .state40{background: #d9534f;}
-    .state44{background: #000066;}
-    .state60{background: #000066;}
-</style>
-    <br>
-<div id="orderlistinfo" v-cloak>
-    <table class="table ">
-        <tr>
-            <td><h4><i class="glyphicon glyphicon-time"></i> {{state | state}}<small>  共<%=listcount%>份早餐</small></h4></td>
-        </tr>
+<div class="grid-warp">
+  <div class="grid">
+    <table class="col-12 orderInfo">
+      <tr class="orderState">
+        <td colspan="2"><h4>订单正在进行中 <i class="iconfont">&#xe60b;</i></h4></td>
+        <td>
+          <span>已完成</span>
+          ×1
+        </td>
+        <td>
+          <span>进行中</span>
+          ×2
+        </td>
+      </tr>
+      <tr class="orderBtn">
+        <td colspan="4">
+          <a href="javascript:;">取消订单<span>(次日自动取消)</span></a>
+          <a href="javascript:;">完成支付</a>
+        </td>
+      </tr>
+      <tr class="orderAddress">
+        <td colspan="4">
+          <p>
+            <span>王文博 15117909848</span>
+            <span>早安盒子</span>
+          </p>
+          <p>
+            <span>中央美术学院 城市设计学院</span>
+            <span>7:00-7:30</span>
+          </p>
+        </td>
+      </tr>
+      <tr class="orderNum">
+        <td colspan="4">
+          <p><span>订单号：</span>20150822150553791</p>
+        </td>
+      </tr>
+      <tr class="orderPrice">
+        <td>
+          <span>配送费</span>
+          <span>￥0.00</span>
+        </td>
+        <td>
+          <span>原价</span>
+          <span>￥180.00</span>
+        </td>
+        <td colspan="2">
+          <span>
+            总价<br/>
+            <i>(折扣后)</i>
+          </span>
+          <span>￥180.00</span>
+        </td>
+      </tr>
+      <td colspan="4">
+        <p><span>下单时间：</span>2015-08-22</p>
+      </td>
     </table>
-    <table class="table">
-        <thead v-repeat="info">
-        <tr>
-            <td colspan="4">订单号：<kbd>{{orderid}}</kbd></td>
-            <td class="text-danger">{{pricetotal | currency '¥'}}</td>
-        </tr>
-        <tr>
-            <td colspan="5">联系人：{{receiveuser}}</td>
-        </tr>
-        <tr>
-            <td colspan="5">配送费：{{expressprice | currency '¥'}}</td>
-        </tr>
-        <tr>
-            <td colspan="5">{{addressKey}} {{address}}</td>
-        </tr>
-        <tr>
-            <td colspan="5" class="text-muted">下单时间：{{ordertime}}</td>
-        </tr>
-        </thead>
+  </div>
 
-        <tbody>
-        <tr class="active">
-            <th colspan="2">名称</th>
-            <th>量</th>
-            <th>合计</th>
-            <th>状态</th>
-        </tr>
-        <tr v-repeat="list">
-            <td colspan="2">{{productname}}<p class="text-muted">{{time}}</p></td>
-            <td>×{{productnum}}</td>
-            <td class="text-danger">{{productprice | currency '¥'}}</td>
-            <td><span class="label label-warning state{{productstatenum}}">{{productstate}}</span></td>
-        </tr>
-        <tr>
-            <td colspan="5" align="right">
-                <a type="button" href="tel:15117909848" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-headphones"></i> 联系客服</a>
-                <button type="button" class="btn btn-default btn-sm"><i class="glyphicon glyphicon-pencil"></i> 投诉建议</button>
-            </td>
-        </tr>
-        </tbody>
+  <div class="grid">
+    <table class="col-12">
+      <tr class="orderList">
+        <td>
+          <img src="img/food.jpg">
+          <h2>香柔芝士火腿三明治餐 </h2>
+          <p>2015-08-22 星期二</p>
+        </td>
+        <td>
+          <span class="oState state33">代发货</span>
+        </td>
+      </tr>
+      <tr class="orderList">
+        <td>
+          <img src="img/food.jpg">
+          <h2>香柔芝士火腿三明治餐 </h2>
+          <p>2015-08-22 星期二</p>
+        </td>
+        <td>
+          <span class="oState state40">代发货</span>
+        </td>
+      </tr>
     </table>
+  </div>
+  <div class="grid">
+    <table class="col-12">
+      <tr class="orderContact">
+        <td>
+          <a href="tel:01056140532"><i class="iconfont">&#xe613;</i> 联系客服</a>
+        </td>
+        <td>
+          <a href="javascript:;"><i class="iconfont">&#xe611;</i> 意见反馈</a>
+        </td>
+      </tr>
+    </table>
+  </div>
 </div>
+<div class="footerlogo"></div>
+
+<div class="alert">
+  <span><i class="iconfont">&#xe60a;</i></span>
+  <p>谢谢！</p>
+</div>
+
+  <div class="modal">
+    <div class="content">
+      <div class="modal_header">
+        <i class="iconfont">&#xe612;</i> 您的意见对我们非常重要
+        <span>&times;</span>
+      </div>
+      <div class="modal_content">
+        <textarea placeholder="这里请填写您的意见和建议" rows="12"></textarea>
+      </div>
+      <div class="modal_footer">
+        <a href="javascript:;">我已经写好了！</a>
+      </div>
+    </div>
+  </div>
 
 <script>
     var orderlistInfo = new Vue({
