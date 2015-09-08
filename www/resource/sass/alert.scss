@@ -1,0 +1,26 @@
+.alert{
+  width: 6rem;
+  height: 1.9375rem;
+  background-color: rgba(0,0,0,0.8);
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin: -0.96875rem -3rem;
+  text-align: center;
+  color: $yellow;
+  // display: none;
+  span{
+    display: block;
+    width: 1.75rem;
+    height: 100%;
+    float: left;
+    border-right: 1px solid #636363;
+    font-size: 1rem;
+    line-height: 1.9375rem;
+  }
+  p{
+    height: 100%;
+    line-height: 1.9375rem;
+    font-size: 0.46875rem;
+  }
+}

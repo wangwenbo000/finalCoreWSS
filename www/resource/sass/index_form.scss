@@ -1,0 +1,44 @@
+.formTable{
+  border-collapse: collapse;
+  tbody{
+    tr{
+      td{
+        padding:  0;
+      }
+    }
+  }
+  tbody>tr:first-child>td{
+    width: 50%;
+  }
+  tbody>tr:last-child>td{
+    text-align: center;
+      a{
+        display: block;
+        width: 100%;
+        padding: $px32 0;
+        text-align: center;
+        color: $graybf;
+      }
+      a:active{
+        box-shadow:0 0 0.6rem #bde4eb inset;
+        color: #bde4eb;
+      }
+  }
+  .sel{
+    display: block;
+    position: absolute;
+    color: $graybf;
+    margin-left: 42%;
+    top: 0.7rem;
+  }
+  select{
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    -webkit-appearance: none;
+    width: 99%;
+    float: left;
+    height: 1.40625rem;
+  }
+
+}

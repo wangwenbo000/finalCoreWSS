@@ -1,0 +1,29 @@
+.orderlist{
+  font-size: $px22;
+  text-align: center;
+  tbody>tr:first-child{
+    height: 0.2rem;
+  }
+  span{
+    color: $graybf;
+  }
+  tbody>tr:last-child>td:first-child{
+    width: 4rem;
+    text-align: left;
+    line-height: 0.6rem;
+    p:first-child{
+      font-family: 'Menlo';
+    }
+  }
+}
+.footer{
+  .goingOn{
+    background-color: $buttonBlue;
+  }
+  .goingOn,.goOrder{
+    width: 3.1999rem;
+  }
+  .goingOn:active{
+    box-shadow:0 0 1rem #76c8d7 inset;
+  }
+}

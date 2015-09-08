@@ -18,211 +18,9 @@
       }
     }
   </script>
-  <style>
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
 
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-@-webkit-keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-@-webkit-keyframes bounceInUp {
-  from, 60%, 75%, 90%, to {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  }
-
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 3000px, 0);
-    transform: translate3d(0, 3000px, 0);
-  }
-
-  60% {
-    opacity: 1;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-
-  75% {
-    -webkit-transform: translate3d(0, 10px, 0);
-    transform: translate3d(0, 10px, 0);
-  }
-
-  90% {
-    -webkit-transform: translate3d(0, -5px, 0);
-    transform: translate3d(0, -5px, 0);
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes bounceInUp {
-  from, 60%, 75%, 90%, to {
-    -webkit-animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
-  }
-
-  from {
-    opacity: 0;
-    -webkit-transform: translate3d(0, 3000px, 0);
-    transform: translate3d(0, 3000px, 0);
-  }
-
-  60% {
-    opacity: 1;
-    -webkit-transform: translate3d(0, -20px, 0);
-    transform: translate3d(0, -20px, 0);
-  }
-
-  75% {
-    -webkit-transform: translate3d(0, 10px, 0);
-    transform: translate3d(0, 10px, 0);
-  }
-
-  90% {
-    -webkit-transform: translate3d(0, -5px, 0);
-    transform: translate3d(0, -5px, 0);
-  }
-
-  to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-}
-@-webkit-keyframes slideOutUp {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-}
-
-@keyframes slideOutUp {
-  from {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  to {
-    visibility: hidden;
-    -webkit-transform: translate3d(0, -100%, 0);
-    transform: translate3d(0, -100%, 0);
-  }
-}
-@-webkit-keyframes shake {
-  from, to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  10%, 30%, 50%, 70%, 90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
-  }
-
-  20%, 40%, 60%, 80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
-  }
-}
-
-@keyframes shake {
-  from, to {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-  }
-
-  10%, 30%, 50%, 70%, 90% {
-    -webkit-transform: translate3d(-10px, 0, 0);
-    transform: translate3d(-10px, 0, 0);
-  }
-
-  20%, 40%, 60%, 80% {
-    -webkit-transform: translate3d(10px, 0, 0);
-    transform: translate3d(10px, 0, 0);
-  }
-}
-.modalBGAni-enter {
-  -webkit-animation: fadeIn .2s;
-  animation: fadeIn .2s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.modalBGAni-leave {
-  -webkit-animation: fadeOut 1s;
-  animation: fadeOut 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.modalAni-enter {
-  -webkit-animation: bounceInUp .6s;
-  animation: bounceInUp .6s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.modalAni-leave {
-  -webkit-animation: slideOutUp .3s;
-  animation: slideOutUp .3s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.showAlert-enter {
-  -webkit-animation: shake .6s;
-  animation: shake .6s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.showAlert-leave {
-  -webkit-animation: fadeOut .3s;
-  animation: fadeOut .3s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-  </style>
-  <div id="indexPostOrder" v-cloak>
-    <div v-if="orderForm">
+<div id="indexPostOrder" v-cloak>
+<div v-if="orderForm">
   <div class="grid-warp aweek">
     <div class="grid header">
       <div class="col-4"><img src="/resource/img/indexImg/logo.svg"></div>
@@ -318,7 +116,7 @@
 </div>
 </div>
 <div class="footer">
-  <a href="javascript:;" class="submit" v-on="click:pay">预定</a>
+  <button href="javascript:;" class="submit" v-on="click:pay">预定</button>
   <a href="javascript:;" class="order" v-class="sel_menu:orderForm" v-on="click:tapOrder">
     <span><i class="iconfont">&#xe606;</i></span>
     下单
@@ -328,14 +126,14 @@
     图鉴
   </a>
   <div class="price">
-    <p>原价 ￥<span><strike>{{total}}</strike></span></p>
-    <p>折扣 ￥<span>{{total}}</span></p>
+    <p>原价 ￥<span><strike>{{cost | currency ' '}}</strike></span></p>
+    <p>折扣 ￥<span>{{total | currency ' '}}</span></p>
   </div>
 </div>
 
 <div class="alert" v-if="showAlert" v-transition="showAlert">
   <span><i class="iconfont">&#xe60a;</i></span>
-  <p>请选择收货地址</p>
+  <p>{{showAlertText}}</p>
 </div>
 
 <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
@@ -353,7 +151,7 @@
       </ul>
     </div>
     <div class="modal_footer">
-      <a href="javascript:;"><i class="iconfont">&#xe605;</i> 新建收货地址</a>
+      <a href="Home/address?back=Home"><i class="iconfont">&#xe605;</i> 新建收货地址</a>
     </div>
   </div>
 </div>
@@ -393,26 +191,33 @@
         addresslist: addresslistJson,
         calendar: calendarArr,
         total: 0,
+        cost: 0,
         chooseaddressinfo:$.isEmptyObject(addressCookie)?{}:addressCookie,
         orderForm:true,
         foodlist:false,
         isModalShow:false,
         isModalBGShow:false,
-        showAlert:false
+        showAlert:false,
+        showAlertText:'',
+        submitText:'预定',
+        submitState:false
       },
       computed:{
         totalCount:function(){
           this.total = 0;
+          this.cost = 0;
           var chooseProductJson = this.calendar;
           for (var k in chooseProductJson) {
             switch (chooseProductJson[k]['done']){
               case true:
                 this.total += chooseProductJson[k]['productInfo']['price'];
+                this.cost += chooseProductJson[k]['productInfo']['cost'];
                 break;
             }
           }
           if(this.everyDayNum<=0) this.everyDayNum = 1;
           this.total *= this.everyDayNum;
+          this.cost *= this.everyDayNum;
           return this.total;
         }
       },
@@ -422,7 +227,6 @@
         modalBGAni:function(){
         },
         showAlert:function(){
-
         }
       },
       filters: {
@@ -468,8 +272,8 @@
         },
         showAlertFn:function(str){
           var self = this;
+          this.showAlertText = str;
           this.showAlert=true;
-          $('.alert p').html(str);
           setTimeout(function(){
             self.showAlert = false;
           },1000);
@@ -490,7 +294,14 @@
             this.totalCount;
           }
         },
+        changeSubmitState:function(){
+          $(".submit").html("下单中...").attr("disabled",true);;
+        },
+        resetSubmitState:function(){
+          $(".submit").html("预定").attr("disabled",false);;
+        },
         pay: function() {
+          this.changeSubmitState();
           // var paybtn = $('.paybtn').button('loading');
           var chooseProductJson_res = [];
           var chooseProductJson = this.calendar;
@@ -508,28 +319,28 @@
             }
           }
           if (!chooseProductJson_res.length) {
-            this.showAlertFn('没有选择早餐 ☀️');
-            // paybtn.button('reset');
+            this.showAlertFn('没有选择早餐');
+            this.resetSubmitState();
             return false;
           }
           if (!this.expressTime) {
-            this.showAlertFn('还没有选择配送时间');
-            paybtn.button('reset');
+            this.showAlertFn('请选择配送时间');
+            this.resetSubmitState();
             return false;
           }
           if (!this.receiveWay) {
             this.showAlertFn('请选择接收方式');
-            paybtn.button('reset');
+            this.resetSubmitState();
             return false;
           }
           if ($.isEmptyObject(this.chooseaddressinfo)) {
             this.showAlertFn('请选择配送地址');
-            paybtn.button('reset');
+            this.resetSubmitState();
             return false;
           }
           if (this.everyDayNum < 1) {
             this.showAlertFn('每天至少一份早餐');
-            paybtn.button('reset');
+            this.resetSubmitState();
             return false;
           }
           $.ajax({

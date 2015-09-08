@@ -1,0 +1,25 @@
+.header_month{
+  color: $white;
+  border-left: 2px solid $white;
+  margin-top: 0.16rem;
+  margin-left: 0.3rem;
+  p{
+    font-size: $px22;
+    text-indent: 0.2rem;
+  }
+}
+.user{
+  width: 1rem;
+  height: 1rem;
+  display: block;
+  overflow: hidden;
+  @include border-radius(50%);
+  float: right;
+}
+.header{
+  padding-top: 0.5rem;
+}
+.aweek{
+  background: url('../img/indexImg/bg.jpg') no-repeat;
+  background-size: cover;
+}

@@ -1,0 +1,51 @@
+.addressForm{
+  div[class^="col-"]:first-child{
+    background: $white url(../img/indexImg/addresscolor.jpg) repeat-x;
+    padding: $px38 0;
+    margin-top: $px22;
+  }
+  label{
+    display: block;
+    width: 92%;
+    margin: 0 auto;
+  }
+  input, input[disabled]{
+    width: 92%;
+    border: 1px solid $border;
+    margin: 0.2rem auto;
+    text-indent: 0.2rem;
+    -webkit-user-select:none;
+  }
+  // input[disabled]{
+  //   @include background(linear-gradient(360deg,$graybf,$noneState));
+  // }
+  // input[disabled]:active{
+  //   @include background(linear-gradient(360deg,$noneState,$graybf));
+  // }
+  // input[disabled]::-webkit-input-placeholder { /* WebKit browsers */
+  //   color: #666;
+  //   text-shadow: 1px 1px 2px $white;
+  // }
+  // input[disabled]::-webkit-input-placeholder:active { /* WebKit browsers */
+  //   color: #333;
+  // }
+}
+.addressBtn{
+  display: block;
+  height: $px98;
+  background-color: $yellow;
+  text-align: center;
+  line-height: $px98;
+}
+.modal_header{
+  padding: 0.2rem 0 0 0;
+  input{
+    width: 99.7%;
+    text-indent: 0.2rem;
+  }
+  span{
+  position: absolute;
+  right: 0;
+  top:0;
+}
+}

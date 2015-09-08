@@ -1,0 +1,47 @@
+.modal{
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  top: 0;
+  // display: none;
+  .content{
+    width: 9.375rem;
+    // height: 10.75rem;
+    background-color: $white;
+    position: absolute;
+    left: 50%;
+    margin-left: -4.6875rem;
+    top: 0.5rem;
+    box-shadow: 0 0 0.2rem #666;
+  }
+  .modal_header{
+    width: 100%;
+    min-height: 1.375rem;
+    line-height: 1.375rem;
+    text-indent: 0.2rem;
+    border-bottom: 1px solid $border;
+    background: url('../img/indexImg/addresscolor.jpg') repeat-x;
+    font-size: $px32;
+    color: $gray5d;
+    span{
+      display: block;
+      float: right;
+      font-size: $px32;
+      width: 1rem;
+      line-height: 1.8rem;
+    }
+  }
+  .modal_content{
+    max-height: 10.75rem-1.375rem-1.53125rem;
+    overflow: auto;
+    -webkit-overflow-scrolling : touch;
+  }
+  .modal_footer{
+    height: 1.53125rem;
+    text-align: center;
+    a:active{
+      box-shadow:0 0 1rem #f68d47 inset;
+    }
+  }
+}

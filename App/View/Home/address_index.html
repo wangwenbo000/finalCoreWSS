@@ -2,17 +2,18 @@
 <script>
     var initData = <%- JSON.stringify(initData[0])%>;
 </script>
+<div id="form">
 <div class="grid-warp">
   <div class="grid addressForm">
     <form>
     <div class="col-12">
       <label for="username">联系人</label>
-      <input type="text" name="username" placeholder="你的姓名" id="username">
+      <input type="text" name="username" placeholder="你的姓名" id="username" v-model="initData.receiveuser">
       <label for="phone">联系电话</label>
-      <input type="text" name="phone" placeholder="你的手机号" id="phone">
+      <input type="tel" name="phone" placeholder="你的手机号" id="phone" v-model="initData.phonenum">
       <label for="addresskey">送餐地址</label>
-      <input type="text" name="addresskey" placeholder="小区/写字楼/学校等" id="addresskey" disabled>
-      <input type="text" name="address" placeholder="详细地址（如门牌号等）" id="address">
+      <input type="text" name="addresskey" placeholder="小区/写字楼/学校等" id="addresskey" v-on="click:showModal" v-model="initData.addressKey" readonly="true">
+      <input type="text" name="address" placeholder="详细地址（如门牌号等）" id="address" v-model="initData.address">
     </div>
     <div class="col-12">
       <a href="javascript:;" class="addressBtn">确定</a>
@@ -20,40 +21,25 @@
   </form>
   </div>
 </div>
-<div class="modal">
-  <div class="content">
+<div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
+  <div class="content" v-if="isModalShow" v-transition="modalAni">
     <div class="modal_header">
-      <input type="text" name="keySearch" placeholder="请输入地址关键字">
-      <span>&times;</span>
+      <input type="text" name="keySearch" placeholder="小区/写字楼/学校等地点关键字" v-on="input:getsuggest" v-model="suggestText">
+      <span v-on="click:hideModal">&times;</span>
     </div>
     <div class="modal_content">
       <ul>
-        <li>
-          <p><span>王文博</span><span> 15117909848</span></p>
-          <p><i class="iconfont">&#xe609;</i> 望京西园四区 424栋1906</p>
-        </li>
-        <li>
-          <p><span>王文博</span><span> 15117909848</span></p>
-          <p><i class="iconfont">&#xe609;</i> 望京西园四区 424栋1906</p>
-        </li>
-        <li>
-          <p><span>王文博</span><span> 15117909848</span></p>
-          <p><i class="iconfont">&#xe609;</i> 望京西园四区 启阳路中青大厦 泰安市嘉德现代城 424栋1906</p>
-        </li>
-        <li>
-          <p><span>王文博</span><span> 15117909848</span></p>
-          <p><i class="iconfont">&#xe609;</i> 望京西园四区 424栋1906</p>
-        </li>
-        <li>
-          <p><span>王文博</span><span> 15117909848</span></p>
-          <p><i class="iconfont">&#xe609;</i> 望京西园四区 424栋1906</p>
+        <li v-repeat="yuntu in suggest" v-on="click:addsuggess(yuntu)">
+          <p><span>{{yuntu._name}}</span></p>
+          <p><i class="iconfont">&#xe609;</i> {{yuntu._address}}</p>
         </li>
       </ul>
-    </div>
-    <div class="modal_footer">
-      <a href="javascript:;"><i class="iconfont">&#xe605;</i> 新建收货地址</a>
+      <div class="col-12 notice" v-show="!suggest.length">
+        <i class="iconfont">&#xe60f;</i> 未搜索到"{{suggestText}}"
+      </div>
     </div>
   </div>
+</div>
 </div>
 <div class="footerlogo"></div>
 <script>
@@ -63,9 +49,28 @@
       data: {
         initData:initData,
         suggestText:[],
-        suggest:[]
+        suggest:[],
+
+        isModalShow:false,
+        isModalBGShow:false,
+      },
+      transition:{
+        modalAni:function(){
+        },
+        modalBGAni:function(){
+        },
+        showAlert:function(){
+        }
       },
       methods:{
+        showModal:function(){
+          this.isModalShow = true;
+          this.isModalBGShow = true;
+        },
+        hideModal:function(){
+          this.isModalShow = false;
+          this.isModalBGShow = false;
+        },
           update:function(e){
               var updateInfo = this.initData;
               var re_phone = /^1\d{10}$/;
@@ -143,8 +148,8 @@
               });
           },
           addsuggess:function(yuntu){
-              $('#searchAddress').modal('hide');
-              this.initData['addressKey']=yuntu._name;
+            this.hideModal();
+            this.initData['addressKey']=yuntu._name;
           }
       }
     });

@@ -1,0 +1,135 @@
+// color
+$white:#fff;
+$notice:#fbfae9;
+$orange:#ff6700;
+$yellow:#ffc600;
+$border:#dbdbdb;
+$defalutWord:#404040;
+$gray5d:#5d5d5d;
+$graybf:#bfbfbf;
+$gray89:#898989;
+$noneState:#efefef;
+$cancel:#ef4141;
+$wxGreen:#2ea931;
+$buttonBlue:#bde4eb;
+
+.state33 {background: $yellow;}
+.state55 {background: $wxGreen;}
+.state10 {background: #5bc0de;}
+.state30 {background: #f0ad4e;}
+.state40 {background: $buttonBlue;}
+.state44 {background: #000066;}
+.state60 {background: #000066;}
+
+// font-size
+$px20:0.3125rem;
+$px22:0.34375rem;
+$px24:0.375rem;
+$px30:0.46875rem;
+$px32:0.5rem;
+$px38:0.59375rem;
+$px70:1.09375rem;
+$px98:1.53125rem;
+
+$selectYes:0.21875rem;
+$selectWeek:0.8875rem;
+$noticeIcon:0.5625rem;
+$noticeClose:0.5625rem;
+$numberBtn:0.78125rem;
+$footerIcon:0.6875rem;
+
+$selectBorderWidth:0.09375rem;
+
+a, a:hover{
+  color: $defalutWord;
+  text-decoration: none;
+}
+body, html{
+  background-color: #efefef;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-user-select:none;
+  color:$defalutWord;
+  line-height:1;
+}
+[v-cloak]{display: none}
+
+@include font-face("iconfont",
+  font-files(
+  'iconfont.eot',
+  'iconfont.woff',woff,
+  'iconfont.ttf',ttf,
+  'iconfont.svg',svg
+  )
+);
+// @font-face {
+//   font-family: 'iconfont';
+//   src: url('iconfont.eot');
+//   src: url('iconfont.eot' + '?#iefix') format('embedded-opentype'),
+//        url('iconfont.woff') format('woff'),
+//        url('iconfont.ttf') format('truetype'),
+//        url('iconfont.svg' + '#iconfont') format('svg');
+//   font-weight: normal;
+//   font-style: normal;
+// }
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-stroke-width: 0.2px;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-edit:before { content: "\e60c"; }
+.icon-roundcheckfill:before { content: "\e60d"; }
+.icon-roundcheck:before { content: "\e60e"; }
+.icon-search:before { content: "\e60f"; }
+.icon-discover:before { content: "\e600"; }
+.icon-delete:before { content: "\e610"; }
+.icon-discoverfill:before { content: "\e601"; }
+.icon-message:before { content: "\e611"; }
+.icon-peisongzhong:before { content: "\e60b"; }
+.icon-friendfavor:before { content: "\e612"; }
+.icon-service:before { content: "\e613"; }
+.icon-weixin:before { content: "\e614"; }
+.icon-creative:before { content: "\e602"; }
+.icon-jian:before { content: "\e603"; }
+.icon-xinxi:before { content: "\e60a"; }
+.icon-duihao:before { content: "\e607"; }
+.icon-food:before { content: "\e604"; }
+.icon-jia:before { content: "\e605"; }
+.icon-order:before { content: "\e606"; }
+.icon-location:before { content: "\e609"; }
+.icon-icon:before { content: "\e608"; }
+
+input{
+  -webkit-appearance: none;
+  display: block;
+  height: 1.40625rem-0.015625rem;
+  background-color: #fff;
+  border: 1px solid #fff;
+  @include border-radius(0);
+}
+div{
+  font-size: $px24;
+}
+.grid-warp{
+  width: 10rem;
+  margin: 0 auto;
+  position: relative;
+}
+
+// .grid-warp:nth-child(3),
+// .grid-warp:nth-child(4){
+//   margin-top: 0.21875rem;
+//   .grid [class^="col-"]{
+//     background: $white;
+//     line-height: 1.40625rem;
+//   }
+// }
+.oState{
+  display: block;
+  padding: 0.2rem;
+  font-size: $px22;
+  color: $white;
+  text-align: center;
+}

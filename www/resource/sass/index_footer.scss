@@ -1,0 +1,72 @@
+.footer{
+  width: 100%;
+  position: fixed;
+  background: $white;
+  height: 1.53125rem;
+  bottom: 0;
+  z-index: 10;
+  .submit,.goingOn,.goOrder,.addNewAddress{
+    height: 1.53125rem;
+    background-color: $yellow;
+    display: block;
+    width: 3.3125rem;
+    float: right;
+    text-align: center;
+    line-height: 1.53125rem;
+    color: $gray5d;
+    font-size: $px30;
+    -webkit-appearance: none;
+    border:none;
+    transition:background-color 2s;
+    -moz-transition:background-color 2s; /* Firefox 4 */
+    -webkit-transition:background-color 2s; /* Safari and Chrome */
+  }
+
+  .submit:active,.goOrder:active,.addNewAddress:active{
+    box-shadow:0 0 1rem #f68d47 inset;
+  }
+  .order, .menu{
+    float: right;
+    display: block;
+    width: 1.78125rem;
+    border-left: 1px solid $border;
+    text-align: center;
+    height: 100%;
+    font-size: $px20;
+    color: $gray5d;
+    span{
+      display: block;
+      font-size: $footerIcon;
+      line-height: 1rem;
+    }
+  }
+  .sel_menu{
+      color:$orange;
+  }
+  .price {
+    p{
+      text-indent: 0.22rem;
+      font-size: $px20;
+      span{
+        font-size: $px32;
+        font-weight: 200;
+      }
+    }
+    p:first-child{
+      margin-top: 0.24375rem;
+      span{
+        color: $graybf;
+      }
+    }
+    p:last-child{
+      color: $orange;
+    }
+  }
+}
+.footerlogo{
+  height: 0.65625rem;
+  margin-top: 0.3rem;
+  background: url('../img/indexImg/footerlogo.png') no-repeat center top;
+  background-size: 40%;
+  padding-bottom: 1.53125rem;
+}

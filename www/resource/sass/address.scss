@@ -1,0 +1,40 @@
+.footer{
+  .addNewAddress{
+    width: 100%;
+  }
+}
+.addresslist{
+  tbody>tr:first-child{
+    height: 0.2rem;
+  }
+  tbody>tr:nth-child(2)>td{
+    background: $white url(../img/indexImg/addresscolor.jpg) repeat-x;
+  }
+  tbody>tr:nth-child(2)>td>p:last-child{
+    font-size: $px22;
+    color: $gray89;
+    line-height: $px38;
+  }
+  tbody>tr:nth-child(3){
+    font-size: $px22;
+    color: $gray89;
+    text-align: center;
+    td:first-child{
+      width: 4rem;
+      text-align: left;
+    }
+  }
+}
+.emptyOrder{
+  text-align: center;
+  a{
+    display: block;
+    text-align: center;
+    width: 100%;
+    background-color: $buttonBlue;
+    color: $white;
+  }
+  a:active{
+    box-shadow:0 0 1rem #76c8d7 inset;
+  }
+}

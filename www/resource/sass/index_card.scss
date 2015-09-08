@@ -1,0 +1,91 @@
+.foodCard{
+  background-color: $white;
+  height: 7.3rem;
+  margin-top: 0.1rem;
+  position: relative;
+  img{
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+  }
+  h2,p{
+    width: 94%;
+    margin: 0.2rem auto 0 auto;
+  }
+  h2{
+    font-size: $px30;
+  }
+  p{
+    font-size: $px20;
+    color: $gray89;
+    line-height: $px24;
+    position: absolute;
+    top: 5.8rem;
+    left: 0.2rem;
+  }
+  span{
+    position: absolute;
+    top: 0.2rem;
+    left:0.2rem;
+    font-size: $px20;
+    padding: 0.1rem;
+    color: $white;
+    background: rgba(0, 0, 0, 0.8);
+    i{
+      font-size: $px38+0.2rem;
+      font-style: normal;
+      display: block;
+      font-weight: 200;
+      line-height: 1rem;
+    }
+  }
+  .triangle_select{
+    width: 0;
+    height: 0;
+    border-bottom: 0.5625rem solid #f4f4f4;
+    border-left: 0.5625rem solid transparent;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+  a{
+    display: block;
+    border: $selectBorderWidth solid $white;
+  }
+}
+.selectCard{
+  a{
+    display: block;
+    height: 97.43%;
+    border: $selectBorderWidth solid $orange;
+  }
+  .triangle_select{
+    border-bottom: 0.5625rem solid $orange;
+    border-left: 0.5625rem solid transparent;
+  }
+  .triangle_select:after{
+    font-family:"iconfont" !important;
+    font-style:normal;
+    -webkit-font-smoothing: antialiased;
+    -webkit-text-stroke-width: 0.2px;
+    -moz-osx-font-smoothing: grayscale;
+    content: "\e607";
+    color: $white;
+    position: absolute;
+    display: block;
+    right: 0.08rem;
+    top:  0.22rem;
+    font-size: $selectYes;
+  }
+}
+.cardEmpty{
+    a{
+      h2,p,span{
+        color: $graybf;
+      }
+      img{
+        -webkit-filter: grayscale(90%);
+        -moz-filter: grayscale(100%);
+      }
+    }
+}
