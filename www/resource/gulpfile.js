@@ -41,7 +41,7 @@ gulp.task('sass',function(){
   .pipe(gulp.dest('css/'));
 })
 
-gulp.task('cssConcat',function(){
+gulp.task('cssConcat',['sass'],function(){
   gulp.src(['css/index.css', 'css/animate.css'])
     .pipe(concat('index.min.css'))
     .pipe(minifyCSS())

@@ -1,19 +1,23 @@
 <%=include indexheader_index.html%>
+<script>
+    var orderlistinfoJSON = <%- JSON.stringify(orderlistinfo)%>;
+</script>
+<div id="orderlistinfo" v-cloak>
 <div class="grid-warp">
   <div class="grid">
-    <table class="col-12 orderInfo">
+    <table class="col-12 orderInfo" v-repeat="info">
       <tr class="orderState">
-        <td colspan="2"><h4>订单正在进行中 <i class="iconfont">&#xe60b;</i></h4></td>
+        <td colspan="2"><h4>{{state | state}} <i class="iconfont">&#xe60b;</i></h4></td>
         <td>
           <span>已完成</span>
-          ×1
+          ×{{foodCount-state}}
         </td>
         <td>
           <span>进行中</span>
-          ×2
+          ×{{foodCount-foodCount+state}}
         </td>
       </tr>
-      <tr class="orderBtn">
+      <tr class="orderBtn" v-show="isShowPay">
         <td colspan="4">
           <a href="javascript:;">取消订单<span>(次日自动取消)</span></a>
           <a href="javascript:;">完成支付</a>
@@ -22,63 +26,53 @@
       <tr class="orderAddress">
         <td colspan="4">
           <p>
-            <span>王文博 15117909848</span>
-            <span>早安盒子</span>
+            <span>{{receiveuser}} 15117909848</span>
+            <span>{{receiveWay}}</span>
           </p>
           <p>
             <span>中央美术学院 城市设计学院</span>
-            <span>7:00-7:30</span>
+            <span>{{expressTime}}</span>
           </p>
         </td>
       </tr>
       <tr class="orderNum">
         <td colspan="4">
-          <p><span>订单号：</span>20150822150553791</p>
+          <p><span>订单号：</span>{{orderid}}</p>
         </td>
       </tr>
       <tr class="orderPrice">
         <td>
           <span>配送费</span>
-          <span>￥0.00</span>
+          <span>{{expressprice | currency '¥'}}</span>
         </td>
         <td>
           <span>原价</span>
-          <span>￥180.00</span>
+          <span>{{pricetotal | currency '¥'}}</span>
         </td>
         <td colspan="2">
           <span>
             总价<br/>
             <i>(折扣后)</i>
           </span>
-          <span>￥180.00</span>
+          <span>{{pricetotal | currency '¥'}}</span>
         </td>
       </tr>
       <td colspan="4">
-        <p><span>下单时间：</span>2015-08-22</p>
+        <p><span>下单时间：</span>{{ordertime}}</p>
       </td>
     </table>
   </div>
 
   <div class="grid">
     <table class="col-12">
-      <tr class="orderList">
+      <tr class="orderList" v-repeat="list">
         <td>
-          <img src="img/food.jpg">
-          <h2>香柔芝士火腿三明治餐 </h2>
-          <p>2015-08-22 星期二</p>
+          <img v-attr="src:'/resource/img/food/'+foodimg">
+          <h2>{{productname}} </h2>
+          <p>{{time}}</p>
         </td>
         <td>
-          <span class="oState state33">代发货</span>
-        </td>
-      </tr>
-      <tr class="orderList">
-        <td>
-          <img src="img/food.jpg">
-          <h2>香柔芝士火腿三明治餐 </h2>
-          <p>2015-08-22 星期二</p>
-        </td>
-        <td>
-          <span class="oState state40">代发货</span>
+          <span class="oState state{{productstatenum}}">{{productstate}}</span>
         </td>
       </tr>
     </table>
@@ -90,7 +84,7 @@
           <a href="tel:01056140532"><i class="iconfont">&#xe613;</i> 联系客服</a>
         </td>
         <td>
-          <a href="javascript:;"><i class="iconfont">&#xe611;</i> 意见反馈</a>
+          <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe611;</i> 意见反馈</a>
         </td>
       </tr>
     </table>
@@ -98,16 +92,16 @@
 </div>
 <div class="footerlogo"></div>
 
-<div class="alert">
+<div class="alert" v-if="showAlert" v-transition="showAlert">
   <span><i class="iconfont">&#xe60a;</i></span>
   <p>谢谢！</p>
 </div>
 
-  <div class="modal">
-    <div class="content">
+  <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
+    <div class="content" v-if="isModalShow" v-transition="modalAni">
       <div class="modal_header">
         <i class="iconfont">&#xe612;</i> 您的意见对我们非常重要
-        <span>&times;</span>
+        <span v-on="click:hideModal">&times;</span>
       </div>
       <div class="modal_content">
         <textarea placeholder="这里请填写您的意见和建议" rows="12"></textarea>
@@ -117,14 +111,32 @@
       </div>
     </div>
   </div>
-
+</div>
 <script>
     var orderlistInfo = new Vue({
         el:'#orderlistinfo',
         data:{
             info:orderlistinfoJSON.orderdata,
             list:orderlistinfoJSON.listdata,
-            state:orderlistinfoJSON.orderdata[0].nowstate
+            state:orderlistinfoJSON.orderdata[0].nowstate,
+            foodCount:orderlistinfoJSON.listdata.length,
+
+            expressTime:orderlistinfoJSON.listdata[0].expresstime,
+            receiveWay:orderlistinfoJSON.listdata[0].receiveway,
+
+            isModalShow:false,
+            isModalBGShow:false,
+            showAlert:false,
+            showAlertText:'',
+            isShowPay:orderlistinfoJSON.listdata[0].productstatenum==10?true:false
+        },
+        transition:{
+          modalAni:function(){
+          },
+          modalBGAni:function(){
+          },
+          showAlert:function(){
+          }
         },
         filters:{
             state:function(value){
@@ -139,6 +151,24 @@
                         return "订单进行中";
                 }
             }
+        },
+        methods:{
+          showModal:function(){
+            this.isModalShow = true;
+            this.isModalBGShow = true;
+          },
+          hideModal:function(){
+            this.isModalShow = false;
+            this.isModalBGShow = false;
+          },
+          showAlertFn:function(str){
+            var self = this;
+            this.showAlertText = str;
+            this.showAlert=true;
+            setTimeout(function(){
+              self.showAlert = false;
+            },1000);
+          },
         }
     });
 </script>

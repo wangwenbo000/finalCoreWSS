@@ -2,24 +2,26 @@
 <script>
     var initData = <%- JSON.stringify(initData[0])%>;
 </script>
-<div id="form">
+<div id="form" v-cloak>
 <div class="grid-warp">
   <div class="grid addressForm">
-    <form>
     <div class="col-12">
       <label for="username">联系人</label>
-      <input type="text" name="username" placeholder="你的姓名" id="username" v-model="initData.receiveuser">
+      <input type="text" placeholder="你的姓名" id="username" v-model="initData.receiveuser">
       <label for="phone">联系电话</label>
-      <input type="tel" name="phone" placeholder="你的手机号" id="phone" v-model="initData.phonenum">
+      <input type="tel" placeholder="你的手机号" id="phone" v-model="initData.phonenum">
       <label for="addresskey">送餐地址</label>
-      <input type="text" name="addresskey" placeholder="小区/写字楼/学校等" id="addresskey" v-on="click:showModal" v-model="initData.addressKey" readonly="true">
-      <input type="text" name="address" placeholder="详细地址（如门牌号等）" id="address" v-model="initData.address">
+      <input type="text" placeholder="小区/写字楼/学校等" id="addresskey" v-on="click:showModal" v-model="initData.addressKey" readonly="true">
+      <input type="text" placeholder="详细地址（如门牌号等）" id="address" v-model="initData.address">
     </div>
     <div class="col-12">
-      <a href="javascript:;" class="addressBtn">确定</a>
+      <a href="javascript:;" class="addressBtn" v-on="click:update">确定</a>
     </div>
-  </form>
   </div>
+</div>
+<div class="alert" v-if="showAlert" v-transition="showAlert">
+  <span><i class="iconfont">&#xe60a;</i></span>
+  <p>{{showAlertText}}</p>
 </div>
 <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
   <div class="content" v-if="isModalShow" v-transition="modalAni">
@@ -53,6 +55,8 @@
 
         isModalShow:false,
         isModalBGShow:false,
+        showAlert:false,
+        showAlertText:'',
       },
       transition:{
         modalAni:function(){
@@ -71,39 +75,47 @@
           this.isModalShow = false;
           this.isModalBGShow = false;
         },
+        showAlertFn:function(str){
+          var self = this;
+          this.showAlertText = str;
+          this.showAlert=true;
+          setTimeout(function(){
+            self.showAlert = false;
+          },1000);
+        },
           update:function(e){
               var updateInfo = this.initData;
               var re_phone = /^1\d{10}$/;
               var re_str = /[@<>#\$%\^&\*]+/g;
 
-              var paybtn = $('#addnewaddress').button('loading');
+              // var paybtn = $('#addnewaddress').button('loading');
 
               for(var k in updateInfo){
                 if(updateInfo[k]=="" || updateInfo[k]==null){
                   switch(k){
                     case 'receiveuser':
-                      showFormErr('请填写收货人姓名');
+                      this.showAlertFn('请填写收货人姓名');
                       break;
                       case 'phonenum':
-                      showFormErr('请填写联系电话');
+                      this.showAlertFn('请填写联系电话');
                       break;
                       case 'address':
-                      showFormErr('请填写收货人地址');
+                      this.showAlertFn('请填写收货人地址');
                       break;
                       case 'addressKey':
-                      showFormErr('请填写收货人详细地址');
+                      this.showAlertFn('请填写收货人地址');
                       break;
                   }
-                  var paybtn = $('#addnewaddress').button('reset');
+                  // var paybtn = $('#addnewaddress').button('reset');
                   return false;
                 }
               }
                 if(!re_phone.test(updateInfo['phonenum'])){
-                  showFormErr('手机号码格式不正确');
+                  this.showAlertFn('手机号格式不正确');
                   return false;
                 }
                 if(re_str.test(updateInfo['receiveuser'])){
-                  showFormErr('用户名包含非法字符');
+                  this.showAlertFn('用户名含非法字符');
                   return false;
                 }
               var updateId = updateInfo.id;

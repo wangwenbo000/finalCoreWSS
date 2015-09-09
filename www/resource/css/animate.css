@@ -216,7 +216,7 @@
   0%   {background: #ffc600;}
   100% {background: #ff6700;}
 }
-.submit[disabled]{
+.submit[disabled], .addressBtn[disabled]{
   color: #fff;
   animation: myfirst 2s infinite alternate ease-out;
   -moz-animation: myfirst 2s infinite alternate ease-out;	/* Firefox */

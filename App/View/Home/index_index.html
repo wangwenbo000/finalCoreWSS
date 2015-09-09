@@ -44,7 +44,7 @@
         <i class="triangle_select"></i>
         <a href="javascript:;">{{{cal.days | repertoryIsEmpty}}}</a>
       </li>
-      <li class="col-3 chooseDay">
+      <li class="col-3 chooseDay" v-on="click:selectAll">
         <i class="triangle_select"></i>
         <a href="javascript:;"><i class="iconfont">&#xe600;</i></a>
         <span>预定一周</span>
@@ -167,7 +167,7 @@
         <i class="triangle_select"></i>
       </a>
     </li>
-    <li class="col-6 foodCard">
+    <li class="col-6 foodCard" v-on="click:selectAll">
       <a href="javascript:;">
         <img src="/resource/img/indexImg/20150810235737.jpg">
         <h2>香柔芝士火腿三明治餐</h2>
@@ -277,6 +277,16 @@
           setTimeout(function(){
             self.showAlert = false;
           },1000);
+        },
+        selectAll:function(){
+          for(var k in this.calendar){
+            if(this.calendar[k]['done']){
+              this.calendar[k]['done']=false;
+            }else{
+              this.calendar[k]['done']=true;
+            }
+          }
+          this.totalCount;
         },
         foodNumPriceCount: function(num){
           this.totalCount;

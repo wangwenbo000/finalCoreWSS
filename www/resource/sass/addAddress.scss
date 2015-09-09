@@ -9,12 +9,12 @@
     width: 92%;
     margin: 0 auto;
   }
-  input, input[disabled]{
+  input{
     width: 92%;
     border: 1px solid $border;
     margin: 0.2rem auto;
     text-indent: 0.2rem;
-    -webkit-user-select:none;
+    // -webkit-user-select:none;
   }
   // input[disabled]{
   //   @include background(linear-gradient(360deg,$graybf,$noneState));
@@ -36,6 +36,9 @@
   background-color: $yellow;
   text-align: center;
   line-height: $px98;
+}
+.addressBtn:active{
+  box-shadow:0 0 1rem #f68d47 inset;
 }
 .modal_header{
   padding: 0.2rem 0 0 0;

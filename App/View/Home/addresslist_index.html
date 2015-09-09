@@ -1,58 +1,92 @@
 <%=include indexheader_index.html%>
+<script>
+    var addresslistJSON =<%-JSON.stringify(addresslist)%>;
+    configWxJsapi();
+</script>
+<div id="addresslist">
 <div class="grid-warp">
     <div class="grid">
       <table class="col-12 addresslist">
-        <tbody>
+        <tbody v-repeat="list in list" v-on="click:deldata(list)" v-cloak>
           <tr></tr>
         <tr>
           <td colspan="3">
-            <p>王文博 15117909848</p>
-            <p>中央美术学院 设计大楼地下一层</p>
+            <p>{{list.receiveuser}} {{list.phonenum}}</p>
+            <p>{{list.addressKey}} {{list.address}}</p>
           </td>
         </tr>
         <tr>
-          <td><span><i class="iconfont">&#xe60e;</i></span> 设为默认</td>
-          <td><i class="iconfont">&#xe60c;</i> 编辑</td>
-          <td><i class="iconfont">&#xe610;</i> 删除</td>
+          <td><span><i class="iconfont">&#xe60e;</i></span> 使用{{list.usecount}}次</td>
+          <td><a href="address/index/id/{{list.id}}?back=addresslist"><i class="iconfont">&#xe60c;</i> 编辑</a></td>
+          <td><a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe610;</i> 删除</a></td>
         </tr>
       </tbody>
-
-      <tbody>
-        <tr></tr>
-      <tr>
-        <td colspan="3">
-          <p>王文博 15117909848</p>
-          <p>中央美术学院 设计大楼地下一层</p>
-        </td>
-      </tr>
-      <tr>
-        <td><span></span>设为默认</td>
-        <td>编辑</td>
-        <td>删除</td>
-      </tr>
-    </tbody>
       </table>
     </div>
   </div>
-  <div class="grid-warp emptyOrder">
-    <div class="grid">
-      <div class="col-12">
-        <i class="iconfont">&#xe612;</i> 您还没有地址:-(
-        <a href="javascript:;">现在去订餐</a>
+  <div class="grid" v-show="!list.length">
+    <div class="col-12 notice">
+      <i class="iconfont">&#xe612;</i> 您还没有地址:-(
+    </div>
+  </div>
+  <div class="modal deladdress" v-if="isModalBGShow" v-transition="modalBGAni">
+    <div class="content" v-if="isModalShow" v-transition="modalAni">
+      <div class="modal_content">
+        <div class="col-12 notice">
+          <i class="iconfont">&#xe610;</i> 确定删除地址记录？
+        </div>
+      </div>
+      <div class="modal_footer">
+        <a v-on="click:hideModal">取消</a>
+        <a v-on="click:del(list.index)">确定</a>
       </div>
     </div>
   </div>
-
+  <div class="alert" v-if="showAlert" v-transition="showAlert">
+    <span><i class="iconfont">&#xe60a;</i></span>
+    <p>{{showAlertText}}</p>
+  </div>
+</div>
   <div class="footerlogo"></div>
 
   <div class="footer">
-    <a href="javascript:;" class="addNewAddress"><i class="iconfont">&#xe605;</i>添加新地址</a>
+    <a href="/address?back=addresslist" class="addNewAddress"><i class="iconfont">&#xe605;</i>添加新地址</a>
   </div>
 <script>
     var addresslist = new Vue({
         el: '#addresslist',
-        data: {list: addresslistJSON},
+        data: {
+          list: addresslistJSON,
+          isModalShow:false,
+          isModalBGShow:false,
+          showAlert:false,
+          showAlertText:'',
+        },
+        transition:{
+          modalAni:function(){
+          },
+          modalBGAni:function(){
+          },
+          showAlert:function(){
+          }
+        },
         methods:{
+          showModal:function(){
+            this.isModalShow = true;
+            this.isModalBGShow = true;
+          },
+          hideModal:function(){
+            this.isModalShow = false;
+            this.isModalBGShow = false;
+          },
+          showAlertFn:function(str){
+            var self = this;
+            this.showAlertText = str;
+            this.showAlert=true;
+            setTimeout(function(){
+              self.showAlert = false;
+            },1000);
+          },
             deldata:function(data){
                 this.delindex = data;
             },
@@ -63,8 +97,8 @@
                     type:'POST',
                     data:{id:this.delindex.id},
                     success:function(data){
-                        $('#delAddress').modal('hide');
-                        showFormErr("地址删除成功");
+                        self.hideModal();
+                        self.showAlertFn("地址删除成功");
                         $.cookie('addId', null);
                         $.cookie('address', null);
                         $.cookie('addressKey',null);

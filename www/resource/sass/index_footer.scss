@@ -17,9 +17,6 @@
     font-size: $px30;
     -webkit-appearance: none;
     border:none;
-    transition:background-color 2s;
-    -moz-transition:background-color 2s; /* Firefox 4 */
-    -webkit-transition:background-color 2s; /* Safari and Chrome */
   }
 
   .submit:active,.goOrder:active,.addNewAddress:active{

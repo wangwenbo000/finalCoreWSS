@@ -390,11 +390,6 @@ div {
   font-size: 0.46875rem;
   -webkit-appearance: none;
   border: none;
-  transition: background-color 2s;
-  -moz-transition: background-color 2s;
-  /* Firefox 4 */
-  -webkit-transition: background-color 2s;
-  /* Safari and Chrome */
 }
 .footer .submit:active, .footer .goOrder:active, .footer .addNewAddress:active {
   box-shadow: 0 0 1rem #f68d47 inset;
@@ -690,7 +685,7 @@ table > tbody > tr > td {
   height: 2rem;
 }
 .orderAddress td {
-  background: url(../img/address.jpg) repeat-x;
+  background: url(../img/indexImg/address.jpg) repeat-x;
   background-size: auto 100%;
 }
 .orderAddress p {
@@ -721,7 +716,7 @@ table > tbody > tr > td {
   position: absolute;
   top: 0.28rem;
   left: 20px;
-  background: url(../img/tiao.png) repeat-x;
+  background: url(../img/indexImg/tiao.png) repeat-x;
   background-size: auto 100%;
   height: 0.3125rem;
 }
@@ -898,18 +893,12 @@ table > tbody > tr > td {
   text-align: left;
 }
 
-.emptyOrder {
-  text-align: center;
+.deladdress a {
+  width: 50%;
+  float: left;
 }
-.emptyOrder a {
-  display: block;
-  text-align: center;
-  width: 100%;
+.deladdress a:first-child {
   background-color: #bde4eb;
-  color: #fff;
-}
-.emptyOrder a:active {
-  box-shadow: 0 0 1rem #76c8d7 inset;
 }
 
 .addressForm div[class^="col-"]:first-child {
@@ -922,12 +911,11 @@ table > tbody > tr > td {
   width: 92%;
   margin: 0 auto;
 }
-.addressForm input, .addressForm input[disabled] {
+.addressForm input {
   width: 92%;
   border: 1px solid #dbdbdb;
   margin: 0.2rem auto;
   text-indent: 0.2rem;
-  -webkit-user-select: none;
 }
 
 .addressBtn {
@@ -936,6 +924,10 @@ table > tbody > tr > td {
   background-color: #ffc600;
   text-align: center;
   line-height: 1.53125rem;
+}
+
+.addressBtn:active {
+  box-shadow: 0 0 1rem #f68d47 inset;
 }
 
 .modal_header {

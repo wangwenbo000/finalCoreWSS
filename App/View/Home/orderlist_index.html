@@ -2,57 +2,64 @@
 <script>
     var orderlistJSON = <%- JSON.stringify(orderlist)%>;
 </script>
+<div id="Order" v-cloak>
 <div class="grid-warp">
-  <div class="grid">
-      <table class="col-12 orderlist">
-        <tbody>
+  <div class="grid" v-if="pshow">
+      <table class="col-12 orderlist" >
+        <tbody v-repeat='progress' >
           <tr></tr>
         <tr>
           <td>
-            <p>20150822150553791</p>
-            <p><span>下单时间：</span>2015-08-22</p>
+            <p>{{orderid}}</p>
+            <p><span>下单时间：</span>{{ordertime}}</p>
           </td>
           <td><span>待支付</span></td>
-          <td>查看</td>
-        </tr>
-      </tbody>
-      <tbody>
-        <tr></tr>
-        <tr>
-          <td>
-            <p>20150822150553791</p>
-            <p><span>下单时间：</span>2015-08-22</p>
-          </td>
-          <td><span>已支付</span></td>
-          <td><a href="javascript:;">查看</a></td>
+          <td><a href="/orderlistinfo/index/id/{{id}}">查看</a></td>
         </tr>
       </tbody>
       </table>
   </div>
-</div>
-<div class="grid-warp emptyOrder">
-  <div class="grid">
-    <div class="col-12">
-      <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
-      <a href="javascript:;">现在去订餐</a>
-    </div>
+  <div class="grid" v-if="cshow">
+      <table class="col-12 orderlist" >
+      <tbody v-repeat='complete' v-if="cshow">
+        <tr></tr>
+      <tr>
+        <td>
+          <p>{{orderid}}</p>
+          <p><span>下单时间：</span>{{ordertime}}</p>
+        </td>
+        <td><span>待支付</span></td>
+        <td><a href="/orderlistinfo/index/id/{{id}}">查看</a></td>
+      </tr>
+    </tbody>
+      </table>
   </div>
 </div>
-
+<div class="grid" v-show="!progress.length">
+  <div class="col-12 notice">
+    <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
+  </div>
+</div>
+<div class="grid" v-show="!complete.length">
+  <div class="col-12 notice">
+    <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
+  </div>
+</div>
 <div class="footerlogo"></div>
 
 <div class="footer">
-  <a href="javascript:;" class="goOrder">过往订单</a>
-  <a href="javascript:;" class="goingOn">进行中</a>
+  <a href="javascript:;" class="goOrder" v-on="click:showComplete">过往订单</a>
+  <a href="javascript:;" class="goingOn" v-on="click:showProgress">进行中</a>
 
-  <a href="javascript:;" class="order sel_menu">
+  <a href="/home" class="order">
     <span><i class="iconfont">&#xe606;</i></span>
     下单
   </a>
-  <a href="javascript:;" class="menu">
+  <a href="/addresslist" class="menu">
     <span><i class="iconfont">&#xe609;</i></span>
     地址
   </a>
+</div>
 </div>
 <script>
     var addresslist = new Vue({
@@ -63,7 +70,21 @@
             complete:orderlistJSON.complete,
             pc:orderlistJSON.progressCount,
             cc:orderlistJSON.cancelCount,
-            tc:orderlistJSON.completeCount
+            tc:orderlistJSON.completeCount,
+
+            pshow:true,
+            cshow:false
+        },
+        methods:{
+          showComplete:function(){
+            console.log("A");
+            this.cshow = false;
+            this.pshow = false;
+          },
+          showProgress:function(){
+            this.cshow = false;
+            this.pshow = true;
+          }
         }
     });
 </script>

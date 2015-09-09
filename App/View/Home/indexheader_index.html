@@ -40,12 +40,12 @@
       var s = document.getElementsByTagName("script")[0];
       s.parentNode.insertBefore(hm, s);
     })();
-    function showFormErr(value){
-      $('.alert').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
-      setTimeout(function(){
-        $('.formErr').css({'display':'none'}).html('');
-      },1200);
-    }
+    // function showFormErr(value){
+    //   $('.alert').css({'display':'block'}).html('<i class="glyphicon glyphicon-exclamation-sign"></i> '+value);
+    //   setTimeout(function(){
+    //     $('.formErr').css({'display':'none'}).html('');
+    //   },1200);
+    // }
     // 微信jsapi接入
     function configWxJsapi(){
       var url = window.location.href;
