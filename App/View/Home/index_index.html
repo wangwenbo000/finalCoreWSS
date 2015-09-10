@@ -200,7 +200,8 @@
         showAlert:false,
         showAlertText:'',
         submitText:'预定',
-        submitState:false
+        submitState:false,
+        isSelectAll:false,
       },
       computed:{
         totalCount:function(){
@@ -279,13 +280,16 @@
           },1000);
         },
         selectAll:function(){
-          for(var k in this.calendar){
-            if(this.calendar[k]['done']){
-              this.calendar[k]['done']=false;
-            }else{
+
+            if(this.isSelectAll){
+              for(var k in this.calendar){
               this.calendar[k]['done']=true;
-            }
-          }
+              this.isSelectAll=!this.isSelectAll;
+            }}else{
+              for(var k in this.calendar){
+              this.calendar[k]['done']=false;
+              this.isSelectAll=!this.isSelectAll;
+            }}
           this.totalCount;
         },
         foodNumPriceCount: function(num){

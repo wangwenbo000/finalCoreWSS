@@ -1,176 +1,216 @@
 <%=include indexheader_index.html%>
-<script>
+  <script>
     var orderlistinfoJSON = <%- JSON.stringify(orderlistinfo)%>;
-</script>
-<div id="orderlistinfo" v-cloak>
-<div class="grid-warp">
-  <div class="grid">
-    <table class="col-12 orderInfo" v-repeat="info">
-      <tr class="orderState">
-        <td colspan="2"><h4>{{state | state}} <i class="iconfont">&#xe60b;</i></h4></td>
-        <td>
-          <span>已完成</span>
-          ×{{foodCount-state}}
-        </td>
-        <td>
-          <span>进行中</span>
-          ×{{foodCount-foodCount+state}}
-        </td>
-      </tr>
-      <tr class="orderBtn" v-show="isShowPay">
-        <td colspan="4">
-          <a href="javascript:;">取消订单<span>(次日自动取消)</span></a>
-          <a href="javascript:;">完成支付</a>
-        </td>
-      </tr>
-      <tr class="orderAddress">
-        <td colspan="4">
-          <p>
-            <span>{{receiveuser}} 15117909848</span>
-            <span>{{receiveWay}}</span>
-          </p>
-          <p>
-            <span>中央美术学院 城市设计学院</span>
-            <span>{{expressTime}}</span>
-          </p>
-        </td>
-      </tr>
-      <tr class="orderNum">
-        <td colspan="4">
-          <p><span>订单号：</span>{{orderid}}</p>
-        </td>
-      </tr>
-      <tr class="orderPrice">
-        <td>
-          <span>配送费</span>
-          <span>{{expressprice | currency '¥'}}</span>
-        </td>
-        <td>
-          <span>原价</span>
-          <span>{{pricetotal | currency '¥'}}</span>
-        </td>
-        <td colspan="2">
-          <span>
-            总价<br/>
-            <i>(折扣后)</i>
-          </span>
-          <span>{{pricetotal | currency '¥'}}</span>
-        </td>
-      </tr>
-      <td colspan="4">
-        <p><span>下单时间：</span>{{ordertime}}</p>
-      </td>
-    </table>
-  </div>
-
-  <div class="grid">
-    <table class="col-12">
-      <tr class="orderList" v-repeat="list">
-        <td>
-          <img v-attr="src:'/resource/img/food/'+foodimg">
-          <h2>{{productname}} </h2>
-          <p>{{time}}</p>
-        </td>
-        <td>
-          <span class="oState state{{productstatenum}}">{{productstate}}</span>
-        </td>
-      </tr>
-    </table>
-  </div>
-  <div class="grid">
-    <table class="col-12">
-      <tr class="orderContact">
-        <td>
-          <a href="tel:01056140532"><i class="iconfont">&#xe613;</i> 联系客服</a>
-        </td>
-        <td>
-          <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe611;</i> 意见反馈</a>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
-<div class="footerlogo"></div>
-
-<div class="alert" v-if="showAlert" v-transition="showAlert">
-  <span><i class="iconfont">&#xe60a;</i></span>
-  <p>谢谢！</p>
-</div>
-
-  <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
-    <div class="content" v-if="isModalShow" v-transition="modalAni">
-      <div class="modal_header">
-        <i class="iconfont">&#xe612;</i> 您的意见对我们非常重要
-        <span v-on="click:hideModal">&times;</span>
+  </script>
+  <div id="orderlistinfo" v-cloak>
+    <div class="grid-warp">
+      <div class="grid">
+        <table class="col-12 orderInfo" v-repeat="info">
+          <tr class="orderState">
+            <td colspan="2">
+              <h4>{{state | state}} <i class="iconfont">&#xe60b;</i></h4>
+            </td>
+            <td>
+              <span>已完成</span>
+              ×{{foodCount-state}}
+            </td>
+            <td>
+              <span>进行中</span>
+              ×{{foodCount-foodCount+state}}
+            </td>
+          </tr>
+          <tr class="orderBtn" v-show="isShowPay">
+            <td colspan="4">
+              <a href="javascript:;" v-on="click:cancelOrder">取消订单<span>(次日自动取消)</span></a>
+              <a href="javascript:;">继续微信支付</a>
+            </td>
+          </tr>
+          <tr class="orderAddress">
+            <td colspan="4">
+              <p>
+                <span>{{receiveuser}} 15117909848</span>
+                <span>{{receiveWay}}</span>
+              </p>
+              <p>
+                <span>{{showAddressKey}} {{showExpressAddress}}</span>
+                <span>{{expressTime}}</span>
+              </p>
+            </td>
+          </tr>
+          <tr class="orderNum">
+            <td colspan="4">
+              <p>
+                <span>订单号：</span>{{orderid}}</p>
+            </td>
+          </tr>
+          <tr class="orderPrice">
+            <td>
+              <span>配送费</span>
+              <span>{{expressprice | currency '¥'}}</span>
+            </td>
+            <td>
+              <span>原价</span>
+              <span>{{costtotal | currency '¥'}}</span>
+            </td>
+            <td colspan="2">
+              <span>
+                总价
+                <br/>
+                <i>(折扣后)</i>
+              </span>
+              <span>{{pricetotal | currency '¥'}}</span>
+            </td>
+          </tr>
+          <td colspan="4">
+            <p>
+              <span>下单时间：</span>{{ordertime}}</p>
+          </td>
+        </table>
       </div>
-      <div class="modal_content">
-        <textarea placeholder="这里请填写您的意见和建议" rows="12"></textarea>
+
+      <div class="grid">
+        <table class="col-12">
+          <tr class="orderList" v-repeat="list">
+            <td>
+              <img v-attr="src:'/resource/img/food/'+foodimg">
+              <h2>{{productname}} </h2>
+              <p>{{time}}</p>
+            </td>
+            <td>
+              <span class="oState state{{productstatenum}}">{{productstate}}</span>
+            </td>
+          </tr>
+        </table>
       </div>
-      <div class="modal_footer">
-        <a href="javascript:;">我已经写好了！</a>
+      <div class="grid">
+        <table class="col-12">
+          <tr class="orderContact">
+            <td>
+              <a href="tel:01056140532"><i class="iconfont">&#xe613;</i> 联系客服</a>
+            </td>
+            <td>
+              <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe611;</i> 意见反馈</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="footerlogo"></div>
+
+    <div class="alert" v-if="showAlert" v-transition="showAlert">
+      <span><i class="iconfont">&#xe60a;</i></span>
+      <p>谢谢！</p>
+    </div>
+
+    <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
+      <div class="content" v-if="isModalShow" v-transition="modalAni">
+        <div class="modal_header">
+          <i class="iconfont">&#xe612;</i> 您的意见对我们非常重要
+          <span v-on="click:hideModal">&times;</span>
+        </div>
+        <div class="modal_content">
+          <textarea placeholder="这里请填写您的意见和建议" rows="12"></textarea>
+        </div>
+        <div class="modal_footer">
+          <a href="javascript:;">我已经写好了！</a>
+        </div>
+      </div>
+    </div>
+    <div class="modal deladdress" v-if="isModalBGShow_cancle" v-transition="modalBGAni">
+      <div class="content" v-if="isModalBGShow_cancle" v-transition="modalAni">
+        <div class="modal_content">
+          <div class="col-12 notice">
+            <i class="iconfont">&#xe610;</i> 确定取消该比订单？
+          </div>
+        </div>
+        <div class="modal_footer">
+          <a v-on="click:hideCancleModal">再想想</a>
+          <a v-on="click:cancelOrderFn">确定</a>
+        </div>
       </div>
     </div>
   </div>
-</div>
-<script>
+  <script>
     var orderlistInfo = new Vue({
-        el:'#orderlistinfo',
-        data:{
-            info:orderlistinfoJSON.orderdata,
-            list:orderlistinfoJSON.listdata,
-            state:orderlistinfoJSON.orderdata[0].nowstate,
-            foodCount:orderlistinfoJSON.listdata.length,
+      el: '#orderlistinfo',
+      data: {
+        info: orderlistinfoJSON.orderdata,
+        list: orderlistinfoJSON.listdata,
+        state: orderlistinfoJSON.orderdata[0].nowstate,
+        foodCount: orderlistinfoJSON.listdata.length,
 
-            expressTime:orderlistinfoJSON.listdata[0].expresstime,
-            receiveWay:orderlistinfoJSON.listdata[0].receiveway,
+        expressTime: orderlistinfoJSON.listdata[0].expresstime,
+        receiveWay: orderlistinfoJSON.listdata[0].receiveway,
+        showAddressKey:orderlistinfoJSON.listdata[0].addressKey,
+        showExpressAddress:orderlistinfoJSON.listdata[0].expressaddress,
 
-            isModalShow:false,
-            isModalBGShow:false,
-            showAlert:false,
-            showAlertText:'',
-            isShowPay:orderlistinfoJSON.listdata[0].productstatenum==10?true:false
-        },
-        transition:{
-          modalAni:function(){
-          },
-          modalBGAni:function(){
-          },
-          showAlert:function(){
+        isModalShow: false,
+        isModalBGShow: false,
+        isModalBGShow_cancle:false,
+        showAlert: false,
+        showAlertText: '',
+        isShowPay: orderlistinfoJSON.listdata[0].productstatenum == 10 ? true : false
+      },
+      transition: {
+        modalAni: function() {},
+        modalBGAni: function() {},
+        showAlert: function() {}
+      },
+      filters: {
+        state: function(value) {
+          switch (value) {
+            case -1:
+              return "订单已取消";
+              break;
+            case 0:
+              return "已完成订单";
+              break;
+            default:
+              return "订单进行中";
           }
-        },
-        filters:{
-            state:function(value){
-                switch (value){
-                    case -1:
-                        return "取消订单订单";
-                    break;
-                    case 0:
-                        return "已完成订单";
-                    break;
-                    default :
-                        return "订单进行中";
-                }
-            }
-        },
-        methods:{
-          showModal:function(){
-            this.isModalShow = true;
-            this.isModalBGShow = true;
-          },
-          hideModal:function(){
-            this.isModalShow = false;
-            this.isModalBGShow = false;
-          },
-          showAlertFn:function(str){
-            var self = this;
-            this.showAlertText = str;
-            this.showAlert=true;
-            setTimeout(function(){
-              self.showAlert = false;
-            },1000);
-          },
         }
+      },
+      methods: {
+        showModal: function() {
+          this.isModalShow = true;
+          this.isModalBGShow = true;
+        },
+        showCancleModal: function() {
+          this.isModalBGShow_cancle = true;
+        },
+        hideCancleModal:function(){
+          this.isModalBGShow_cancle = false;
+        },
+        hideModal: function() {
+          this.isModalShow = false;
+          this.isModalBGShow = false;
+        },
+        showAlertFn: function(str) {
+          var self = this;
+          this.showAlertText = str;
+          this.showAlert = true;
+          setTimeout(function() {
+            self.showAlert = false;
+          }, 1000);
+        },
+        cancelOrderFn:function(){
+          var self = this;
+          $.ajax({
+            url: '/orderlistinfo/cancelorder',
+            type: 'POST',
+            data: {id:212},
+            success: function(data) {
+              self.hideCancleModal();
+              console.log('取消成功');
+            }
+          });
+        },
+        cancelOrder: function() {
+          this.isModalBGShow_cancle = true;
+        }
+      }
     });
-</script>
-</body>
-</html>
+  </script>
+  </body>
+
+  </html>

@@ -694,9 +694,6 @@ table > tbody > tr > td {
 .orderAddress p span {
   color: #582c0b;
 }
-.orderAddress p > span:first-child {
-  float: left;
-}
 .orderAddress p > span:last-child {
   float: right;
   font-size: 0.375rem;
@@ -725,6 +722,8 @@ table > tbody > tr > td {
   width: 6rem;
 }
 .orderPrice td > span:last-child {
+  display: block;
+  padding-top: 0.1rem;
   color: #582c0b;
 }
 .orderPrice td:last-child > span:last-child {
@@ -742,6 +741,7 @@ table > tbody > tr > td {
   position: absolute;
   width: 1.09375rem;
   height: 1.09375rem;
+  margin-top: -0.17rem;
   overflow: hidden;
   border-radius: 50%;
 }

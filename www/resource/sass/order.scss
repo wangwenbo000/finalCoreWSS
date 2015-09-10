@@ -38,9 +38,9 @@ table>tbody>tr>td{
       color: #582c0b;
     }
   }
-  p>span:first-child{
-    float: left;
-  }
+  // p>span:first-child{
+  //   float: left;
+  // }
   p>span:last-child{
     float: right;
     font-size: $px24;
@@ -68,6 +68,8 @@ table>tbody>tr>td{
     width: 6rem;
   }
   td>span:last-child{
+    display: block;
+    padding-top: 0.1rem;
     color: #582c0b;
   }
   td:last-child>span:last-child{
@@ -86,6 +88,7 @@ table>tbody>tr>td{
     position: absolute;
     width: $px70;
     height: $px70;
+    margin-top: -0.17rem;
     overflow: hidden;
     border-radius: 50%;
   }
