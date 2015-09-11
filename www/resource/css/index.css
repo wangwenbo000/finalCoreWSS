@@ -23,7 +23,7 @@
 }
 
 .state60 {
-  background: #000066;
+  background: #efefef;
 }
 
 a, a:hover {
@@ -459,8 +459,8 @@ div {
 .modal_content ul li:nth-child(2n) {
   background-color: #fafafa;
 }
-.modal_content ul li:first-child:before {
-  content: "Usually";
+.modal_content ul li[name=usuallyAddress]:first-child:before {
+  content: "USE MOST";
   color: #fff;
   display: block;
   position: absolute;
@@ -877,6 +877,19 @@ table > tbody > tr > td {
 }
 .addresslist tbody > tr:nth-child(2) > td {
   background: #fff url(../img/indexImg/addresscolor.jpg) repeat-x;
+  position: relative;
+}
+.addresslist tbody:first-child > tr:nth-child(2) > td:before {
+  content: "USE MOST";
+  color: #fff;
+  display: block;
+  position: absolute;
+  font-size: 0.3125rem;
+  padding: 0 0.2rem;
+  top: 0.2rem;
+  right: 0.2rem;
+  border-radius: 50px;
+  background-color: #ffc600;
 }
 .addresslist tbody > tr:nth-child(2) > td > p:last-child {
   font-size: 0.34375rem;

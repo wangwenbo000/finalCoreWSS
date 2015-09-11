@@ -22,7 +22,7 @@ module.exports = Model(function(){
                     json.cancel = data.data;
                 });
             }).then(function(){
-                return D('Order').where({userid:id,nowstate:0}).order('id DESC').countSelect().then(function(data){
+                return D('Order').where({userid:id,nowstate:['<=',0]}).order('id DESC').countSelect().then(function(data){
                     formatTime(data.data,'YYYY-MM-DD','ordertime');
                     if(data.count==0){
                         json.completeCount='';

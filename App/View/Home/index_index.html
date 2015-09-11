@@ -50,10 +50,10 @@
         <span>预定一周</span>
       </li>
     </ul>
-    <div class="grid">
+    <div class="grid" v-if="showNotice">
       <div class="col-12 notice">
         <i class="iconfont">&#xe602;</i> 每天22:00前可预订明日早餐
-        <span>&times;</span>
+        <!-- <span v-on="click:hideNotice">&times;</span> -->
       </div>
     </div>
   </div>
@@ -144,7 +144,7 @@
     </div>
     <div class="modal_content">
       <ul>
-        <li v-repeat="al in addresslist" data-index={{$index}} v-on="click:chooseAddress(al)">
+        <li v-repeat="al in addresslist | orderBy 'usecount' -1" v-on="click:chooseAddress(al)" name="usuallyAddress">
           <p><span>{{al.receiveuser}}</span><span> {{al.phonenum}}</span></p>
           <p><i class="iconfont">&#xe609;</i>{{al.addressKey}} {{al.address}}</p>
         </li>
@@ -199,6 +199,7 @@
         isModalBGShow:false,
         showAlert:false,
         showAlertText:'',
+        showNotice:true,
         submitText:'预定',
         submitState:false,
         isSelectAll:false,
@@ -271,6 +272,10 @@
           this.isModalShow = false;
           this.isModalBGShow = false;
         },
+        hideNotice:function(){
+          this.showNotice=false;
+          console.log("a");
+        },
         showAlertFn:function(str){
           var self = this;
           this.showAlertText = str;
@@ -326,6 +331,7 @@
                   productName:chooseProductJson[k].productInfo['productName'],
                   time:chooseProductJson[k]['date'],
                   singleprice:chooseProductJson[k].productInfo['price'],
+                  costprice:chooseProductJson[k].productInfo['cost'],
                   days:chooseProductJson[k].productInfo['days'],
                   foodimg:chooseProductJson[k].productInfo['foodimg']
                 });

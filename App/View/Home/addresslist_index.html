@@ -3,11 +3,11 @@
     var addresslistJSON =<%-JSON.stringify(addresslist)%>;
     configWxJsapi();
 </script>
-<div id="addresslist">
+<div id="addresslist" v-cloak>
 <div class="grid-warp">
     <div class="grid">
       <table class="col-12 addresslist">
-        <tbody v-repeat="list in list" v-on="click:deldata(list)" v-cloak>
+        <tbody v-repeat="list in list | orderBy 'usecount' -1" v-on="click:deldata(list)" v-cloak>
           <tr></tr>
         <tr>
           <td colspan="3">

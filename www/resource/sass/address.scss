@@ -9,6 +9,19 @@
   }
   tbody>tr:nth-child(2)>td{
     background: $white url(../img/indexImg/addresscolor.jpg) repeat-x;
+    position: relative;
+  }
+  tbody:first-child>tr:nth-child(2)>td:before{
+    content: "USE MOST";
+    color: $white;
+    display: block;
+    position: absolute;
+    font-size: $px20;
+    padding: 0 0.2rem;
+    top: 0.2rem;
+    right: 0.2rem;
+    border-radius: 50px;
+    background-color: $yellow;
   }
   tbody>tr:nth-child(2)>td>p:last-child{
     font-size: $px22;

@@ -17,7 +17,7 @@ module.exports = Controller("Admin/BaseController", function(){
           var getWxMsg = this.http.payload;
           JSON.stringify(getWxMsg);
           var json = null;
-          
+
           xml2JSON.parseString(getWxMsg,function (err,result){
             json = result.xml;
           });
@@ -142,6 +142,9 @@ module.exports = Controller("Admin/BaseController", function(){
             if(requestResult.result_code==="SUCCESS"&&requestResult.result_code==="SUCCESS"){
               var changeOrderState = yield D('Orderproductcopy').where({orderid:requestResult.attach}).update({
                 productstate:"30"
+              })
+              var changePayState = yield D('Order').where({id:requestResult.attach}).update({
+                paystate:1
               })
             }
             if(isEmpty(isSave)){

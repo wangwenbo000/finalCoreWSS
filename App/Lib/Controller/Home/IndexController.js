@@ -101,8 +101,10 @@ module.exports = Controller("Home/BaseController", function(){
 
 
       var total = 0;
+      var cost = 0;
       for(var k in chooseFoodList){
         total+=chooseFoodList[k]['singleprice'];
+        cost+=chooseFoodList[k]['costprice'];
       }
 
         return D('Order').add({
@@ -112,6 +114,7 @@ module.exports = Controller("Home/BaseController", function(){
           address:getAddressinfo['address'],
           addressKey:getAddressinfo['addressKey'],
           pricetotal:total*getPnum,
+          costtotal:cost*getPnum,
           orderfrom:1,
           userid:getUserId,
           nowstate:chooseFoodList.length
@@ -123,6 +126,7 @@ module.exports = Controller("Home/BaseController", function(){
             chooseFoodList[k]['addressKey']=getAddressinfo['addressKey'];
             chooseFoodList[k]['orderid']=rowId;
             chooseFoodList[k]['productprice']=chooseFoodList[k]['singleprice']*getPnum;
+            chooseFoodList[k]['costprice']=chooseFoodList[k]['costprice']*getPnum;
             chooseFoodList[k]['productnum']=getPnum;
             chooseFoodList[k]['expressprice']=0;
             chooseFoodList[k]['productstate']=10;
@@ -137,13 +141,15 @@ module.exports = Controller("Home/BaseController", function(){
         }).then(function(data){
           var orderRowId = data;
           return D('Orderproductcopy').addAll(chooseFoodList).then(function(){
-            self.success({
-              ordernum:ordernum,
-              productprice:total*getPnum,
-              orderid:orderRowId
+            D('Addresslist').where({id: getAddressinfo['id']}).updateInc('usecount').then(function(){
+              self.success({
+                ordernum:ordernum,
+                productprice:total*getPnum,
+                orderid:orderRowId
+              });
             });
-          })
-        })
+          });
+        });
     },
     _404Action: function(){
       this.status(404); //发送404状态码

@@ -19,8 +19,8 @@
     li:nth-child(2n){
       background-color: #fafafa;
     }
-    li:first-child:before{
-      content: "Usually";
+    li[name=usuallyAddress]:first-child:before{
+      content: "USE MOST";
       color: $white;
       display: block;
       position: absolute;

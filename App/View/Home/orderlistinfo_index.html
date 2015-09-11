@@ -74,7 +74,7 @@
             <td>
               <img v-attr="src:'/resource/img/food/'+foodimg">
               <h2>{{productname}} </h2>
-              <p>{{time}}</p>
+              <p>配送日期：{{time}}</p>
             </td>
             <td>
               <span class="oState state{{productstatenum}}">{{productstate}}</span>
@@ -117,7 +117,7 @@
       </div>
     </div>
     <div class="modal deladdress" v-if="isModalBGShow_cancle" v-transition="modalBGAni">
-      <div class="content" v-if="isModalBGShow_cancle" v-transition="modalAni">
+      <div class="content" v-if="isModalShow_cancle" v-transition="modalAni">
         <div class="modal_content">
           <div class="col-12 notice">
             <i class="iconfont">&#xe610;</i> 确定取消该比订单？
@@ -146,6 +146,7 @@
 
         isModalShow: false,
         isModalBGShow: false,
+        isModalShow_cancle:false,
         isModalBGShow_cancle:false,
         showAlert: false,
         showAlertText: '',
@@ -175,15 +176,17 @@
           this.isModalShow = true;
           this.isModalBGShow = true;
         },
-        showCancleModal: function() {
-          this.isModalBGShow_cancle = true;
-        },
-        hideCancleModal:function(){
-          this.isModalBGShow_cancle = false;
-        },
         hideModal: function() {
           this.isModalShow = false;
           this.isModalBGShow = false;
+        },
+        cancelOrder: function() {
+          this.isModalBGShow_cancle = true;
+          this.isModalShow_cancle = true;
+        },
+        hideCancleModal:function(){
+          this.isModalBGShow_cancle = false;
+          this.isModalShow_cancle = false;
         },
         showAlertFn: function(str) {
           var self = this;
@@ -198,16 +201,19 @@
           $.ajax({
             url: '/orderlistinfo/cancelorder',
             type: 'POST',
-            data: {id:212},
+            data: {id:this.info[0].id},
             success: function(data) {
               self.hideCancleModal();
-              console.log('取消成功');
+              for(var k in self.list){
+                self.list[k].productstate='已取消';
+                self.list[k].productstatenum = "60";
+                self.list.$set(k, self.list[k]);
+              }
+              self.isShowPay = false;
+              self.showAlertFn("订单取消成功");
             }
           });
         },
-        cancelOrder: function() {
-          this.isModalBGShow_cancle = true;
-        }
       }
     });
   </script>
