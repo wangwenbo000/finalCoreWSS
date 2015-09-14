@@ -109,10 +109,9 @@
           <span v-on="click:hideModal">&times;</span>
         </div>
         <div class="modal_content">
-          <textarea placeholder="这里请填写您的意见和建议" rows="12"></textarea>
-        </div>
-        <div class="modal_footer">
-          <a href="javascript:;">我已经写好了！</a>
+          <div class="col-12 notice">
+            请在微信公众号内回复您的建议
+          </div>
         </div>
       </div>
     </div>
@@ -120,7 +119,7 @@
       <div class="content" v-if="isModalShow_cancle" v-transition="modalAni">
         <div class="modal_content">
           <div class="col-12 notice">
-            <i class="iconfont">&#xe610;</i> 确定取消该比订单？
+            <i class="iconfont">&#xe610;</i> 确定取消该笔订单？
           </div>
         </div>
         <div class="modal_footer">
@@ -233,10 +232,10 @@
                     signType: 'MD5',
                     paySign: callWxPayJson.paySign,
                     success:function(res) {
-                      window.location.href = "Home/paysuccess";
+                      window.location.href = "Home/paysuccess?price="+orderRequest.productprice;
                     },
                     cancel: function (res) {
-                      window.location.href = "Home/payfail";
+                      window.location.href = "Home/payfail?price="+orderRequest.productprice+"&orderid="+orderRequest.orderid+"&ordernum="+orderRequest.ordernum;
                     }
                   });
                 }
