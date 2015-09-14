@@ -6,14 +6,14 @@
     }
 
     .affix {
-      top: 50px;
+      top: 51px;
       background: #fff;
       margin-top: 0;
       height: 46px;
       padding: 5px 20px;
       z-index: 1040;
       border-bottom: 2px #008eb7 solid;
-      left: 68px;
+      left: 58px;
       right: 0;
     }
 
@@ -128,7 +128,7 @@
       </select>
     </div>
     <div class="col-xs-1">
-      <button type="button" class="btn btn-primary btn-block" v-on="click:allocation"><i class="glyphicon glyphicon-pushpin"></i> 分配配送员</button>
+      <button type="button" class="btn btn-primary btn-block" v-on="click:allocation">分配配送员</button>
     </div>
     <div class="col-xs-2">
       <div class="btn-group" role="group">
@@ -203,18 +203,20 @@
             </button>
             <ul class="dropdown-menu" role="menu">
               <li>
-                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{o.id}}" data-orderid="{{o.ordernum}}" data-select="{{o.orderid}}" class="orderAttachment"> 依附关系</a>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{o.id}}" data-orderid="{{o.ordernum}}" data-select="{{o.orderid}}" class="orderInfo"> 订单详情</a>
               </li>
               <li>
-                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{o.id}}" data-orderid="{{o.ordernum}}" data-select="{{o.orderid}}" class="orderInfo"> 订单详情</a>
+                <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{o.id}}" data-orderid="{{o.ordernum}}" data-select="{{o.orderid}}" class="orderAttachment"> 依附关系</a>
               </li>
               <li>
                 <a href="#" data-toggle="modal" data-target=".bs-example-modal-lg" data-id="{{o.id}}" data-orderid="{{o.ordernum}}" data-select="{{o.orderid}}" class="orderpayinfo"> 支付信息</a>
               </li>
               <li class="divider"></li>
               <li><a href="#" data-toggle="modal" data-target="#checkmodal" v-on="click:changeOrderStateAction('pay',o,$index)"> 确认支付</a></li>
-              <li><a href="#" data-toggle="modal" data-target="#checkmodal" v-on="click:changeOrderStateAction('complete',o)"> 订单完成</a></li>
-              <li><a href="#" data-toggle="modal" data-target="#checkmodal" v-on="click:changeOrderStateAction('cancel',o)"> 取消订单</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#checkmodal" v-on="click:changeOrderStateAction('complete',o,$index)"> 订单完成</a></li>
+              <li><a href="#" data-toggle="modal" data-target="#checkmodal" v-on="click:changeOrderStateAction('cancel',o,$index)"> 取消订单</a></li>
+              <li class="divider"></li>
+              <li><a href="#"> 代金劵</a></li>
               <li class="divider"></li>
               <li><a href="#"> 退款</a></li>
             </ul>
@@ -311,31 +313,6 @@
                     </tr>
                   </tbody>
                 </table>
-                <h3 class="page-header">订单配送纪录</h3>
-                <!-- <dl class="dl-horizontal page-header">
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>商家已经确认早餐准备分配 您的早餐正在爱心制作 ❤️</dd>
-                                <div class="divider"></div>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>已经为你分配早餐 配送员<strong> 张师傅 </strong></dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>配送员<strong> 张师傅 </strong>已经查看了您的订单准备配送</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>配送员<strong> 张师傅 </strong>已经出发，请保持通信畅通 联系电话：1383838438</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd class="text-danger">配送员没有与您联系上，早餐被退回,请联系配送员或致电：1338888888</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>您已签收订单，祝您一天有个好心情。欢迎反馈您的<a href="javascripy:;" >意见和建议</a></dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>您已提交退款申请，退款理由：</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>退款申请已被受理，请耐心等待，我们将尽快为您办理退款</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>商家已确定为您办理退款，款项将在XXX内退回到您的账户请注意查收</dd>
-                                <dt>2015-05-10T16:00:00.000Z</dt>
-                                <dd>数据库维护，您的订单已过期，无法进行操作</dd>
-                            </dl> -->
-                <button type="button" class="btn btn-danger btn-block btn-lg" data-dismiss="modal" data-toggle="modal" data-target="#checkmodal">取消订单</button>
               </div>
               <div role="tabpanel" class="tab-pane" id="attachmentinfo">
                 <br>

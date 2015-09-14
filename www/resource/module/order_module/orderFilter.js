@@ -15,32 +15,40 @@
     },
     methods:{
       changeOrderStateAction:function(state,order,index){
+        var self = this;
         $('#checkmodal').on('show.bs.modal', function (e) {
-          this.orderStateActionJson={state:state,order:order,index:index};
+          self.orderStateActionJson={state:state,order:order,index:index};
         });
       },
       doOrderStateAction:function(){
-        console.log(this.orderStateActionJson.state);
         switch (this.orderStateActionJson.state) {
           case 'pay':
-          $.ajax({
-            url:'Admin/order/changeOrderStatePay',
-            type:'POST',
-            data:{id:this.orderStateAction.order.id},
-            success:function(){
-              console.log(this.orderStateAction.index);
-            }
-          });
+          this.changeStateFn('changeOrderStatePay','待支付','30');
             break;
           case 'complete':
-
+          this.changeStateFn('changeOrderStateComplete','已成功','55');
             break;
           case 'cancel':
-
+          this.changeStateFn('changeOrderStateCancel','已取消','60');
             break;
           default:
-
         }
+      },
+      changeStateFn:function(url,statetxt,statenum){
+        console.log(url,statetxt,statenum);
+        $.ajax({
+          url:'/Admin/Order/'+url,
+          type:'POST',
+          data:{id:this.orderStateActionJson.order.orderid},
+          success:function(){
+            $('#checkmodal').modal('hide');
+            var index = orderList.orderStateActionJson.index;
+            console.log(url,statetxt,statenum,index);
+            orderList.order[index].productstatenum = statenum;
+            orderList.order[index].productstate = statetxt;
+            orderList.order.$set(index, orderList.order[index]);
+          }
+        });
       }
     },
     filters:{

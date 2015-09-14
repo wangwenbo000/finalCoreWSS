@@ -8,12 +8,12 @@ var minifyCSS = require('gulp-minify-css');
 var concat = require('gulp-concat');
 
 gulp.task('default', function() {
-  gulp.src('module/order_module/order.js')
-    .pipe(webpack())
-    .pipe(rename('order.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('dist/'));
-  // 
+      gulp.src('module/order_module/order.js')
+      .pipe(webpack())
+      .pipe(rename('order.min.js'))
+      .pipe(uglify())
+      .pipe(gulp.dest('dist/'))
+  //
   // gulp.src('module/product_module/product.js')
   //   .pipe(webpack())
   //   .pipe(rename('product.min.js'))

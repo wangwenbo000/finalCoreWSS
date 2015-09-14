@@ -144,20 +144,37 @@ module.exports = Controller("Admin/BaseController", function(){
           formatTime(getPayInfoById, 'llll', 'time_end');
           return this.end(getPayInfoById);
         }),
-        changeOrderStatePay:Q.async(function* (){
+        changeOrderStatePayAction:Q.async(function* (){
           var getId = this.post('id');
           yield D('Orderproductcopy').where({orderid:getId}).update({
-            productstate:30
+            productstate:'30'
           });
           yield D('Order').where({id:getId}).update({
-            paystate:1,
+            paystate:'1',
           });
+          this.success();
         }),
-        changeOrderStateComplete:Q.async(function* (){
-
+        changeOrderStateCompleteAction:Q.async(function* (){
+          var getId = this.post('id');
+          yield D('Orderproductcopy').where({orderid:getId}).update({
+            productstate:'55'
+          });
+          yield D('Order').where({id:getId}).update({
+            paystate:'1',
+          });
+          yield D('Order').where({id: getId}).updateDec('nowstate');
+          this.success();
         }),
-        changeOrderStateCancel:Q.async(function* (){
-
+        changeOrderStateCancelAction:Q.async(function* (){
+          var getId = this.post('id');
+          yield D('Orderproductcopy').where({orderid:getId}).update({
+            productstate:'60'
+          });
+          yield D('Order').where({id:getId}).update({
+            paystate:'1',
+            nowstate:'0'
+          });
+          this.success();
         }),
     };
 });
