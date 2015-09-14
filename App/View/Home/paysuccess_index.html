@@ -16,6 +16,7 @@
 </html>
 <script>
 configWxJsapi();
+postModalMeg();
 
 function configWxJsapi() {
   var url = window.location.href;
@@ -37,5 +38,16 @@ function configWxJsapi() {
       });
     }
   });
+}
+
+function postModalMeg(OPENID){
+  $.ajax({
+    url:'paysuccess/postwxmsg',
+    type:'POST',
+    data:{price:getQueryString('price')},
+    success:function(){
+
+    }
+  })
 }
 </script>

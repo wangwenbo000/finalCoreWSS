@@ -13,6 +13,7 @@
 </html>
 <script>
 configWxJsapi();
+postModalMeg();
 
 function configWxJsapi() {
   var url = window.location.href;
@@ -34,5 +35,15 @@ function configWxJsapi() {
       });
     }
   });
+}
+function postModalMeg(OPENID){
+  $.ajax({
+    url:'payfail/postwxmsg',
+    type:'POST',
+    data:{price:getQueryString('price'),orderid:getQueryString('orderid'),ordernum:getQueryString('ordernum')},
+    success:function(){
+
+    }
+  })
 }
 </script>

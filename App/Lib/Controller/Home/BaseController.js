@@ -29,6 +29,8 @@ module.exports = Controller(function(){
       var access_token = yield S('access_token');
       var jsapi_ticket = yield S('jsapi_ticket');
 
+      // access_token = '';
+
       if(isEmpty(access_token)||isEmpty(jsapi_ticket)){
         var getToken = yield rp(TOKEN_options);
         getToken = JSON.parse(getToken);

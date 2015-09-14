@@ -1,7 +1,8 @@
 <%=include indexheader_index.html%>
   <script>
     var addresslistJson = <%- JSON.stringify(addresslist)%>;
-    var calendarArr = <%-JSON.stringify(calendarArr)%>;
+    var calendarArr = <%- JSON.stringify(calendarArr)%>;
+    var userinfo = <%- JSON.stringify(WxUserInfo)%>;
     // jsapi
     configWxJsapi();
     // cookie
@@ -296,6 +297,8 @@
               this.isSelectAll=!this.isSelectAll;
             }}
           this.totalCount;
+          // CNZZ探针
+          _czc.push(﻿["_trackEvent","订餐日期按钮","选择全部","选择一周的早餐"]);
         },
         foodNumPriceCount: function(num){
           this.totalCount;
@@ -312,6 +315,9 @@
             cal.done = !cal.done;
             this.totalCount;
           }
+
+          // CNZZ探针
+          _czc.push(﻿["_trackEvent","订餐日期按钮","选择某一天",cal.date.toString()]);
         },
         changeSubmitState:function(){
           $(".submit").html("下单中...").attr("disabled",true);;
@@ -378,6 +384,7 @@
               data.errno || unifiedorderFn(data.data);
               }
           });
+          _czc.push(["_trackPageview","Home/Index/pay"]);
         }
       }
     });
@@ -401,15 +408,16 @@
                 signType: 'MD5',
                 paySign: callWxPayJson.paySign,
                 success:function(res) {
-                  window.location.href = "Home/paysuccess";
+                  window.location.href = "Home/paysuccess?price="+orderRequest.productprice;
                 },
                 cancel: function (res) {
-                  window.location.href = "Home/payfail";
+                  window.location.href = "Home/payfail?price="+orderRequest.productprice+"&orderid="+orderRequest.orderid+"&ordernum="+orderRequest.ordernum;
                 }
               });
             }
           });
       }
+      _czc.push(["_setCustomVar",userinfo.username,userinfo.sex]);
   </script>
   </body>
 
