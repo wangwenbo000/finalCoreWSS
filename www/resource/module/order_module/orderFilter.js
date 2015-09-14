@@ -4,6 +4,7 @@
     data: {
       checked:false,
       order: listJSON,
+      orderStateActionJson:{},
     },
     ready:function(){
       $('.page-selection-top').bootpag({
@@ -11,6 +12,36 @@
         page: 1,
         maxVisible: 20,
       })
+    },
+    methods:{
+      changeOrderStateAction:function(state,order,index){
+        $('#checkmodal').on('show.bs.modal', function (e) {
+          this.orderStateActionJson={state:state,order:order,index:index};
+        });
+      },
+      doOrderStateAction:function(){
+        console.log(this.orderStateActionJson.state);
+        switch (this.orderStateActionJson.state) {
+          case 'pay':
+          $.ajax({
+            url:'Admin/order/changeOrderStatePay',
+            type:'POST',
+            data:{id:this.orderStateAction.order.id},
+            success:function(){
+              console.log(this.orderStateAction.index);
+            }
+          });
+            break;
+          case 'complete':
+
+            break;
+          case 'cancel':
+
+            break;
+          default:
+
+        }
+      }
     },
     filters:{
       cut:function(val){

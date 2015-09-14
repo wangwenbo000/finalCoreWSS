@@ -12,16 +12,6 @@ module.exports = Model(function(){
                 }
                 json.progress = data.data;
             }).then(function(){
-                return D('Order').where({userid:id,nowstate:-1}).order('id DESC').countSelect().then(function(data){
-                    formatTime(data.data,'YYYY-MM-DD','ordertime');
-                    if(data.count==0){
-                        json.cancelCount='';
-                    }else{
-                        json.cancelCount=data.count;
-                    }
-                    json.cancel = data.data;
-                });
-            }).then(function(){
                 return D('Order').where({userid:id,nowstate:['<=',0]}).order('id DESC').countSelect().then(function(data){
                     formatTime(data.data,'YYYY-MM-DD','ordertime');
                     if(data.count==0){

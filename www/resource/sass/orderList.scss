@@ -4,11 +4,22 @@
   tbody>tr:first-child{
     height: 0.2rem;
   }
-  span{
+  .payOk1, .payOk0{
+    line-height: $px30;
+  }
+  .payOk1{
+    color: #2f9833;
+  }
+  .payOk0{
     color: $graybf;
   }
-  tbody>tr:last-child>td:first-child{
-    width: 4rem;
+  .goOrderInfo{
+    display: block;
+    width: 100%;
+    padding: $px24 0;
+  }
+  tbody>tr:nth-child(2)>td:first-child, tbody>tr:last-child>td:first-child{
+    width: 5.2rem;
     text-align: left;
     line-height: 0.6rem;
     p:first-child{

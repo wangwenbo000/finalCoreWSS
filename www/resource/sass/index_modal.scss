@@ -20,7 +20,7 @@
       background-color: #fafafa;
     }
     li[name=usuallyAddress]:first-child:before{
-      content: "USE MOST";
+      content: "-@";
       color: $white;
       display: block;
       position: absolute;

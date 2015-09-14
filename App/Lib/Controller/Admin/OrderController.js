@@ -143,6 +143,21 @@ module.exports = Controller("Admin/BaseController", function(){
           var getPayInfoById = yield D('payinfo').where({'attach':getOrderId}).select();
           formatTime(getPayInfoById, 'llll', 'time_end');
           return this.end(getPayInfoById);
-        })
+        }),
+        changeOrderStatePay:Q.async(function* (){
+          var getId = this.post('id');
+          yield D('Orderproductcopy').where({orderid:getId}).update({
+            productstate:30
+          });
+          yield D('Order').where({id:getId}).update({
+            paystate:1,
+          });
+        }),
+        changeOrderStateComplete:Q.async(function* (){
+
+        }),
+        changeOrderStateCancel:Q.async(function* (){
+
+        }),
     };
 });

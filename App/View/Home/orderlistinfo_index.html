@@ -22,7 +22,7 @@
           <tr class="orderBtn" v-show="isShowPay">
             <td colspan="4">
               <a href="javascript:;" v-on="click:cancelOrder">取消订单<span>(次日自动取消)</span></a>
-              <a href="javascript:;">继续微信支付</a>
+              <a href="javascript:;" v-on="click:unifiedorderFn">继续微信支付</a>
             </td>
           </tr>
           <tr class="orderAddress">
@@ -124,7 +124,7 @@
           </div>
         </div>
         <div class="modal_footer">
-          <a v-on="click:hideCancleModal">再想想</a>
+          <a v-on="click:hideCancleModal">手滑</a>
           <a v-on="click:cancelOrderFn">确定</a>
         </div>
       </div>
@@ -214,6 +214,34 @@
             }
           });
         },
+        unifiedorderFn:function() {
+          $.ajax({
+              url: 'Admin/wx/unifiedorder',
+              type: 'POST',
+              data: {
+                url: window.location.href,
+                out_trade_no: this.info[0].orderid,
+                total_fee: this.info[0].pricetotal,
+                attach:this.info[0].id
+              },
+              success: function(data) {
+                var callWxPayJson = data.data;
+                  wx.chooseWXPay({
+                    timestamp: callWxPayJson.timeStamp,
+                    nonceStr: callWxPayJson.nonceStr,
+                    package: callWxPayJson.package,
+                    signType: 'MD5',
+                    paySign: callWxPayJson.paySign,
+                    success:function(res) {
+                      window.location.href = "Home/paysuccess";
+                    },
+                    cancel: function (res) {
+                      window.location.href = "Home/payfail";
+                    }
+                  });
+                }
+              });
+          }
       }
     });
   </script>

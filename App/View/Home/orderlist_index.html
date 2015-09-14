@@ -6,15 +6,23 @@
 <div class="grid-warp">
   <div class="grid" v-if="pshow">
       <table class="col-12 orderlist" >
-        <tbody v-repeat='progress' >
-          <tr></tr>
+        <tbody v-repeat='progress' class="orderlisticon">
+        <tr></tr>
         <tr>
           <td>
-            <p>{{orderid}}</p>
+            <p>NO. {{orderid}}</p>
             <p><span>下单时间：</span>{{ordertime}}</p>
           </td>
-          <td><span>{{paystate | paystate}}</span></td>
-          <td><a href="/orderlistinfo/index/id/{{id}}">查看</a></td>
+          <td><span class="payOk{{paystate}}">{{paystate | paystate}}<br>{{nowstate | state}}</span></td>
+          <td><a href="/orderlistinfo/index/id/{{id}}" class="goOrderInfo"><i class="iconfont">&#xe60a;</i> 查看</a></td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <i class="iconfont">&#xe609;</i> {{addressKey}} {{address}}
+          </td>
+          <td>
+            {{pricetotal | | currency '¥'}}
+          </td>
         </tr>
       </tbody>
       </table>
@@ -25,11 +33,19 @@
         <tr></tr>
       <tr>
         <td>
-          <p>{{orderid}}</p>
+          <p>NO. {{orderid}}</p>
           <p><span>下单时间：</span>{{ordertime}}</p>
         </td>
-        <td><span>{{paystate | paystate}}</span></td>
+        <td><span class="payOk{{paystate}}">{{paystate | paystate}}<br>{{nowstate | state}}</span></td>
         <td><a href="/orderlistinfo/index/id/{{id}}">查看</a></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <i class="iconfont">&#xe609;</i> {{addressKey}} {{address}}
+        </td>
+        <td>
+          {{pricetotal | | currency '¥'}}
+        </td>
       </tr>
     </tbody>
       </table>
@@ -66,10 +82,8 @@
         el:'#Order',
         data:{
             progress:orderlistJSON.progress,
-            cancel:orderlistJSON.cancel,
             complete:orderlistJSON.complete,
             pc:orderlistJSON.progressCount,
-            cc:orderlistJSON.cancelCount,
             tc:orderlistJSON.completeCount,
 
             pshow:true,
@@ -77,7 +91,19 @@
         },
         filters:{
           paystate:function(state){
-            return state?"已支付":"待支付";
+            return state?'已支付':"待支付";
+          },
+          state: function(value) {
+            switch (value) {
+              case -1:
+                return "订单已取消";
+                break;
+              case 0:
+                return "已完成订单";
+                break;
+              default:
+                return "订单进行中";
+            }
           }
         },
         methods:{

@@ -7,7 +7,7 @@
 }
 
 .state10 {
-  background: #5bc0de;
+  background: #bde4eb;
 }
 
 .state30 {
@@ -259,7 +259,7 @@ div {
   position: absolute;
   display: block;
   right: 0.08rem;
-  top: 0.22rem;
+  top: 0.26rem;
   font-size: 0.21875rem;
 }
 .select span {
@@ -274,7 +274,6 @@ div {
   height: 1.375rem;
   line-height: 1.375rem;
   background-color: #fbfae9;
-  margin-top: 0.28125rem;
   margin-bottom: -1px;
   text-indent: 0.2rem;
   position: relative;
@@ -290,6 +289,10 @@ div {
 .notice i {
   font-size: 0.5625rem;
   color: #ffc600;
+}
+
+.notice[name=index] {
+  margin-top: 0.28125rem;
 }
 
 .numberBtn tbody tr {
@@ -460,7 +463,7 @@ div {
   background-color: #fafafa;
 }
 .modal_content ul li[name=usuallyAddress]:first-child:before {
-  content: "USE MOST";
+  content: "-@";
   color: #fff;
   display: block;
   position: absolute;
@@ -521,8 +524,9 @@ div {
 }
 .modal .modal_content {
   max-height: 7.84375rem;
-  overflow: auto;
+  overflow: hidden;
   -webkit-overflow-scrolling: touch;
+  background-color: #fff;
 }
 .modal .modal_footer {
   height: 1.53125rem;
@@ -712,7 +716,6 @@ table > tbody > tr > td {
   width: 96.8%;
   position: absolute;
   top: 0.28rem;
-  left: 20px;
   background: url(../img/indexImg/tiao.png) repeat-x;
   background-size: auto 100%;
   height: 0.3125rem;
@@ -797,6 +800,9 @@ table > tbody > tr > td {
   box-shadow: 0 0 0.6rem #76c8d7 inset;
 }
 
+.modal_content {
+  overflow: hidden;
+}
 .modal_content textarea {
   -webkit-appearance: none;
   width: 95.7%;
@@ -846,15 +852,26 @@ table > tbody > tr > td {
 .orderlist tbody > tr:first-child {
   height: 0.2rem;
 }
-.orderlist span {
+.orderlist .payOk1, .orderlist .payOk0 {
+  line-height: 0.46875rem;
+}
+.orderlist .payOk1 {
+  color: #2f9833;
+}
+.orderlist .payOk0 {
   color: #bfbfbf;
 }
-.orderlist tbody > tr:last-child > td:first-child {
-  width: 4rem;
+.orderlist .goOrderInfo {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0;
+}
+.orderlist tbody > tr:nth-child(2) > td:first-child, .orderlist tbody > tr:last-child > td:first-child {
+  width: 5.2rem;
   text-align: left;
   line-height: 0.6rem;
 }
-.orderlist tbody > tr:last-child > td:first-child p:first-child {
+.orderlist tbody > tr:nth-child(2) > td:first-child p:first-child, .orderlist tbody > tr:last-child > td:first-child p:first-child {
   font-family: 'Menlo';
 }
 
@@ -880,7 +897,7 @@ table > tbody > tr > td {
   position: relative;
 }
 .addresslist tbody:first-child > tr:nth-child(2) > td:before {
-  content: "USE MOST";
+  content: "-@";
   color: #fff;
   display: block;
   position: absolute;
