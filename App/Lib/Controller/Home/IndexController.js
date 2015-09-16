@@ -30,7 +30,7 @@ module.exports = Controller("Home/BaseController", function(){
         });
       }
 
-      yield this.session("userInfo",[{openid:"o510Kj_ydZPIMQdl1jww5w9MecQk",id:12}]);
+      // yield this.session("userInfo",[{openid:"o510Kj_ydZPIMQdl1jww5w9MecQk",id:12}]);
       // console.log(yield this.session("userInfo"));
 
       var userInfoData = yield this.session('userInfo');

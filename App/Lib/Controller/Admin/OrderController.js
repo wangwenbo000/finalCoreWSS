@@ -171,7 +171,6 @@ module.exports = Controller("Admin/BaseController", function(){
             productstate:'60'
           });
           yield D('Order').where({id:getId}).update({
-            paystate:'1',
             nowstate:'0'
           });
           this.success();

@@ -21,44 +21,72 @@ module.exports = Controller("Admin/BaseController", function(){
           xml2JSON.parseString(getWxMsg,function (err,result){
             json = result.xml;
           });
-          switch (json.Content) {
-            case '菜单':
-            var xmlStr = ""+"<xml>"+
+          if(json.MsgType=='text'){
+            switch (json.Content) {
+              case '菜单':
+              var xmlStr = ""+"<xml>"+
+                            "<ToUserName><![CDATA["+json.FromUserName+"]]></ToUserName>"+
+                            "<FromUserName><![CDATA["+json.ToUserName+"]]></FromUserName>"+
+                            "<CreateTime>"+WX_createTimestamp()+"</CreateTime>"+
+                            "<MsgType><![CDATA[news]]></MsgType>"+
+                            "<ArticleCount>1</ArticleCount>"+
+                            "<Articles>"+
+                            "<item>"+
+                            "<Title><![CDATA[本周最新早餐图鉴！请过目]]></Title>"+
+                            "<Description><![CDATA[我们为您最新准备的早餐图鉴，每一天都是满满的爱]]></Description>"+
+                            "<PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/VwTYJjQQadrf3RokIuHXLSicpauZ7jhH4nI9a3EibGzWWtA7xUtkumSYgEYXyM8122lcDs0MurpSzotufvT4eQ2w/0?wx_fmt=jpeg]]></PicUrl>"+
+                            "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd]]></Url>"+
+                            "</item>"+
+                            "</Articles>"+
+                            "</xml>";
+              this.end(xmlStr);
+                break;
+                case '帮助':
+                var normalContent = "谢谢你能来\ue057 \n"+
+                                    "早安早安专心从事早餐配送到家的服务\n"+
+                                    "<a href='http://izaoan.cn/Home?showwxpaytitle=1'>\ue231 预定早餐</a>\n"+
+                                    "了解更多详情请查看子目录\n"+
+                                    "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd'>\ue231 餐品图鉴</a>\n"+
+                                    "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=3&sn=954571e16c3347702141b5090b8875a1#rd'>\ue231 配送方式</a>\n"+
+                                    "期待与您一起吃早餐\ue057 \n"+
+                                    "更多服务、评价、唠嗑请直接编辑回复内容～\n"+
+                                    "早安早安，为您每日早安🌞";
+                var xmlStr = ""+"<xml>"+
                           "<ToUserName><![CDATA["+json.FromUserName+"]]></ToUserName>"+
                           "<FromUserName><![CDATA["+json.ToUserName+"]]></FromUserName>"+
                           "<CreateTime>"+WX_createTimestamp()+"</CreateTime>"+
-                          "<MsgType><![CDATA[news]]></MsgType>"+
-                          "<ArticleCount>1</ArticleCount>"+
-                          "<Articles>"+
-                          "<item>"+
-                          "<Title><![CDATA[本周最新早餐图鉴！请过目]]></Title>"+
-                          "<Description><![CDATA[我们为您最新准备的早餐图鉴，每一天都是满满的爱]]></Description>"+
-                          "<PicUrl><![CDATA[https://mmbiz.qlogo.cn/mmbiz/VwTYJjQQadrf3RokIuHXLSicpauZ7jhH4nI9a3EibGzWWtA7xUtkumSYgEYXyM8122lcDs0MurpSzotufvT4eQ2w/0?wx_fmt=jpeg]]></PicUrl>"+
-                          "<Url><![CDATA[http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd]]></Url>"+
-                          "</item>"+
-                          "</Articles>"+
+                          "<MsgType><![CDATA[text]]></MsgType>"+
+                          "<Content><![CDATA["+normalContent+"]]></Content>"+
                           "</xml>";
-            this.end(xmlStr);
-              break;
-            default:
-            var normalContent = "谢谢你能来\ue057 \n"+
-                                "早安早安专心从事早餐配送到家的服务\n"+
-                                "<a href='http://izaoan.cn/Home?showwxpaytitle=1'>\ue231 预定早餐</a>\n"+
-                                "了解更多详情请查看子目录\n"+
-                                "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd'>\ue231 早安图鉴</a>\n"+
-                                "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=3&sn=954571e16c3347702141b5090b8875a1#rd'>\ue231 配送方式</a>\n"+
-                                "期待与您一起吃早餐\ue057 \n"+
-                                "更多服务、评价、唠嗑请直接编辑回复内容～\n"+
-                                "早安早安，为您每日早安🌞";
-            var xmlStr = ""+"<xml>"+
-                      "<ToUserName><![CDATA["+json.FromUserName+"]]></ToUserName>"+
-                      "<FromUserName><![CDATA["+json.ToUserName+"]]></FromUserName>"+
-                      "<CreateTime>"+WX_createTimestamp()+"</CreateTime>"+
-                      "<MsgType><![CDATA[text]]></MsgType>"+
-                      "<Content><![CDATA["+normalContent+"]]></Content>"+
-                      "</xml>";
-            this.end(xmlStr);
+                this.end(xmlStr);
+                break;
+            }
+          };
+          if(json.MsgType=='event'){
+            switch (json.Event) {
+              case 'subscribe':
+              var normalContent = "谢谢你能来\ue057 \n"+
+                                  "早安早安专心从事早餐配送到家的服务\n"+
+                                  "<a href='http://izaoan.cn/Home?showwxpaytitle=1'>\ue231 预定早餐</a>\n"+
+                                  "了解更多详情请查看子目录\n"+
+                                  "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=2&sn=72497f02b4a457b2fd9bd2bc8fac6bb6#rd'>\ue231 餐品图鉴</a>\n"+
+                                  "<a href='http://mp.weixin.qq.com/s?__biz=MjM5OTgyMTI4Nw==&mid=209448890&idx=3&sn=954571e16c3347702141b5090b8875a1#rd'>\ue231 配送方式</a>\n"+
+                                  "期待与您一起吃早餐\ue057 \n"+
+                                  "更多服务、评价、唠嗑请直接编辑回复内容～\n"+
+                                  "早安早安，为您每日早安\ue04a \n"+
+                                  "希望再次看到这条消息，请回复 [帮助]";
+              var xmlStr = ""+"<xml>"+
+                        "<ToUserName><![CDATA["+json.FromUserName+"]]></ToUserName>"+
+                        "<FromUserName><![CDATA["+json.ToUserName+"]]></FromUserName>"+
+                        "<CreateTime>"+WX_createTimestamp()+"</CreateTime>"+
+                        "<MsgType><![CDATA[text]]></MsgType>"+
+                        "<Content><![CDATA["+normalContent+"]]></Content>"+
+                        "</xml>";
+              this.end(xmlStr);
+                break;
+            }
           }
+
         },
         jsapicofigAction:Q.async(function* (){
           var getURL = this.post('url');

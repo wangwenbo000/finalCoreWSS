@@ -524,7 +524,7 @@ div {
 }
 .modal .modal_content {
   max-height: 7.84375rem;
-  overflow: hidden;
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
   background-color: #fff;
 }

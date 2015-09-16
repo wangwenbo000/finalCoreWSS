@@ -1,63 +1,159 @@
 <%=include adminheader_index.html%>
-<style media="screen">
-  #mapContainer{
-    height: 560px;
-  }
-</style>
-<h4 class="page-header">
-  <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> 早安控制台
-  <small>整站统计监测信息</small>
-</h4>
-<div class="statecount page-header clearfix">
-  <div class="col-xs-3 ">
-    <h5>配送区域地图</h5>
+  <style media="screen">
+    #mapContainer {
+      height: 560px;
+    }
+  </style>
+  <h4 class="page-header">
+    <span class="glyphicon glyphicon-dashboard" aria-hidden="true"></span> 早安控制台
+    <small>整站统计监测信息</small>
+  </h4>
+  <div class="row">
+    <div class="col-xs-12">
+      <div id="mapContainer"></div>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <div id="mapContainer" ></div>
-</div>
-</div>
-<script type="text/javascript">
+  <br/>
+  <div class="row">
+    <div class="col-xs-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">统计数据</h3>
+        </div>
+        <div class="panel-body">
+          订单交易总额：<h2 class="text-primary">￥<%-sumPrice%><small> 元</small></h2>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">订单统计</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover">
+            <tr>
+              <td>
+                共处理
+              </td>
+              <td>
+                <h2><%=ordercount%> <small>单</small></h2>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="label label-success state55">已完成</span>
+              </td>
+              <td>
+                <%=orderComplete%> 单
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="label label-success state30">代发货</span>
+              </td>
+              <td>
+                <%=waitPay%> 单
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="label label-success state10">待付款</span>
+              </td>
+              <td>
+                <%=hasPay%> 单
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <span class="label label-success state60">已取消</span>
+              </td>
+              <td>
+                <%=orderCancel%> 单
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">用户&管理员</h3>
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover">
+            <tr>
+              <td>
+                当前用户
+              </td>
+              <td>
+                <%=userCount%>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                当前配送员
+              </td>
+              <td>
+                <%=expresser%>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                当前管理员
+              </td>
+              <td>
+                <%=adminCount%>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
     //初始化地图对象，加载地图
     var map = new AMap.Map("mapContainer", {
-        resizeEnable: true,
-            center: [116.464405,39.984006],//地图中心点
-            zoom: 17 //地图显示的缩放级别
-        });
-         map.setMapStyle('light');
-         var buildings = new AMap.Buildings();
-         // 在map中添加3D楼块图层
-         buildings.setMap(map);
-         addCloudLayer();
+      resizeEnable: true,
+      center: [116.464405, 39.984006], //地图中心点
+      zoom: 17 //地图显示的缩放级别
+    });
+    map.setMapStyle('light');
+    var buildings = new AMap.Buildings();
+    // 在map中添加3D楼块图层
+    buildings.setMap(map);
+    addCloudLayer();
 
     //叠加云数据图层
     function addCloudLayer() {
-        //加载云图层插件
-        map.plugin('AMap.CloudDataLayer', function() {
-            var layerOptions = {
-                query: {keywords: ''},
-                clickable: true
-            };
-            var cloudDataLayer = new AMap.CloudDataLayer('5588fe0be4b062df8bcd62da', layerOptions); //实例化云图层类
-            cloudDataLayer.setMap(map); //叠加云图层到地图
+      //加载云图层插件
+      map.plugin('AMap.CloudDataLayer', function() {
+        var layerOptions = {
+          query: {
+            keywords: ''
+          },
+          clickable: true
+        };
+        var cloudDataLayer = new AMap.CloudDataLayer('5588fe0be4b062df8bcd62da', layerOptions); //实例化云图层类
+        cloudDataLayer.setMap(map); //叠加云图层到地图
 
-            AMap.event.addListener(cloudDataLayer, 'click', function(result) {
-                var clouddata = result.data;
-                var photo=[];
-                if(clouddata._image[0]){//如果有上传的图片
-                    photo=['<img width=240 height=100 src="'+clouddata._image[0]._preurl+'"><br>'];
-                }
-                var infoWindow = new AMap.InfoWindow({
-                    content: "<font face=\"微软雅黑\"color=\"#3366FF\">" + clouddata._name + "</font><hr/>"+photo.join("")+"地址：" + clouddata._address + "<br />" + "创建时间：" + clouddata._createtime + "<br />" + "更新时间：" + clouddata._updatetime,
-                    size: new AMap.Size(0, 0),
-                    autoMove: true,
-                    offset: new AMap.Pixel(0, -25)
-                });
+        AMap.event.addListener(cloudDataLayer, 'click', function(result) {
+          var clouddata = result.data;
+          var photo = [];
+          if (clouddata._image[0]) { //如果有上传的图片
+            photo = ['<img width=240 height=100 src="' + clouddata._image[0]._preurl + '"><br>'];
+          }
+          var infoWindow = new AMap.InfoWindow({
+            content: "<font face=\"微软雅黑\"color=\"#3366FF\">" + clouddata._name + "</font><hr/>" + photo.join("") + "地址：" + clouddata._address + "<br />" + "创建时间：" + clouddata._createtime + "<br />" + "更新时间：" + clouddata._updatetime,
+            size: new AMap.Size(0, 0),
+            autoMove: true,
+            offset: new AMap.Pixel(0, -25)
+          });
 
-                infoWindow.open(map, clouddata._location);
-            });
+          infoWindow.open(map, clouddata._location);
         });
+      });
     }
-</script>
-<%=include adminfooter_index.html%>
+  </script>
+  <%=include adminfooter_index.html%>
