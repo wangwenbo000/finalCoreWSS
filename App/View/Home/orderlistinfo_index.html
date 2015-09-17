@@ -227,6 +227,7 @@
               },
               success: function(data) {
                 var callWxPayJson = data.data;
+                console.log(callWxPayJson);
                   wx.chooseWXPay({
                     timestamp: callWxPayJson.timeStamp,
                     nonceStr: callWxPayJson.nonceStr,
