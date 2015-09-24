@@ -1,10 +1,3 @@
-/*
- * Base structure
- */
-
-
-/* Move down content because we have a fixed navbar that is 50px tall */
-
 body {
   padding-top: 76px;
 }
@@ -79,4 +72,26 @@ body {
 }
 .state60 {
   background: #F54343;
+}
+
+.allocation {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.affix {
+  top: 51px;
+  background: #fff;
+  margin-top: 0;
+  height: 46px;
+  padding: 5px 20px;
+  z-index: 1040;
+  border-bottom: 2px #008eb7 solid;
+  left: 58px;
+  right: 0;
+}
+
+.pagination {
+  margin: 0;
+  float: right;
 }
