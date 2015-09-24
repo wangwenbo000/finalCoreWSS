@@ -11,7 +11,6 @@ module.exports = Controller(function(){
     indexAction: Q.async(function* (){
       var moment = require('moment');
       var rp = require('request-promise');
-
       var appid = 'wxde2277be54c81c1d';
       var secret = '5cdd015be8db790c01b98d7a980397b6';
       var getCode = this.get('code');
