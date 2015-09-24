@@ -1,6 +1,8 @@
 <%=include indexheader_index.html%>
 <script>
     var orderlistJSON = <%- JSON.stringify(orderlist)%>;
+    // jsapi
+    configWxJsapi();
 </script>
 <div id="Order" v-cloak>
 <div class="grid-warp">
