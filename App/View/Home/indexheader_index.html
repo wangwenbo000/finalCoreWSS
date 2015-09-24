@@ -46,14 +46,17 @@
     // 微信jsapi接入
     function configWxJsapi(){
       var url = window.location.href;
+      console.log(url);
       $.ajax({
-        url: 'Admin/Wx/jsapicofig',
+        url: '/Admin/Wx/jsapicofig',
         type: 'POST',
         data: {
           url: url
         },
         success: function(json) {
+
           var configJson = JSON.parse(json);
+
           wx.config(configJson);
 
           wx.ready(function() {

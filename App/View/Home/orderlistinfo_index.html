@@ -30,7 +30,7 @@
           <tr class="orderAddress">
             <td colspan="4">
               <p>
-                <span>{{receiveuser}} 15117909848</span>
+                <span>{{receiveuser}} {{phoneNum}}</span>
                 <span>{{receiveWay}}</span>
               </p>
               <p>
@@ -142,6 +142,7 @@
 
         expressTime: orderlistinfoJSON.listdata[0].expresstime,
         receiveWay: orderlistinfoJSON.listdata[0].receiveway,
+        phoneNum: orderlistinfoJSON.listdata[0].phonenum,
         showAddressKey:orderlistinfoJSON.listdata[0].addressKey,
         showExpressAddress:orderlistinfoJSON.listdata[0].expressaddress,
 

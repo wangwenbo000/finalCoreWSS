@@ -13,7 +13,7 @@
       addressKey:$.cookie('addressKey'),
       address:$.cookie('address'),
     }
-    for(var k in addressCookie){
+    for(var k=0;k<addressCookie.length;k++){
       if(addressCookie[k] == undefined){
         addressCookie = {};
       }
@@ -124,7 +124,8 @@
   </a>
   <a href="javascript:;" class="menu" v-class="sel_menu:foodlist" v-on="click:tapFood">
     <span><i class="iconfont">&#xe604;</i></span>
-    图鉴
+    菜单
+    <img src="/resource/img/indexImg/menu.png" v-if="showPanda" v-transition="showAlert" v-on="click:hidePandaFn"/>
   </a>
   <div class="price">
     <p>原价 ￥<span><strike>{{cost | currency ' '}}</strike></span></p>
@@ -173,13 +174,13 @@
         <img src="/resource/img/indexImg/libao.jpg">
         <h2>预订一周早餐</h2>
         <p>点击全选，返回【下单】填写收货信息，等待我们为您精心准备的早餐:-)</p>
-
         <i class="triangle_select"></i>
       </a>
     </li>
   </ul>
 </div>
 </div>
+<!-- {{$data | json 4}} -->
 </div>
 <div class="footerlogo"></div>
   <script>
@@ -204,25 +205,7 @@
         submitText:'预定',
         submitState:false,
         isSelectAll:false,
-      },
-      computed:{
-        totalCount:function(){
-          this.total = 0;
-          this.cost = 0;
-          var chooseProductJson = this.calendar;
-          for (var k in chooseProductJson) {
-            switch (chooseProductJson[k]['done']){
-              case true:
-                this.total += chooseProductJson[k]['productInfo']['price'];
-                this.cost += chooseProductJson[k]['productInfo']['cost'];
-                break;
-            }
-          }
-          if(this.everyDayNum<=0) this.everyDayNum = 1;
-          this.total *= this.everyDayNum;
-          this.cost *= this.everyDayNum;
-          return this.total;
-        }
+        showPanda:false,
       },
       transition:{
         modalAni:function(){
@@ -235,7 +218,7 @@
       filters: {
         repertoryIsEmpty: function(value) {
           if (value == "罄") {
-            return "<img src=resource/img/indexImg/foodempty.svg width='20'>";
+            return "<img src=resource/img/indexImg/foodempty.svg width='140'>";
           }else{
             return value;
           }
@@ -256,6 +239,22 @@
         }
       },
       methods: {
+        totalCount:function(){
+          this.total = 0;
+          this.cost = 0;
+          var chooseProductJson = this.calendar;
+            for(var k=0;k<this.calendar.length;k++){
+              switch (this.calendar[k]['done']){
+                case true:
+                  this.total += this.calendar[k]['productInfo']['price'];
+                  this.cost += this.calendar[k]['productInfo']['cost'];
+                  break;
+              }
+            }
+          if(this.everyDayNum<=0) this.everyDayNum = 1;
+          this.total *= this.everyDayNum;
+          this.cost *= this.everyDayNum;
+        },
         tapOrder:function(){
           this.orderForm = true;
           this.foodlist=false;
@@ -275,7 +274,6 @@
         },
         hideNotice:function(){
           this.showNotice=false;
-          console.log("a");
         },
         showAlertFn:function(str){
           var self = this;
@@ -285,23 +283,25 @@
             self.showAlert = false;
           },1000);
         },
+        hidePandaFn:function(){
+          this.showPanda = false;
+        },
         selectAll:function(){
-
-            if(this.isSelectAll){
-              for(var k in this.calendar){
-              this.calendar[k]['done']=true;
-              this.isSelectAll=!this.isSelectAll;
-            }}else{
-              for(var k in this.calendar){
-              this.calendar[k]['done']=false;
-              this.isSelectAll=!this.isSelectAll;
-            }}
-          this.totalCount;
+          if(this.isSelectAll==true){
+            for(var k=0; k<this.calendar.length;k++){
+            this.calendar[k]['done']=false;
+            this.isSelectAll=false;
+          }}else{
+            for(var k=0; k<this.calendar.length;k++){
+            this.calendar[k]['done']=true;
+            this.isSelectAll=true;
+          }}
+        this.totalCount();
           // CNZZ探针
           _czc.push(﻿["_trackEvent","订餐日期按钮","选择全部","选择一周的早餐"]);
         },
         foodNumPriceCount: function(num){
-          this.totalCount;
+          this.totalCount();
         },
         chooseAddress: function(thisAddress) {
           this.chooseaddressinfo=thisAddress;
@@ -313,7 +313,7 @@
             return false;
           } else {
             cal.done = !cal.done;
-            this.totalCount;
+            this.totalCount();
           }
 
           // CNZZ探针
@@ -327,10 +327,9 @@
         },
         pay: function() {
           this.changeSubmitState();
-          // var paybtn = $('.paybtn').button('loading');
           var chooseProductJson_res = [];
           var chooseProductJson = this.calendar;
-          for (var k in chooseProductJson) {
+          for (var k=0; k<chooseProductJson.length; k++) {
             switch (chooseProductJson[k]['done']) {
               case true:
                 chooseProductJson_res.push({
@@ -417,6 +416,9 @@
             }
           });
       }
+      setTimeout(function(){
+        sendOrder.showPanda = true;
+      },3000);
       _czc.push(["_setCustomVar",userinfo.username,userinfo.sex]);
   </script>
   </body>
