@@ -36,7 +36,6 @@ module.exports = Controller("Admin/BaseController", function(){
             expresser:expresser,
             ordercount:ordercount
           });
-          console.log(this.http);
           return this.display();
         })
     };

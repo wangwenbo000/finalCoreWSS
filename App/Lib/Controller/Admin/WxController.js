@@ -146,10 +146,12 @@ module.exports = Controller("Admin/BaseController", function(){
               }
               var backJsonForPay_sign = WX_PAY_sign(backJsonForPay,"normal");
               backJsonForPay.paySign = backJsonForPay_sign;
+              console.log(backJsonForPay);
               self.success(backJsonForPay);
             }
           });
         }),
+
         wxpayrequestAction:Q.async(function*(){
           var xml2js = require('xml2js');
           var json2XML = new xml2js.Builder();

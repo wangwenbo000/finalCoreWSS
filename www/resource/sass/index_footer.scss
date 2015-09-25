@@ -35,6 +35,10 @@
       display: block;
       font-size: $footerIcon;
       line-height: 1rem;
+
+      img{
+        width:100%;
+      }
     }
   }
   .sel_menu{
