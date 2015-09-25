@@ -60,6 +60,8 @@ module.exports = Controller("Admin/BaseController", function(){
                           "</xml>";
                 this.end(xmlStr);
                 break;
+                default :
+                this.end("");
             }
           };
           if(json.MsgType=='event'){
