@@ -11,7 +11,7 @@
         total:total,
         page: 1,
         maxVisible: 20,
-      })
+      });
     },
     methods:{
       changeOrderStateAction:function(state,order,index){
@@ -56,7 +56,7 @@
         return val.substr(0,14)+"...";
       },
       allocation:function(val){
-        return val==null?val:"<i class='glyphicon glyphicon-star'></i>";
+        return val===null?val:"<i class='glyphicon glyphicon-star'></i>";
       }
     }
   });
