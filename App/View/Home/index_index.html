@@ -13,7 +13,8 @@
       addressKey:$.cookie('addressKey'),
       address:$.cookie('address'),
     }
-    for(var k=0;k<addressCookie.length;k++){
+
+    for(var k in addressCookie){
       if(addressCookie[k] == undefined){
         addressCookie = {};
       }
@@ -53,7 +54,7 @@
     </ul>
     <div class="grid" v-if="showNotice">
       <div class="col-12 notice" name="index">
-        <i class="iconfont">&#xe602;</i> 每天22:00前可预订明日早餐
+        <i class="iconfont">&#xe602;</i> 每天22:00前可预订明日早餐~
         <!-- <span v-on="click:hideNotice">&times;</span> -->
       </div>
     </div>
@@ -98,17 +99,6 @@
           <i class="iconfont sel">&#xe608;</i>
         </td>
         <td>
-          <select class="form-control" v-model="receiveWay">
-            <option value="0">接收方式</option>
-            <!-- <option>早安盒子</option> -->
-            <option>公司前台</option>
-            <option>延迟配送</option>
-          </select>
-          <i class="iconfont sel">&#xe608;</i>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2">
           <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe609;</i>{{{chooseaddressinfo.address | address}}}</a>
         </td>
       </tr>
@@ -180,7 +170,7 @@
   </ul>
 </div>
 </div>
-<!-- {{$data | json 4}} -->
+ <!--{{$data | json 4}}-->
 </div>
 <div class="footerlogo"></div>
   <script>
@@ -188,7 +178,6 @@
       el: '#indexPostOrder',
       data: {
         expressTime: 0,
-        receiveWay: 0,
         everyDayNum: 1,
         addresslist: addresslistJson,
         calendar: calendarArr,
@@ -353,11 +342,11 @@
             this.resetSubmitState();
             return false;
           }
-          if (!this.receiveWay) {
-            this.showAlertFn('请选择接收方式');
-            this.resetSubmitState();
-            return false;
-          }
+//          if (!this.receiveWay) {
+//            this.showAlertFn('请选择接收方式');
+//            this.resetSubmitState();
+//            return false;
+//          }
           if ($.isEmptyObject(this.chooseaddressinfo)) {
             this.showAlertFn('请选择配送地址');
             this.resetSubmitState();
