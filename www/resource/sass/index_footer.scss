@@ -41,6 +41,15 @@
       }
     }
   }
+  .menu{
+    position: relative;
+    img{
+      position: absolute;
+      width: 2.8rem;
+      top:-2.38rem;
+      left: -0.4rem;
+    }
+  }
   .sel_menu{
       color:$orange;
   }
@@ -70,4 +79,5 @@
   background: url('../img/indexImg/footerlogo.png') no-repeat center top;
   background-size: 40%;
   padding-bottom: 1.53125rem;
+
 }
