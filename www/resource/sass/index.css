@@ -7,9 +7,9 @@ Error: File to import not found or unreadable: compass/css3.
 3: @import "compass/css3";
 4: @import "compass";
 5: 
-6: @import "index_global.scss";
-7: @import "index_header.scss";
-8: @import "index_data.scss";
+6: 
+7: @import "index_global.scss";
+8: @import "index_header.scss";
 
 Backtrace:
 index.scss:3
@@ -55,4 +55,4 @@ index.scss:3
 body:before {
   white-space: pre;
   font-family: monospace;
-  content: "Error: File to import not found or unreadable: compass/css3.\A         on line 3 of index.scss\A \A 1: @charset \"UTF-8\";\A 2: \A 3: @import \"compass/css3\";\A 4: @import \"compass\";\A 5: \A 6: @import \"index_global.scss\";\A 7: @import \"index_header.scss\";\A 8: @import \"index_data.scss\";"; }
+  content: "Error: File to import not found or unreadable: compass/css3.\A         on line 3 of index.scss\A \A 1: @charset \"UTF-8\";\A 2: \A 3: @import \"compass/css3\";\A 4: @import \"compass\";\A 5: \A 6: \A 7: @import \"index_global.scss\";\A 8: @import \"index_header.scss\";"; }
