@@ -132,11 +132,14 @@ module.exports = Controller("Admin/BaseController", function () {
      * HTTP/POST
      * oConfigJson = {
      *  state:    [Object] | success | waitPay | waitExpress | cancel | refound,
+     *  where:    [Object] {}
      * }
      */
     update_orderStateAction: Q.async(function*() {
       if (this.isPost()) {
-
+        var oConfigJson = this.post();
+        var orderStateResult = yield D('Order').get_orderState(oConfigJson);
+        return this.success(orderStateResult);
       } else {
         return this.error();
       }
@@ -144,13 +147,13 @@ module.exports = Controller("Admin/BaseController", function () {
     /**
      * 获取订单详细信息 get_orderMainInfo()
      * HTTP/POST
-     * oConfigJson = {
-     *  id:[Number]
-     * }
+     * oConfigJson = id [Number]
      */
     get_orderMainInfoAction: Q.async(function*() {
       if (this.isPost()) {
-
+        var selectId = parseInt(this.post());
+        var orderMainInfoResult = yield D('Order').get_orderMainInfo(selectId);
+        return this.success(orderMainInfoResult);
       } else {
         return this.error();
       }
