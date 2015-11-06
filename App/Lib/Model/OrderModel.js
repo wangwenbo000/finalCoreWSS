@@ -130,7 +130,7 @@ module.exports=Model(function(){
      *  state:    [Object] | success | waitPay | waitExpress | cancel | refound,
      * }
      */
-    get_orderState: Q.async(function*(oConfigJson){
+    update_orderState: Q.async(function*(oConfigJson){
       if(isObject(oConfigJson) && !isEmpty(oConfigJson)){
         var nowState = null;
         var whereCaseJson = oConfigJson.where;
