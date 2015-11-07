@@ -107,7 +107,7 @@ module.exports = Controller("Admin/BaseController", function () {
     }),
 
     /**
-     * 获取订单列表 get_orderList()
+     * TODO:获取订单列表 get_orderList()
      * HTTP/POST
      * oConfigJson = {
      *  where:    [Object],
@@ -128,7 +128,7 @@ module.exports = Controller("Admin/BaseController", function () {
       }
     }),
     /**
-     * 操作订单状态 update_orderState()
+     * TODO:操作订单状态 update_orderState()
      * HTTP/POST
      * oConfigJson = {
      *  state:    [Object] | success | waitPay | waitExpress | cancel | refound,
@@ -138,21 +138,24 @@ module.exports = Controller("Admin/BaseController", function () {
     update_orderStateAction: Q.async(function*() {
       if (this.isPost()) {
         var oConfigJson = this.post();
-        var orderStateResult = yield D('Order').get_orderState(oConfigJson);
-        return this.success(orderStateResult);
+        var orderStateResult = yield D('Order').update_orderState(oConfigJson);
+        return orderStateResult?this.success(orderStateResult):this.error("没有匹配到相关的操作记录");
       } else {
         return this.error();
       }
     }),
     /**
-     * 获取订单详细信息 get_orderMainInfo()
+     * TODO:获取订单详细信息 get_orderMainInfo()
      * HTTP/POST
-     * oConfigJson = id [Number]
+     * oConfigJson = {
+     * orderid:id [Number],
+     * orderlistid:id[Number]
+     * }
      */
     get_orderMainInfoAction: Q.async(function*() {
       if (this.isPost()) {
-        var selectId = parseInt(this.post());
-        var orderMainInfoResult = yield D('Order').get_orderMainInfo(selectId);
+        var selectIdJson = this.post();
+        var orderMainInfoResult = yield D('Order').get_orderMainInfo(selectIdJson);
         return this.success(orderMainInfoResult);
       } else {
         return this.error();
