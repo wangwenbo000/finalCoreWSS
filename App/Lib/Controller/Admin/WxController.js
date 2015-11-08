@@ -124,7 +124,7 @@ module.exports = Controller("Admin/BaseController", function(){
             spbill_create_ip:this.ip(),
             notify_url:'http://www.izaoan.cn/Admin/wx/wxpayrequest',
             trade_type:'JSAPI',
-            openid:openid[0]['openid']
+            openid:openid['openid']
           }
           var paySign = WX_PAY_sign(signjson,"lower");
           signjson.sign = paySign;

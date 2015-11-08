@@ -13,7 +13,7 @@ module.exports = Controller("Home/BaseController", function () {
         // 添加新地址
         var userInfoData = yield this.session('userInfo');
         var initData = [];
-        initData.push({userid: userInfoData[0].id, receiveuser: '', phonenum: '', address: '', addressKey: '',});
+        initData.push({openid: userInfoData.openid, receiveuser: '', phonenum: '', address: '', addressKey: '',});
         this.assign('initData', initData);
         this.display();
       } else {

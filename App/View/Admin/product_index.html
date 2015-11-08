@@ -156,42 +156,42 @@
         </div>
     </div>
 </div>
-<div class="staticcount page-header clearfix">
-    <div class="col-lg-3 ">
-        <h4><i class="glyphicon glyphicon-yen"></i> 单品早餐列表（未上线）</h4>
-    </div>
-    <div class="col-lg-9">
-        <h4 class="text-right">
+<!--<div class="staticcount page-header clearfix">-->
+    <!--<div class="col-lg-3 ">-->
+        <!--<h4><i class="glyphicon glyphicon-yen"></i> 单品早餐列表（未上线）</h4>-->
+    <!--</div>-->
+    <!--<div class="col-lg-9">-->
+        <!--<h4 class="text-right">-->
 
-        </h4>
-    </div>
-</div>
-<table class="table table-bordered table-hover">
-    <thead>
-    <tr>
-        <th>id</th>
-        <th>图片</th>
-        <th>产品名称</th>
-        <th>数量</th>
-        <th>购买者</th>
-        <th>配送地址</th>
-        <th>单价</th>
-        <th>配送费</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-repeat="active in actives" v-cloak>
-        <td>{{active.id}}</td>
-        <td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>
-        <td><h4>{{active.productName}}</h4></td>
-        <td>{{active.cost | currency '¥'}}</td>
-        <td>{{active.price | currency '¥'}}</td>
-        <td>{{active.describe}}</td>
-        <td>{{active.updatetime}}</td>
-        <td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button" disabled>更新</a></td>
-    </tr>
-    </tbody>
-</table>
-</div>
+        <!--</h4>-->
+    <!--</div>-->
+<!--</div>-->
+<!--<table class="table table-bordered table-hover">-->
+    <!--<thead>-->
+    <!--<tr>-->
+        <!--<th>id</th>-->
+        <!--<th>图片</th>-->
+        <!--<th>产品名称</th>-->
+        <!--<th>数量</th>-->
+        <!--<th>购买者</th>-->
+        <!--<th>配送地址</th>-->
+        <!--<th>单价</th>-->
+        <!--<th>配送费</th>-->
+    <!--</tr>-->
+    <!--</thead>-->
+    <!--<tbody>-->
+    <!--<tr v-repeat="active in actives" v-cloak>-->
+        <!--<td>{{active.id}}</td>-->
+        <!--<td><img src="/resource/img/food/b0.jpg" alt="..." width="66" ></td>-->
+        <!--<td><h4>{{active.productName}}</h4></td>-->
+        <!--<td>{{active.cost | currency '¥'}}</td>-->
+        <!--<td>{{active.price | currency '¥'}}</td>-->
+        <!--<td>{{active.describe}}</td>-->
+        <!--<td>{{active.updatetime}}</td>-->
+        <!--<td><a href="#" class="btn btn-default btn-block" data-toggle="modal" data-target=".bs-example-modal-sm" data-day="星期{{active.days}}" data-id="{{active.id}}" role="button" disabled>更新</a></td>-->
+    <!--</tr>-->
+    <!--</tbody>-->
+<!--</table>-->
+<!--</div>-->
 <script src="/resource/dist/product.min.js"></script>
 <%=include adminfooter_index.html%>

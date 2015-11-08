@@ -1,415 +1,431 @@
 <%=include indexheader_index.html%>
-  <script>
-    var addresslistJson = <%- JSON.stringify(addresslist)%>;
-    var calendarArr = <%- JSON.stringify(calendarArr)%>;
-    var userinfo = <%- JSON.stringify(WxUserInfo)%>;
+<script>
+    var addresslistJson =<%-JSON.stringify(addresslist) %>;
+    var calendarArr =<%-JSON.stringify(calendarArr) %>;
+    var userinfo =<%-JSON.stringify(WxUserInfo) %>;
     // jsapi
     configWxJsapi();
     // cookie
-    var addressCookie={
-      addId:$.cookie('addId'),
-      receiveuser:$.cookie('receiveuser'),
-      phonenum:$.cookie('phonenum'),
-      addressKey:$.cookie('addressKey'),
-      address:$.cookie('address'),
+    var addressCookie = {
+        addId: $.cookie('addId'),
+        receiveuser: $.cookie('receiveuser'),
+        phonenum: $.cookie('phonenum'),
+        addressKey: $.cookie('addressKey'),
+        address: $.cookie('address'),
     }
 
-    for(var k in addressCookie){
-      if(addressCookie[k] == undefined){
-        addressCookie = {};
-      }
+    for (var k in addressCookie) {
+        if (addressCookie[k] == undefined) {
+            addressCookie = {};
+        }
     }
-  </script>
+</script>
 
 <div id="indexPostOrder" v-cloak>
-<div v-if="orderForm">
-  <div class="grid-warp aweek">
-    <div class="grid header">
-      <div class="col-4"><img src="/resource/img/indexImg/logo.svg"></div>
-      <div class="col-4">
-        <div class="header_month">
-        <p>
-          <%=date%>月
-        </p>
-        <p>
-          一周早餐
-        </p>
+    <div v-if="orderForm">
+        <div class="grid-warp aweek">
+            <div class="grid header">
+                <div class="col-4"><img src="/resource/img/indexImg/logo.svg"></div>
+                <div class="col-4">
+                    <div class="header_month">
+                        <p>
+                            <%=date%>月
+                        </p>
+
+                        <p>
+                            一周早餐
+                        </p>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <img src="<%=WxUserInfo.headimgurl%>" class="user">
+                </div>
+            </div>
+            <ul class="grid">
+                <li class="col-3 chooseDay" v-repeat="cal in calendar" v-on="click:chooseDay(cal)" v-class="select:cal.done">
+                    <span>周{{cal.week}}</span>
+                    <i class="triangle_select"></i>
+                    <a href="javascript:;">{{{cal.days | repertoryIsEmpty}}}</a>
+                </li>
+                <li class="col-3 chooseDay" v-on="click:selectAll">
+                    <i class="triangle_select"></i>
+                    <a href="javascript:;"><i class="iconfont">&#xe600;</i></a>
+                    <span>预定一周</span>
+                </li>
+            </ul>
+            <div class="grid" v-if="showNotice">
+                <div class="col-12 notice" name="index">
+                    <i class="iconfont">&#xe602;</i> 每天22:00前可预订明日早餐~
+                    <!-- <span v-on="click:hideNotice">&times;</span> -->
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-4">
-        <img src="<%=WxUserInfo.face %>" class="user">
-      </div>
+        <div class="grid-warp">
+            <div class="grid">
+                <table class="col-12 numberBtn">
+                    <tr>
+                        <td>
+                            <a href="javascript:;" class="subtraction" v-on="click:foodNumPriceCount(everyDayNum--)"><i class="iconfont">&#xe603;</i></a>
+                        </td>
+                        <td>
+                            每天
+                        </td>
+                        <td>
+                            <input type="text" v-model="everyDayNum | numNotZreo">
+                        </td>
+                        <td>
+                            份
+                        </td>
+                        <td>
+                            <a href="javascript:;" class="plus" v-on="click:foodNumPriceCount(everyDayNum++)"><i class="iconfont">&#xe605;</i></a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="grid-warp">
+            <div class="grid">
+                <table class="col-12 formTable">
+                    <tr>
+                        <td>
+                            <select class="form-control" v-model="expressTime">
+                                <option value="0">配送时间段</option>
+                                <option>7:00-7:30</option>
+                                <option>7:30-8:00</option>
+                                <option>8:00-8:30</option>
+                                <option>8:30-9:00</option>
+                                <option>9:00-9:30</option>
+                                <option>9:30-10:00</option>
+                            </select>
+                            <i class="iconfont sel">&#xe608;</i>
+                        </td>
+                        <td>
+                            <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe609;</i>{{{chooseaddressinfo.address
+                                | address}}}</a>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </div>
-    <ul class="grid">
-      <li class="col-3 chooseDay" v-repeat="cal in calendar" v-on="click:chooseDay(cal)" v-class="select:cal.done">
-        <span>周{{cal.week}}</span>
-        <i class="triangle_select"></i>
-        <a href="javascript:;">{{{cal.days | repertoryIsEmpty}}}</a>
-      </li>
-      <li class="col-3 chooseDay" v-on="click:selectAll">
-        <i class="triangle_select"></i>
-        <a href="javascript:;"><i class="iconfont">&#xe600;</i></a>
-        <span>预定一周</span>
-      </li>
-    </ul>
-    <div class="grid" v-if="showNotice">
-      <div class="col-12 notice" name="index">
-        <i class="iconfont">&#xe602;</i> 每天22:00前可预订明日早餐~
-        <!-- <span v-on="click:hideNotice">&times;</span> -->
-      </div>
-    </div>
-  </div>
-<div class="grid-warp">
-  <div class="grid">
-    <table class="col-12 numberBtn">
-      <tr>
-        <td>
-          <a href="javascript:;" class="subtraction" v-on="click:foodNumPriceCount(everyDayNum--)"><i class="iconfont">&#xe603;</i></a>
-        </td>
-        <td>
-          每天
-        </td>
-        <td>
-          <input type="text" v-model="everyDayNum | numNotZreo">
-        </td>
-        <td>
-          份
-        </td>
-        <td>
-          <a href="javascript:;" class="plus" v-on="click:foodNumPriceCount(everyDayNum++)"><i class="iconfont">&#xe605;</i></a>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
-<div class="grid-warp">
-  <div class="grid">
-    <table class="col-12 formTable">
-      <tr>
-        <td>
-          <select class="form-control" v-model="expressTime">
-            <option value="0">配送时间段</option>
-            <option>7:00-7:30</option>
-            <option>7:30-8:00</option>
-            <option>8:00-8:30</option>
-            <option>8:30-9:00</option>
-            <option>9:00-9:30</option>
-            <option>9:30-10:00</option>
-          </select>
-          <i class="iconfont sel">&#xe608;</i>
-        </td>
-        <td>
-          <a href="javascript:;" v-on="click:showModal"><i class="iconfont">&#xe609;</i>{{{chooseaddressinfo.address | address}}}</a>
-        </td>
-      </tr>
-    </table>
-  </div>
-</div>
-</div>
-<div class="footer">
-  <button href="javascript:;" class="submit" v-on="click:pay">预定</button>
-  <a href="javascript:;" class="order" v-class="sel_menu:orderForm" v-on="click:tapOrder">
-    <span><i class="iconfont">&#xe606;</i></span>
-    下单
-  </a>
-  <a href="javascript:;" class="menu" v-class="sel_menu:foodlist" v-on="click:tapFood">
-    <span><i class="iconfont">&#xe604;</i></span>
-    菜单
-    <img src="/resource/img/indexImg/menu.png" v-if="showPanda" v-transition="showAlert" v-on="click:hidePandaFn"/>
-  </a>
-  <div class="price">
-    <p>原价 ￥<span><strike>{{cost | currency ' '}}</strike></span></p>
-    <p>折扣 ￥<span>{{total | currency ' '}}</span></p>
-  </div>
-</div>
+    <div class="footer">
+        <button href="javascript:;" class="submit" v-on="click:pay">预定</button>
+        <a href="javascript:;" class="order" v-class="sel_menu:orderForm" v-on="click:tapOrder">
+            <span><i class="iconfont">&#xe606;</i></span>
+            下单
+        </a>
+        <a href="javascript:;" class="menu" v-class="sel_menu:foodlist" v-on="click:tapFood">
+            <span><i class="iconfont">&#xe604;</i></span>
+            菜单
+            <img src="/resource/img/indexImg/menu.png" v-if="showPanda" v-transition="showAlert"
+                 v-on="click:hidePandaFn"/>
+        </a>
 
-<div class="alert" v-if="showAlert" v-transition="showAlert">
-  <span><i class="iconfont">&#xe60a;</i></span>
-  <p>{{showAlertText}}</p>
-</div>
+        <div class="price">
+            <p>原价 ￥<span><strike>{{cost | currency ' '}}</strike></span></p>
 
-<div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
-  <div class="content" v-if="isModalShow" v-transition="modalAni">
-    <div class="modal_header">
-      选择收货地址
-      <span v-on="click:hideModal">&times;</span>
+            <p>折扣 ￥<span>{{total | currency ' '}}</span></p>
+        </div>
     </div>
-    <div class="modal_content">
-      <ul>
-        <li v-repeat="al in addresslist | orderBy 'usecount' -1" v-on="click:chooseAddress(al)" name="usuallyAddress">
-          <p><span>{{al.receiveuser}}</span><span> {{al.phonenum}}</span></p>
-          <p><i class="iconfont">&#xe609;</i>{{al.addressKey}} {{al.address}}</p>
-        </li>
-      </ul>
+
+    <div class="alert" v-if="showAlert" v-transition="showAlert">
+        <span><i class="iconfont">&#xe60a;</i></span>
+
+        <p>{{showAlertText}}</p>
     </div>
-    <div class="modal_footer">
-      <a href="Home/address?back=Home"><i class="iconfont">&#xe605;</i> 新建收货地址</a>
+
+    <div class="modal" v-if="isModalBGShow" v-transition="modalBGAni">
+        <div class="content" v-if="isModalShow" v-transition="modalAni">
+            <div class="modal_header">
+                选择收货地址
+                <span v-on="click:hideModal">&times;</span>
+            </div>
+            <div class="modal_content">
+                <ul>
+                    <li v-repeat="al in addresslist | orderBy 'usecount' -1" v-on="click:chooseAddress(al)"
+                        name="usuallyAddress">
+                        <p><span>{{al.receiveuser}}</span><span> {{al.phonenum}}</span></p>
+
+                        <p><i class="iconfont">&#xe609;</i>{{al.addressKey}} {{al.address}}</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="modal_footer">
+                <a href="Home/address?back=Home"><i class="iconfont">&#xe605;</i> 新建收货地址</a>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-<div v-if="foodlist">
-<div class="grid-warp">
-  <ul class="grid">
-    <li class="col-6 foodCard" v-repeat="cal in calendar" v-on="click:chooseDay(cal)" v-class="selectCard:cal.done">
-      <a href="javascript:;">
-        <img v-attr="src:'/resource/img/food/'+cal.productInfo.foodimg" width="40">
-        <h2>{{cal.productInfo.productName}}</h2>
-        <p>{{cal.productInfo.describe}}</p>
-        <span>周{{cal.week}}<i>{{{cal.days | repertoryIsEmpty}}}</i></span>
-        <i class="triangle_select"></i>
-      </a>
-    </li>
-    <li class="col-6 foodCard" v-on="click:selectAll">
-      <a href="javascript:;">
-        <img src="/resource/img/indexImg/libao.jpg">
-        <h2>预订一周早餐</h2>
-        <p>点击全选，返回【下单】填写收货信息，等待我们为您精心准备的早餐:-)</p>
-        <i class="triangle_select"></i>
-      </a>
-    </li>
-  </ul>
-</div>
-</div>
- <!--{{$data | json 4}}-->
+    <div v-if="foodlist">
+        <div class="grid-warp">
+            <ul class="grid">
+                <li class="col-6 foodCard" v-repeat="cal in calendar" v-on="click:chooseDay(cal)"
+                    v-class="selectCard:cal.done">
+                    <a href="javascript:;">
+                        <img v-attr="src:'/resource/img/food/'+cal.productInfo.foodimg" width="40">
+
+                        <h2>{{cal.productInfo.productName}}</h2>
+
+                        <p>{{cal.productInfo.describe}}</p>
+                        <span>周{{cal.week}}<i>{{{cal.days | repertoryIsEmpty}}}</i></span>
+                        <i class="triangle_select"></i>
+                    </a>
+                </li>
+                <li class="col-6 foodCard" v-on="click:selectAll">
+                    <a href="javascript:;">
+                        <img src="/resource/img/indexImg/libao.jpg">
+
+                        <h2>预订一周早餐</h2>
+
+                        <p>点击全选，返回【下单】填写收货信息，等待我们为您精心准备的早餐:-)</p>
+                        <i class="triangle_select"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--{{$data | json 4}}-->
 </div>
 <div class="footerlogo"></div>
-  <script>
+<script>
     var sendOrder = new Vue({
-      el: '#indexPostOrder',
-      data: {
-        expressTime: 0,
-        everyDayNum: 1,
-        addresslist: addresslistJson,
-        calendar: calendarArr,
-        total: 0,
-        cost: 0,
-        chooseaddressinfo:$.isEmptyObject(addressCookie)?{}:addressCookie,
-        orderForm:true,
-        foodlist:false,
-        isModalShow:false,
-        isModalBGShow:false,
-        showAlert:false,
-        showAlertText:'',
-        showNotice:true,
-        submitText:'预定',
-        submitState:false,
-        isSelectAll:false,
-        showPanda:false,
-      },
-      transition:{
-        modalAni:function(){
+        el: '#indexPostOrder',
+        data: {
+            expressTime: 0,
+            everyDayNum: 1,
+            addresslist: addresslistJson,
+            calendar: calendarArr,
+            total: 0,
+            cost: 0,
+            chooseaddressinfo: $.isEmptyObject(addressCookie) ? {} : addressCookie,
+            orderForm: true,
+            foodlist: false,
+            isModalShow: false,
+            isModalBGShow: false,
+            showAlert: false,
+            showAlertText: '',
+            showNotice: true,
+            submitText: '预定',
+            submitState: false,
+            isSelectAll: false,
+            showPanda: false,
         },
-        modalBGAni:function(){
-        },
-        showAlert:function(){
-        }
-      },
-      filters: {
-        repertoryIsEmpty: function(value) {
-          if (value == "罄") {
-            return "<img src=resource/img/indexImg/foodempty.svg width='140'>";
-          }else{
-            return value;
-          }
-        },
-        numNotZreo: function(val) {
-          if(isNaN(val)){
-            return 1;
-          }else{
-            return val<2?this.everyDayNum = 1:val;
-          }
-        },
-        address:function(val){
-          if(val==undefined){
-            return "<i class='glyphicon glyphicon-plus-sign'></i>请选择收货地址";
-          }else {
-            return "<i class='glyphicon glyphicon-map-marker'></i> "+val;
-          }
-        }
-      },
-      methods: {
-        totalCount:function(){
-          this.total = 0;
-          this.cost = 0;
-          var chooseProductJson = this.calendar;
-            for(var k=0;k<this.calendar.length;k++){
-              switch (this.calendar[k]['done']){
-                case true:
-                  this.total += this.calendar[k]['productInfo']['price'];
-                  this.cost += this.calendar[k]['productInfo']['cost'];
-                  break;
-              }
-            }
-          if(this.everyDayNum<=0) this.everyDayNum = 1;
-          this.total *= this.everyDayNum;
-          this.cost *= this.everyDayNum;
-        },
-        tapOrder:function(){
-          this.orderForm = true;
-          this.foodlist=false;
-        },
-        tapFood:function(){
-          this.orderForm = false;
-          this.foodlist=true;
-          this.hideModal();
-        },
-        showModal:function(){
-          this.isModalShow = true;
-          this.isModalBGShow = true;
-        },
-        hideModal:function(){
-          this.isModalShow = false;
-          this.isModalBGShow = false;
-        },
-        hideNotice:function(){
-          this.showNotice=false;
-        },
-        showAlertFn:function(str){
-          var self = this;
-          this.showAlertText = str;
-          this.showAlert=true;
-          setTimeout(function(){
-            self.showAlert = false;
-          },1000);
-        },
-        hidePandaFn:function(){
-          this.showPanda = false;
-        },
-        selectAll:function(){
-          if(this.isSelectAll==true){
-            for(var k=0; k<this.calendar.length;k++){
-            this.calendar[k]['done']=false;
-            this.isSelectAll=false;
-          }}else{
-            for(var k=0; k<this.calendar.length;k++){
-            this.calendar[k]['done']=true;
-            this.isSelectAll=true;
-          }}
-        this.totalCount();
-          // CNZZ探针
-          _czc.push(﻿["_trackEvent","订餐日期按钮","选择全部","选择一周的早餐"]);
-        },
-        foodNumPriceCount: function(num){
-          this.totalCount();
-        },
-        chooseAddress: function(thisAddress) {
-          this.chooseaddressinfo=thisAddress;
-          this.hideModal();
-          $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> " + thisAddress.address)
-        },
-        chooseDay: function(cal) {
-          if (cal.productInfo.repertory <= 0) {
-            return false;
-          } else {
-            cal.done = !cal.done;
-            this.totalCount();
-          }
-
-          // CNZZ探针
-          _czc.push(﻿["_trackEvent","订餐日期按钮","选择某一天",cal.date.toString()]);
-        },
-        changeSubmitState:function(){
-          $(".submit").html("下单中...").attr("disabled",true);;
-        },
-        resetSubmitState:function(){
-          $(".submit").html("预定").attr("disabled",false);;
-        },
-        pay: function() {
-          this.changeSubmitState();
-          var chooseProductJson_res = [];
-          var chooseProductJson = this.calendar;
-          for (var k=0; k<chooseProductJson.length; k++) {
-            switch (chooseProductJson[k]['done']) {
-              case true:
-                chooseProductJson_res.push({
-                  productName:chooseProductJson[k].productInfo['productName'],
-                  time:chooseProductJson[k]['date'],
-                  singleprice:chooseProductJson[k].productInfo['price'],
-                  costprice:chooseProductJson[k].productInfo['cost'],
-                  days:chooseProductJson[k].productInfo['days'],
-                  foodimg:chooseProductJson[k].productInfo['foodimg']
-                });
-                break;
-            }
-          }
-          if (!chooseProductJson_res.length) {
-            this.showAlertFn('没有选择早餐');
-            this.resetSubmitState();
-            return false;
-          }
-          if (!this.expressTime) {
-            this.showAlertFn('请选择配送时间');
-            this.resetSubmitState();
-            return false;
-          }
-//          if (!this.receiveWay) {
-//            this.showAlertFn('请选择接收方式');
-//            this.resetSubmitState();
-//            return false;
-//          }
-          if ($.isEmptyObject(this.chooseaddressinfo)) {
-            this.showAlertFn('请选择配送地址');
-            this.resetSubmitState();
-            return false;
-          }
-          if (this.everyDayNum < 1) {
-            this.showAlertFn('每天至少一份早餐');
-            this.resetSubmitState();
-            return false;
-          }
-          $.ajax({
-            url: 'Home/Index/pay',
-            type: 'POST',
-            data: {
-              userid: '<%- WxUserInfo.id%>',
-              productnum: this.everyDayNum,
-              receiveWay: this.receiveWay,
-              chooselist: JSON.stringify(chooseProductJson_res),
-              addressinfo: JSON.stringify(this.chooseaddressinfo),
-              expresstime: this.expressTime
+        transition: {
+            modalAni: function () {
             },
-            success: function(data) {
-              data.errno || unifiedorderFn(data.data);
-              }
-          });
-          _czc.push(["_trackPageview","Home/Index/pay"]);
+            modalBGAni: function () {
+            },
+            showAlert: function () {
+            }
+        },
+        filters: {
+            repertoryIsEmpty: function (value) {
+                if (value == "罄") {
+                    return "<img src=resource/img/indexImg/foodempty.svg width='140'>";
+                } else {
+                    return value;
+                }
+            },
+            numNotZreo: function (val) {
+                if (isNaN(val)) {
+                    return 1;
+                } else {
+                    return val < 2 ? this.everyDayNum = 1 : val;
+                }
+            },
+            address: function (val) {
+                if (val == undefined) {
+                    return "<i class='glyphicon glyphicon-plus-sign'></i>请选择收货地址";
+                } else {
+                    return "<i class='glyphicon glyphicon-map-marker'></i> " + val;
+                }
+            }
+        },
+        methods: {
+            totalCount: function () {
+                this.total = 0;
+                this.cost = 0;
+                var chooseProductJson = this.calendar;
+                for (var k = 0; k < this.calendar.length; k++) {
+                    switch (this.calendar[k]['done']) {
+                        case true:
+                            this.total += this.calendar[k]['productInfo']['price'];
+                            this.cost += this.calendar[k]['productInfo']['cost'];
+                            break;
+                    }
+                }
+                if (this.everyDayNum <= 0) this.everyDayNum = 1;
+                this.total *= this.everyDayNum;
+                this.cost *= this.everyDayNum;
+            },
+            tapOrder: function () {
+                this.orderForm = true;
+                this.foodlist = false;
+            },
+            tapFood: function () {
+                this.orderForm = false;
+                this.foodlist = true;
+                this.hideModal();
+            },
+            showModal: function () {
+                this.isModalShow = true;
+                this.isModalBGShow = true;
+            },
+            hideModal: function () {
+                this.isModalShow = false;
+                this.isModalBGShow = false;
+            },
+            hideNotice: function () {
+                this.showNotice = false;
+            },
+            showAlertFn: function (str) {
+                var self = this;
+                this.showAlertText = str;
+                this.showAlert = true;
+                setTimeout(function () {
+                    self.showAlert = false;
+                }, 1000);
+            },
+            hidePandaFn: function () {
+                this.showPanda = false;
+            },
+            selectAll: function () {
+                if (this.isSelectAll == true) {
+                    for (var k = 0; k < this.calendar.length; k++) {
+                        this.calendar[k]['done'] = false;
+                        this.isSelectAll = false;
+                    }
+                } else {
+                    for (var k = 0; k < this.calendar.length; k++) {
+                        this.calendar[k]['done'] = true;
+                        this.isSelectAll = true;
+                    }
+                }
+                this.totalCount();
+                // CNZZ探针
+                _czc.push(﻿["_trackEvent", "订餐日期按钮", "选择全部", "选择一周的早餐"]
+                )
+                ;
+            },
+            foodNumPriceCount: function (num) {
+                this.totalCount();
+            },
+            chooseAddress: function (thisAddress) {
+                this.chooseaddressinfo = thisAddress;
+                this.hideModal();
+                $('#chooseAddressBtn').html("<i class='glyphicon glyphicon-map-marker'></i> " + thisAddress.address)
+            },
+            chooseDay: function (cal) {
+                if (cal.productInfo.repertory <= 0) {
+                    return false;
+                } else {
+                    cal.done = !cal.done;
+                    this.totalCount();
+                }
+
+                // CNZZ探针
+                _czc.push(﻿["_trackEvent", "订餐日期按钮", "选择某一天", cal.date.toString()]
+                )
+                ;
+            },
+            changeSubmitState: function () {
+                $(".submit").html("下单中...").attr("disabled", true);
+                ;
+            },
+            resetSubmitState: function () {
+                $(".submit").html("预定").attr("disabled", false);
+                ;
+            },
+            pay: function () {
+                this.changeSubmitState();
+                var chooseProductJson_res = [];
+                var chooseProductJson = this.calendar;
+                for (var k = 0; k < chooseProductJson.length; k++) {
+                    switch (chooseProductJson[k]['done']) {
+                        case true:
+                            chooseProductJson_res.push({
+                                productName: chooseProductJson[k].productInfo['productName'],
+                                time: chooseProductJson[k]['date'],
+                                singleprice: chooseProductJson[k].productInfo['price'],
+                                costprice: chooseProductJson[k].productInfo['cost'],
+                                days: chooseProductJson[k].productInfo['days'],
+                                foodimg: chooseProductJson[k].productInfo['foodimg']
+                            });
+                            break;
+                    }
+                }
+                if (!chooseProductJson_res.length) {
+                    this.showAlertFn('没有选择早餐');
+                    this.resetSubmitState();
+                    return false;
+                }
+                if (!this.expressTime) {
+                    this.showAlertFn('请选择配送时间');
+                    this.resetSubmitState();
+                    return false;
+                }
+                if ($.isEmptyObject(this.chooseaddressinfo)) {
+                    this.showAlertFn('请选择配送地址');
+                    this.resetSubmitState();
+                    return false;
+                }
+                if (this.everyDayNum < 1) {
+                    this.showAlertFn('每天至少一份早餐');
+                    this.resetSubmitState();
+                    return false;
+                }
+                $.ajax({
+                    url: 'Home/Index/pay',
+                    type: 'POST',
+                    data: {
+                        userid: '<%- WxUserInfo.openid%>',
+                        productnum: this.everyDayNum,
+                        receiveWay: this.receiveWay,
+                        chooselist: JSON.stringify(chooseProductJson_res),
+                        addressinfo: JSON.stringify(this.chooseaddressinfo),
+                        expresstime: this.expressTime
+                    },
+                    success: function (data) {
+                        data.errno || unifiedorderFn(data.data);
+                    }
+                });
+                _czc.push(["_trackPageview", "Home/Index/pay"]);
+            }
         }
-      }
     });
     // 统一下单接口
     function unifiedorderFn(orderRequest) {
-      $.ajax({
-          url: 'Admin/wx/unifiedorder',
-          type: 'POST',
-          data: {
-            url: window.location.href,
-            out_trade_no: orderRequest.ordernum,
-            total_fee: orderRequest.productprice,
-            attach:orderRequest.orderid
-          },
-          success: function(data) {
-            var callWxPayJson = data.data;
-              wx.chooseWXPay({
-                timestamp: callWxPayJson.timeStamp,
-                nonceStr: callWxPayJson.nonceStr,
-                package: callWxPayJson.package,
-                signType: 'MD5',
-                paySign: callWxPayJson.paySign,
-                success:function(res) {
-                  window.location.href = "Home/paysuccess?price="+orderRequest.productprice;
-                },
-                cancel: function (res) {
-                  window.location.href = "Home/payfail?price="+orderRequest.productprice+"&orderid="+orderRequest.orderid+"&ordernum="+orderRequest.ordernum;
-                }
-              });
+        $.ajax({
+            url: 'Admin/wx/unifiedorder',
+            type: 'POST',
+            data: {
+                url: window.location.href,
+                out_trade_no: orderRequest.ordernum,
+                total_fee: orderRequest.productprice,
+                attach: orderRequest.orderid
+            },
+            success: function (data) {
+                var callWxPayJson = data.data;
+                wx.chooseWXPay({
+                    timestamp: callWxPayJson.timeStamp,
+                    nonceStr: callWxPayJson.nonceStr,
+                    package: callWxPayJson.package,
+                    signType: 'MD5',
+                    paySign: callWxPayJson.paySign,
+                    success: function (res) {
+                        window.location.href = "Home/paysuccess?price=" + orderRequest.productprice;
+                    },
+                    cancel: function (res) {
+                        window.location.href = "Home/payfail?price=" + orderRequest.productprice + "&orderid=" + orderRequest.orderid + "&ordernum=" + orderRequest.ordernum;
+                    }
+                });
             }
-          });
-      }
-      setTimeout(function(){
+        });
+    }
+    setTimeout(function () {
         sendOrder.showPanda = true;
-      },3000);
-      _czc.push(["_setCustomVar",userinfo.username,userinfo.sex]);
-  </script>
-  </body>
+    }, 3000);
+    _czc.push(["_setCustomVar", userinfo.username, userinfo.sex]);
+</script>
+</body>
 
-  </html>
+</html>

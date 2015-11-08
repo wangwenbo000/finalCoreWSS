@@ -32,7 +32,20 @@ module.exports = Controller("Home/BaseController", function () {
       }
 
       //模拟假数据
-      yield this.session("userInfo", {"openid": "o510Kj_ydZPIMQdl1jww5w9MecQk"});
+      yield this.session("userInfo", {
+        "openid": "o510Kj_ydZPIMQdl1jww5w9MecQk",
+        " nickname": '王文',
+        "sex":"1",
+        "province":"PROVINCE",
+        "city":"CITY",
+        "country":"COUNTRY",
+        "headimgurl":"http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/46",
+        "privilege":[
+          "PRIVILEGE1",
+          "PRIVILEGE2"
+        ],
+        "unionid": "o6_bmasdasdsad6_2sgVt7hMZOPfL"
+      });
 
       var oUserInfo = yield this.session("userInfo");
       var oAddressList = yield D('Addresslist').where({'openid': oUserInfo.openid}).order('id DESC').select();
