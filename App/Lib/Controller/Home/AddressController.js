@@ -8,28 +8,28 @@ module.exports = Controller("Home/BaseController", function () {
   var addresslistModel = D('Addresslist');
   return {
     indexAction: Q.async(function* () {
-      var isEdit = this.get('id');
+      var isEdit = this.get('openid');
       if (isEmpty(isEdit)) {
         // 添加新地址
         var userInfoData = yield this.session('userInfo');
         var initData = [];
-        initData.push({openid: userInfoData.openid, receiveuser: '', phonenum: '', address: '', addressKey: '',});
+        initData.push({openid: userInfoData.openid, receiveuser: '', phonenum: '', address: '', addressKey: ''});
         this.assign('initData', initData);
         this.display();
       } else {
         // 更新地址
-        var fieldArr = ['id', 'userid', 'address', 'addressKey', 'phonenum', 'receiveuser'];
-        var initData = addresslistModel.where({id: isEdit}).field(fieldArr).select();
+        //var fieldArr = ['id', 'userid', 'address', 'addressKey', 'phonenum', 'receiveuser',];
+        var initData = addresslistModel.where({openid: isEdit}).select();
         this.assign('initData', initData);
         this.display();
       }
     }),
     updateAction: Q.async(function* () {
       var getUpdateJson = JSON.parse(this.post('updateJson'));
-      var getAddressId = parseInt(this.post('id'));
+      var getAddressId = this.post('openid');
       if (!isNaN(getAddressId)) {
         // 更新数据
-        var updataRow = yield addresslistModel.where({id: getAddressId}).update({
+        var updataRow = yield addresslistModel.where({openid: getAddressId}).update({
           receiveuser: getUpdateJson['receiveuser'],
           phonenum: getUpdateJson['phonenum'],
           addressKey: getUpdateJson['addressKey'],

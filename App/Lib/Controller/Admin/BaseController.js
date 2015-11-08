@@ -14,18 +14,18 @@ module.exports = Controller(function(){
         init: function(http){
             this.super("init", http);
             //其他的通用逻辑
-            if(http.action === 'login'||http.controller === 'Wx'){
-                return;
-            }
-            var self = this;
-            return this.session("userInfo").then(function(data){
-                if(isEmpty(data)){
-                    return self.redirect('/Admin/login/login')
-                }else{
-                    self.userInfo = data;
-                    self.assign("userInfo",data);
-                }
-            })
+            //if(http.action === 'login'||http.controller === 'Wx'){
+            //    return;
+            //}
+            //var self = this;
+            //return this.session("userInfo").then(function(data){
+            //    if(isEmpty(data)){
+            //        return self.redirect('/Admin/login/login')
+            //    }else{
+            //        self.userInfo = data;
+            //        self.assign("userInfo",data);
+            //    }
+            //})
         }
     }
 })

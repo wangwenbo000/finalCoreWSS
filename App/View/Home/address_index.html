@@ -118,7 +118,7 @@
                   this.showAlertFn('用户名含非法字符');
                   return false;
                 }
-              var updateId = updateInfo.id;
+              var updateId = updateInfo.openid;
               $.ajax({
                   type:'POST',
                   url:'/address/update',

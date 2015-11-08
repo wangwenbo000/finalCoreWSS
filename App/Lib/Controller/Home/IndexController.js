@@ -39,7 +39,7 @@ module.exports = Controller("Home/BaseController", function () {
         "province":"PROVINCE",
         "city":"CITY",
         "country":"COUNTRY",
-        "headimgurl":"http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/46",
+        "headimgurl":"http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/96",
         "privilege":[
           "PRIVILEGE1",
           "PRIVILEGE2"
@@ -76,7 +76,7 @@ module.exports = Controller("Home/BaseController", function () {
     }),
     payAction: Q.async(function* () {
       var moment         = require('moment');
-      var getUserId      = this.post('userid');
+      var getUserOpenId      = this.post('userid');
       var getPnum        = parseInt(this.post('productnum'));
       var getAddressinfo = JSON.parse(this.post('addressinfo'));
       var getExpressTime = this.post('expresstime');
@@ -117,10 +117,9 @@ module.exports = Controller("Home/BaseController", function () {
         chooseFoodList[k]['expressprice'] = 0;
         chooseFoodList[k]['productstate'] = 10;
         chooseFoodList[k]['expresstime'] = getExpressTime;
-        chooseFoodList[k]['userid'] = getUserId;
+        chooseFoodList[k]['openid'] = getUserOpenId;
         chooseFoodList[k]['ordernum'] = ordernum;
         chooseFoodList[k]['foodimg'] = chooseFoodList[k]['foodimg'];
-        chooseFoodList[k]['receiveway'] = getReceiveWay;
         delete chooseFoodList[k]['days'];
       }
 

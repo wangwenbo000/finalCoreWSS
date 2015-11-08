@@ -45,17 +45,28 @@ module.exports = Controller("Admin/BaseController", function () {
       var userid = yield D('Users').field('id').select();
       var addressofuserid = yield D('Addresslist').field('userid').select();
       var useridArr = arrToObj(addressofuserid, "userid", null);
-      var usersopenid = yield D('users').where({id:['IN',useridArr]}).field('id,openid').select();
+      var usersopenid = yield D('users').where({id: ['IN', useridArr]}).field('id,openid').select();
 
       var updateId = arrToObj(usersopenid, "id", null);
-      var updateopenid = arrToObj(usersopenid,'openid',null);
+      var updateopenid = arrToObj(usersopenid, 'openid', null);
 
       //var update = yield D('addresslist').where({userid:['IN',updateId]}).update()
 
-      for(var i in usersopenid){
-        var update = yield D('addresslist').where({userid:usersopenid[i]["id"]}).update({openid:usersopenid[i]["openid"]});
+      for (var i in usersopenid) {
+        var update = yield D('addresslist').where({userid: usersopenid[i]["id"]}).update({openid: usersopenid[i]["openid"]});
       }
       return this.success("ok");
+    }),
+    updateUserOrderOpenIdAction: Q.async(function*() {
+      var useridData = yield D('Users').field('id,openid').select();
+      var useridDataFromOrder = yield D('Order').field('id,openid').select();
+      //for (var i in useridData) {
+      //  var update = yield D('Order').where({userid: useridData[i]["id"]}).update({openid: useridData[i]["openid"]});
+      //}
+      for (var i in useridDataFromOrder) {
+        var update = yield D('Orderproductcopy').where({orderid: parseInt(useridDataFromOrder[i]["id"])}).update({openid: useridDataFromOrder[i]["openid"]});
+      }
+      return this.success(useridData);
     })
   };
 });

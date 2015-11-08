@@ -1,122 +1,75 @@
 <%=include indexheader_index.html%>
 <script>
-    var orderlistJSON = <%- JSON.stringify(orderlist)%>;
+    var orderlistJSON =<%-JSON.stringify(orderlist) %>;
     // jsapi
     configWxJsapi();
 </script>
 <div id="Order" v-cloak>
-<div class="grid-warp">
-  <div class="grid" v-if="pshow">
-      <table class="col-12 orderlist" >
-        <tbody v-repeat='progress' class="orderlisticon">
-        <tr></tr>
-        <tr>
-          <td>
-            <p>NO. {{orderid}}</p>
-            <p><span>下单时间：</span>{{ordertime}}</p>
-          </td>
-          <td><span class="payOk{{paystate}}">{{paystate | paystate}}<br>{{nowstate | state}}</span></td>
-          <td><a href="/orderlistinfo/index/id/{{id}}" class="goOrderInfo"><i class="iconfont">&#xe60a;</i> 查看</a></td>
-        </tr>
-        <tr>
-          <td colspan="2">
-            <i class="iconfont">&#xe609;</i> {{addressKey}} {{address}}
-          </td>
-          <td>
-            {{pricetotal | currency '¥'}}
-          </td>
-        </tr>
-      </tbody>
-      </table>
-  </div>
-  <div class="grid" v-if="cshow">
-      <table class="col-12 orderlist" >
-      <tbody v-repeat='complete' v-if="cshow">
-        <tr></tr>
-      <tr>
-        <td>
-          <p>NO. {{orderid}}</p>
-          <p><span>下单时间：</span>{{ordertime}}</p>
-        </td>
-        <td><span class="payOk{{paystate}}">{{paystate | paystate}}<br>{{nowstate | state}}</span></td>
-        <td><a href="/orderlistinfo/index/id/{{id}}">查看</a></td>
-      </tr>
-      <tr>
-        <td colspan="2">
-          <i class="iconfont">&#xe609;</i> {{addressKey}} {{address}}
-        </td>
-        <td>
-          {{pricetotal | currency '¥'}}
-        </td>
-      </tr>
-    </tbody>
-      </table>
-  </div>
-</div>
-<div class="grid" v-show="!progress.length">
-  <div class="col-12 notice">
-    <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
-  </div>
-</div>
-<div class="grid" v-show="!complete.length">
-  <div class="col-12 notice">
-    <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
-  </div>
-</div>
-<div class="footerlogo"></div>
+    <div class="grid-warp">
+        <div class="grid">
+            <table class="col-12 orderlist">
+                <tbody v-repeat='list' class="orderlisticon">
+                <tr></tr>
+                <tr>
+                    <td colspan="2">
+                        {{time}} {{expresstime}}
+                        <span class="stateText state30">待发货</span>
+                    </td>
+                </tr>
+                <tr>
+                    <!--<td>-->
+                        <!--<p>NO. {{orderid}}</p>-->
+                        <!--<p><span>下单时间：</span>{{ordertime}}</p>-->
+                    <!--</td>-->
+                    <!--<td><span class="payOk{{paystate}}">{{paystate | paystate}}<br>{{nowstate | state}}</span></td>-->
+                    <!--<td><a href="/orderlistinfo/index/id/{{id}}" class="goOrderInfo"><i class="iconfont">&#xe60a;</i> 查看</a>-->
+                    <!--</td>-->
+                    <td>
+                        <img v-attr="src:'/resource/img/food/'+foodimg" width="180">
+                    </td>
+                    <td>
+                        <p>{{productname}}</p>
+                        <p>{{productprice}}</p>
+                    </td>
+                </tr>
+                <tr>
 
-<div class="footer">
-  <a href="javascript:;" class="goOrder" v-on="click:showComplete">过往订单</a>
-  <a href="javascript:;" class="goingOn" v-on="click:showProgress">进行中</a>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="grid">
+        <div class="col-12 notice">
+            <i class="iconfont">&#xe612;</i> 您现在还没有订单，现在就去下单:-)
+        </div>
+    </div>
+    <div class="footerlogo"></div>
 
-  <a href="/home" class="order">
-    <span><i class="iconfont">&#xe606;</i></span>
-    下单
-  </a>
-  <a href="/addresslist" class="menu">
-    <span><i class="iconfont">&#xe609;</i></span>
-    地址
-  </a>
-</div>
+    <div class="footer">
+        <a href="javascript:;" class="refound state" v-on="click:showProgress">关</a>
+        <a href="javascript:;" class="waitPay state" v-on="click:showProgress">付</a>
+        <a href="javascript:;" class="success state" v-on="click:showProgress">完</a>
+        <a href="javascript:;" class="waitExpress state active" v-on="click:showComplete">待</a>
+
+        <a href="/home" class="order">
+            <span><i class="iconfont">&#xe606;</i></span>
+            下单
+        </a>
+        <a href="/addresslist" class="menu">
+            <span><i class="iconfont">&#xe609;</i></span>
+            地址
+        </a>
+    </div>
 </div>
 <script>
     var addresslist = new Vue({
-        el:'#Order',
-        data:{
-            progress:orderlistJSON.progress,
-            complete:orderlistJSON.complete,
-            pc:orderlistJSON.progressCount,
-            tc:orderlistJSON.completeCount,
-
-            pshow:true,
-            cshow:false
-        },
-        filters:{
-          paystate:function(state){
-            return state?'已支付':"待支付";
-          },
-          state: function(value) {
-            switch (value) {
-              case -1:
-                return "订单已取消";
-                break;
-              case 0:
-                return "已完成订单";
-                break;
-              default:
-                return "订单进行中";
-            }
-          }
-        },
-        methods:{
-          showComplete:function(){
-            this.cshow = true;
-            this.pshow = false;
-          },
-          showProgress:function(){
-            this.cshow = false;
-            this.pshow = true;
-          }
+        el: '#Order',
+        data: {
+            list: orderlistJSON,
+//            complete: orderlistJSON.complete,
+//            pc: orderlistJSON.progressCount,
+//            tc: orderlistJSON.completeCount,
         }
     });
 </script>

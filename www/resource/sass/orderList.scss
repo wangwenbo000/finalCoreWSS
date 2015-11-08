@@ -1,6 +1,5 @@
 .orderlist{
   font-size: $px22;
-  text-align: center;
   tbody>tr:first-child{
     height: 0.2rem;
   }
@@ -19,22 +18,41 @@
     padding: $px24 0;
   }
   tbody>tr:nth-child(2)>td:first-child, tbody>tr:last-child>td:first-child{
-    width: 5.2rem;
-    text-align: left;
+
+  }
+  .stateText{
+    display: block;
+    float: right;
+    width: 1.6rem;
+    height: 0.6rem;
+    margin: -20px 0;
+    text-align: center;
     line-height: 0.6rem;
-    p:first-child{
-      font-family: 'Menlo';
-    }
+    color: $white;
   }
 }
 .footer{
+  -webkit-box-shadow:  0 0 10px $gray89;
+  -moz-box-shadow:  0 0 10px $gray89;
+  box-shadow:  0 0 10px $gray89;
   .goingOn{
     background-color: $buttonBlue;
+
   }
-  .goingOn,.goOrder{
-    width: 3.1999rem;
+  .state{
+    display: block;
+    float: right;
+    width: 1.595rem;
+    height: 100%;
+    border-left: 1px solid $border;
+    text-align: center;
+    line-height: 1.5rem;
   }
-  .goingOn:active{
+  .active{
+    background: $yellow;
+    color: $white;
+  }
+  .state:active{
     box-shadow:0 0 1rem #76c8d7 inset;
   }
 }
